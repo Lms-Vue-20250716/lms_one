@@ -1,0 +1,52 @@
+@import 'tailwindcss';
+
+.login-container {
+  @apply m-1 overflow-hidden rounded-xl bg-white p-10 text-center font-semibold text-white;
+  background-image: radial-gradient(
+    ellipse farthest-corner at 0 140%,
+    #5d9dff 0%,
+    #2178ff 70%,
+    #3585ff 70%
+  );
+}
+
+.login-image {
+  @apply flex w-full flex-col items-center justify-center text-white;
+  border-radius: 10px 0 0 10px;
+}
+
+.login-box {
+  @apply bg-white;
+}
+
+.buttons {
+  @apply grid items-center justify-center p-5;
+}
+
+.login-main label {
+  @apply flex text-sm text-gray-800;
+}
+
+.login-main input {
+  @apply mt-1 mr-1 mb-1 rounded border border-gray-300 p-2;
+}
+
+.login-main button {
+  @apply my-1 w-full cursor-pointer rounded border-none p-2 text-lg;
+}
+
+.login-text {
+  @apply pt-12 pb-8 text-white;
+}
+
+.login-button {
+  @apply bg-blue-600 text-white;
+}
+
+.signup-button {
+  @apply bg-green-600 text-white;
+}
+
+.login-main button:hover {
+  @apply opacity-90;
+}

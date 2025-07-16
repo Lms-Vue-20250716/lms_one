@@ -1,0 +1,18 @@
+@import 'tailwindcss';
+
+/* 공통 스타일 */
+.dashboard-container {
+  @apply mx-auto flex w-11/12 flex-col gap-5 p-5 pt-5;
+}
+
+.dashboard-ul {
+  @apply flex w-full list-none overflow-hidden;
+}
+
+.menu-bar {
+  @apply w-1/6 bg-gray-100 pb-80; /* 왼쪽 메뉴바: 너비 20%, 높이 화면 전체 */
+}
+
+.content {
+  @apply h-screen w-4/5 bg-gray-50 pl-8; /* 오른쪽 콘텐츠: 너비 75%, 왼쪽 패딩 추가 */
+}

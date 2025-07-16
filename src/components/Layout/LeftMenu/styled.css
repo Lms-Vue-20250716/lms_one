@@ -1,0 +1,110 @@
+@import 'tailwindcss'; /* 기본 상태의 child-menu-link */
+.parent-menu .child-menu-link {
+  @apply hidden w-full flex-col bg-blue-100/80 text-gray-700 transition-all duration-300 ease-in-out;
+}
+
+/* hover 상태일 때 */
+.parent-menu:hover .child-menu-link {
+  @apply flex;
+}
+
+/* 활성화된 상태일 때 (더 높은 특성도) */
+.parent-menu .child-menu-link.active {
+  @apply flex bg-blue-200;
+}
+
+/* 활성화된 링크의 스타일 (가장 구체적인 선택자) */
+.parent-menu .child-menu-link.active .styled-link {
+  @apply mt-2 flex w-full flex-col bg-blue-300 p-2 text-gray-700 shadow;
+}
+
+.left-menu {
+  @apply relative flex h-screen w-64 flex-col rounded-l-xs bg-[#2e9acc] shadow-xl;
+}
+
+.logo-container {
+  @apply flex items-center justify-center rounded-l-xl border-b border-sky-400/20 bg-[#eff5f8] p-4;
+}
+
+.profile-container {
+  @apply flex flex-col items-center border-b border-sky-400/20 p-4 shadow-inner backdrop-blur-sm;
+  background-image: url('../../../assets/left_logoBg02.jpg'); /* 이미지 경로는 실제 위치에 맞게 조정하세요 */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+.profile-img {
+  @apply h-16 w-16 rounded-full border-2 border-sky-200 shadow-lg transition-transform duration-300 hover:scale-105;
+}
+
+.profile-info {
+  @apply mt-3 text-center;
+}
+
+.user-id {
+  @apply text-sm font-medium text-gray-300;
+}
+
+.logout-btn {
+  @apply mt-2 cursor-pointer rounded bg-gray-700 px-4 py-1 text-sm text-gray-300 transition-colors duration-200 hover:bg-gray-600 hover:text-white;
+}
+
+.menu-list {
+  @apply mt-2 flex flex-col space-y-1 p-2;
+}
+
+.menu-item {
+  @apply rounded-md transition-colors duration-200;
+}
+
+.menu-header {
+  @apply flex cursor-pointer items-center space-x-3 rounded-lg px-4 py-3 text-gray-100 shadow-sm hover:bg-sky-600/50 hover:text-white;
+}
+
+.menu-header.active {
+  @apply bg-sky-600/50 text-white shadow-md;
+}
+
+.menu-icon {
+  @apply h-5 w-5;
+}
+
+.menu-title {
+  @apply text-sm font-medium;
+}
+
+.submenu-container {
+  @apply mt-1 hidden flex-col space-y-1 rounded-lg rounded-b-xl bg-[#acb3d3] pl-11 shadow-inner backdrop-blur-sm transition-all duration-200;
+}
+
+/* group-hover나 active 상태일 때 보이도록 설정 */
+.menu-item:hover .submenu-container,
+.menu-header.active + .submenu-container {
+  @apply flex;
+}
+
+.submenu-item {
+  @apply rounded-lg px-2 py-2 text-sm text-gray-100 transition-all duration-200 hover:bg-sky-500/50 hover:text-gray-800 hover:shadow-md;
+}
+
+.submenu-item.active {
+  @apply bg-sky-500/50 text-white shadow-md;
+}
+
+@media (min-width: 900px) {
+  .menu-item {
+    @apply w-full;
+  }
+}
+
+@media (max-width: 900px) {
+  .left-menu {
+    @apply w-20;
+  }
+
+  .profile-info,
+  .menu-title {
+    @apply hidden;
+  }
+}

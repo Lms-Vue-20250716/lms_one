@@ -1,0 +1,9 @@
+@import 'tailwindcss';
+
+.not-found-container {
+  @apply flex h-screen w-full items-center justify-center bg-gray-100;
+}
+
+.not-found-image {
+  @apply max-w-xl transition-all duration-300 hover:scale-105;
+}
