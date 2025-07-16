@@ -1,5 +1,6 @@
 import Login from '@/views/Auth/Login.vue';
 import DashBoard from '@/views/DashBoard/DashBoard.vue';
+import TestInfo from '@/views/Lecture/TestInfo.vue';
 import NotFound from '@/views/NotFound/NotFound.vue';
 import Notice from '@/views/Support/Notice.vue';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -29,6 +30,17 @@ const router = createRouter({
               path: 'notice',
               name: 'notice',
               component: Notice,
+            },
+          ],
+        },
+        {
+          path: 'lecture',
+          name: 'lecture',
+          children: [
+            {
+              path: 'test-info',
+              name: 'test-info',
+              component: TestInfo,
             },
           ],
         },
