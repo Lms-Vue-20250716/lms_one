@@ -23,10 +23,17 @@ const testInfoSearch = (cPage = 1) => {
     testInfoCount.value = res.data.count;
   });
 };
-const testInfoDetail = (id) => {
+
+const testInfoDetail = (testId, lecId) => {
   modalState.$patch({ isOpen: true, type: 'test_info' });
-  detailId.value = id;
+  detailId.value = { testId, lecId };
 };
+
+const viewTestQuestions = (testId, lecId) => {
+  console.log('시험문제 보기:', { testId, lecId });
+  alert('시험문제 보기 기능은 준비 중입니다.');
+};
+
 watch(
   () => {
     return route.query;
@@ -40,6 +47,7 @@ onMounted(() => {
   testInfoSearch();
 });
 </script>
+
 <template>
   <div class="testInfo-main-container">
     <table class="testInfo-table">
@@ -63,7 +71,7 @@ onMounted(() => {
           >
             <td
               class="testInfo-cell cursor-pointer text-blue-600 hover:underline"
-              @click="testInfoDetail(testInfo.lecName)"
+              @click="testInfoDetail(testInfo.testId, testInfo.lecId)"
             >
               {{ testInfo.lecName }}
             </td>
@@ -74,12 +82,19 @@ onMounted(() => {
             <td class="testInfo-cell">{{ testInfo.testBeginDate?.substring(0, 19) }}</td>
             <td class="testInfo-cell">{{ testInfo.testEndDate?.substring(0, 19) }}</td>
             <td class="testInfo-cell">{{ testInfo.testRegDate.substring(0, 10) }}</td>
-            <td class="testInfo-cell">시험문제보기</td>
+            <td class="testInfo-cell">
+              <button
+                class="cursor-pointer text-blue-600 hover:underline"
+                @click="viewTestQuestions(testInfo.testId, testInfo.lecId)"
+              >
+                시험문제보기
+              </button>
+            </td>
           </tr>
         </template>
         <template v-else>
           <tr>
-            <td colspan="4" class="testInfo-empty-row">일치하는 검색 결과가 없습니다</td>
+            <td colspan="7" class="testInfo-empty-row">일치하는 검색 결과가 없습니다</td>
           </tr>
         </template>
       </tbody>
@@ -97,6 +112,7 @@ onMounted(() => {
     @un-mounted-modal="detailId = $event"
   />
 </template>
+
 <style>
 @import './styled.css';
 </style>

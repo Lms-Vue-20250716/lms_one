@@ -10,6 +10,7 @@ const modalState = useModalState();
 const formRef = ref();
 const detail = ref({});
 const imgObjectUrl = ref('');
+
 const handlerInsert = () => {
   const formData = new FormData(formRef.value);
   axios.post('/api/support/noticeFileSave.do', formData).then((res) => {

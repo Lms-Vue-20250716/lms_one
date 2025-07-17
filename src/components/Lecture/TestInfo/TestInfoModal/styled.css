@@ -1,0 +1,61 @@
+@import 'tailwindcss';
+
+.modal-overlay {
+  position: fixed !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100vw !important;
+  height: 100vh !important;
+  display: flex !important;
+  align-items: center !important;
+  justify-content: center !important;
+  background-color: rgba(107, 114, 128, 0.5) !important;
+  backdrop-filter: blur(4px) !important;
+  z-index: 9999 !important;
+}
+
+.modal-container {
+  @apply relative w-[550px] rounded-lg bg-white p-6 opacity-100 shadow-lg;
+  z-index: 10000;
+  max-width: 90vw;
+}
+
+.modal-form label {
+  @apply mb-3 flex flex-col;
+}
+
+.form-row {
+  @apply mb-4 flex gap-4;
+}
+
+.form-group {
+  @apply flex flex-1 flex-col;
+}
+
+.form-group label {
+  @apply mb-2 text-sm font-medium text-gray-700;
+}
+
+.modal-form input[type='text'],
+.modal-form input[type='date'],
+.modal-form select {
+  @apply rounded-md border border-gray-300 px-4 py-3 text-sm focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
+  min-width: 0;
+  width: 100%;
+}
+
+.modal-form select {
+  @apply cursor-pointer bg-white;
+}
+
+.button-container {
+  @apply mt-4 space-x-2 text-center;
+}
+
+.button-container button {
+  @apply cursor-pointer rounded-md px-4 py-2 text-sm transition-colors duration-200 first:bg-blue-600 first:text-white last:bg-gray-300 last:text-gray-700 first:hover:bg-blue-700 last:hover:bg-gray-400;
+}
+
+.button-container button:not(:first-child):not(:last-child) {
+  @apply bg-red-600 text-white hover:bg-red-700;
+}

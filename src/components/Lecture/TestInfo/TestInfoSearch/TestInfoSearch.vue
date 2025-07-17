@@ -12,9 +12,19 @@ const modalState = useModalState();
 const handlerSearch = () => {
   const query = [];
 
-  !searchTitle.value || query.push(`title=${searchTitle.value}`);
-  !searchStDate.value || query.push(`startDate=${searchStDate.value}`);
-  !searchEdDate.value || query.push(`endDate=${searchEdDate.value}`);
+  if (searchTitle.value) {
+    query.push(`searchTitle=${encodeURIComponent(searchTitle.value)}`);
+    query.push(`searchTag=${encodeURIComponent(searchTag.value)}`);
+  }
+
+  if (searchStDate.value) {
+    query.push(`searchStDate=${encodeURIComponent(searchStDate.value)}`);
+  }
+
+  if (searchEdDate.value) {
+    query.push(`searchEdDate=${encodeURIComponent(searchEdDate.value)}`);
+  }
+
   const queryString = query.length > 0 ? `?${query.join('&')}` : '';
   router.push(queryString);
 };
@@ -23,6 +33,9 @@ const handleEnter = (e) => {
     console.log('enter');
     handlerSearch();
   }
+};
+const openRegisterModal = () => {
+  modalState.$patch({ isOpen: true, type: 'test_info' });
 };
 onMounted(() => {
   window.location.search && router.replace(window.location.pathname);
@@ -40,7 +53,7 @@ onMounted(() => {
       <input v-model="searchStDate" type="date" />
       <input v-model="searchEdDate" type="date" />
       <button @click="handlerSearch">검색</button>
-      <button @click="modalState.$patch({ isOpen: true })">등록</button>
+      <button @click="openRegisterModal">등록</button>
     </div>
   </div>
 </template>
