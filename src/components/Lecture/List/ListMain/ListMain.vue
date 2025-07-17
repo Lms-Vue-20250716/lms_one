@@ -18,9 +18,13 @@ const lectureSearch = (cPage = 1) => {
   param.append('pageSize', 5);
 
   axios.post('/api/lecture/lectureListBody.do', param).then((res) => {
-    lectureList.value = res.data.list;
-    lectureCount.value = res.data.count;
-    console.log(res);
+    if (route.query.searchStDate > route.query.searchEdDate) {
+      alert('잘못된 강의기간 조회입니다. 조회 날짜를 확인해주세요.');
+    } else {
+      lectureList.value = res.data.list;
+      lectureCount.value = res.data.count;
+      console.log(res);
+    }
   });
 };
 

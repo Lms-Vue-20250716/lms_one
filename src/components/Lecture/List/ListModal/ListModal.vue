@@ -2,24 +2,46 @@
 import { useModalState } from '@/stores/modalState';
 import axios from 'axios';
 import { onMounted, ref } from 'vue';
+import { useUserInfo } from '@/stores/loginInfoState';
 
 const modalState = useModalState();
 const { detailId: id } = defineProps({ detailId: { type: Number, default: 0 } });
 const detail = ref({});
+const userStore = useUserInfo();
+const lecWeekPlanList = ref([]);
+const isLectureRegist = ref();
 
 const searchDetail = () => {
   const param = new URLSearchParams();
   param.append('lecId', id);
-  console.log('deatil1------------', detail.value);
-  axios.post('/api/lecture/lectureDetail.do').then((res) => {
-    detail.value = res.data.detailValue;
+  axios.post('/api/lecture/lectureDetail.do', param).then((res) => {
+    detail.value = res.data.lectureDetailValue;
+    lecWeekPlanList.value = detail.value.lecWeekPlanList;
+    isLectureRegist.value = res.data.isLectureRegistrationAvailable;
   });
-  console.log('deatil2------------', detail.value);
+};
+
+const lectureRegister = () => {
+  const param = new URLSearchParams();
+  param.append('lecId', id);
+  param.append('studentId', userStore.user.loginId);
+
+  axios.post('/api/lecture/lectureStdRegister.do', param).then((res) => {
+    if (res.data.result === 'success') {
+      alert('신청되었습니다.');
+      modalState.$patch({ isOpen: false });
+    } else if (res.data.result === 'loginIdNotExist') {
+      alert('학생정보가 등록되어 있지 않아 수강 신청할 수 없습니다.관리자에게 문의하시오.');
+    } else if (res.data.result === 'lecIdAlreadyExist') {
+      alert('이미 수강 신청한 강의입니다.');
+    } else if (res.data.result === 'lecExceedsCapacity') {
+      alert('현재 수강 인원이 모두 마감되었습니다. 다른 강의를 확인해 주세요.');
+    }
+  });
 };
 
 onMounted(() => {
   id && searchDetail();
-  console.log('id---------------', id);
 });
 </script>
 
@@ -37,37 +59,35 @@ onMounted(() => {
 
             <tr>
               <th>강의</th>
-              <td colspan="4"><input v-model="detail.lecName" /></td>
+              <td>{{ detail.lecName }}</td>
             </tr>
 
             <tr>
               <th>강사</th>
-              <td><input v-model="detail.lecInstructor" /></td>
+              <td>{{ detail.lecInstructorName }}</td>
               <th>강의실<span style="color: red">*</span></th>
-              <td><input v-model="detail.lecClassRoom" /></td>
+              <td>{{ detail.lecRoomName }}</td>
             </tr>
 
             <tr>
               <th>이메일</th>
-              <td><input v-model="detail.insEmail" /></td>
+              <td>{{ detail.insEmail }}</td>
               <th>연락처</th>
-              <td><input v-model="detail.insHp" /></td>
+              <td>{{ detail.insHp }}</td>
             </tr>
 
             <tr>
               <th>강의 시작일</th>
-              <td><input v-model="detail.lecStartDate" /></td>
+              <td>{{ detail.lecStartDate }}</td>
               <th>강의 종료일</th>
-              <td><input v-model="detail.lecEndDate" /></td>
+              <td>{{ detail.lecEndDate }}</td>
             </tr>
 
             <tr>
               <th>정원</th>
-              <td><input v-model="detail.lecPersonnel" /></td>
+              <td>{{ detail.lecPersonnel }}</td>
               <th>강의 일수(주차)</th>
-              <td>
-                <input v-model="detail.lecDaysCnt" /> (<input v-model="detail.lecSectionCnt" />주차)
-              </td>
+              <td>{{ detail.lecDaysCnt }} ({{ detail.lecSectionCnt }}주차)</td>
             </tr>
           </tbody>
         </table>
@@ -85,55 +105,92 @@ onMounted(() => {
               <tr>
                 <th colspan="4">강의목표<span style="color: red">*</span></th>
               </tr>
-              <tr>
-                <td colspan="4">
-                  <input v-model="detail.lectureGoal" />
-                </td>
-              </tr>
+              <template v-if="detail.lecGoal && detail.lecGoal.length > 0">
+                <tr>
+                  <td>
+                    {{ detail.lecGoal }}
+                  </td>
+                </tr>
+              </template>
+              <template v-else>
+                <tr>
+                  <td>'아직 입력된 정보가 없습니다.'</td>
+                </tr>
+              </template>
 
               <!-- 강의 내용 -->
               <tr>
                 <th colspan="4">강의내용<span style="color: red">*</span></th>
               </tr>
-              <tr>
-                <td colspan="4">
-                  <input v-model="detail.lectureContent" />
-                </td>
-              </tr>
+              <template v-if="detail.lecContent && detail.lecContent.length > 0">
+                <tr>
+                  <td>
+                    {{ detail.lecContent }}
+                  </td>
+                </tr>
+              </template>
+              <template v-else>
+                <tr>
+                  <td>'아직 입력된 정보가 없습니다.'</td>
+                </tr>
+              </template>
 
               <!-- 강의 기타사항 -->
               <tr>
                 <th colspan="4">강의기타사항<span style="color: red">*</span></th>
               </tr>
+              <template v-if="detail.lectureSpecifics && detail.lectureSpecifics.length > 0">
+                <tr>
+                  <td>
+                    {{ detail.lectureSpecifics }}
+                  </td>
+                </tr>
+              </template>
+              <template v-else>
+                <tr>
+                  <td>'아직 입력된 정보가 없습니다.'</td>
+                </tr>
+              </template>
+            </tbody>
+          </table>
+          <table>
+            <thead>
               <tr>
-                <td colspan="4">
-                  <input v-model="detail.lectureSpecifics" />
-                </td>
+                <th>주차</th>
+                <th>학습 목표</th>
+                <th>학습 내용</th>
               </tr>
-
-              <!-- 주차별 계획 헤더 -->
-              <tr>
-                <th>주차<span style="color: red">*</span></th>
-                <th>학습목표<span style="color: red">*</span></th>
-                <th>학습내용<span style="color: red">*</span></th>
+            </thead>
+            <tbody v-if="lecWeekPlanList.length > 0">
+              <tr v-for="lecWeekPlan in lecWeekPlanList" :key="lecWeekPlan.lecWeekRound">
+                <td>{{ lecWeekPlan.lecWeekRound }}주차</td>
+                <td>{{ lecWeekPlan.lecWeekGoal || '' }}</td>
+                <td>{{ lecWeekPlan.lecWeekContent || '' }}</td>
               </tr>
             </tbody>
 
-            <!-- 주차별 계획 바디 -->
-            <tbody>
-              <!-- <tr v-for="(week, index) in lectureWeekPlan" :key="index"> -->
-              <tr>
-                <td><input v-model="detail.week" /></td>
-                <td><input v-model="detail.week" /></td>
-                <td><input v-model="detail.week" /></td>
+            <tbody v-else>
+              <tr v-for="i in detail.lecSectionCnt" :key="i">
+                <td>{{ i }}주차</td>
               </tr>
             </tbody>
           </table>
         </div>
         <div class="button-container">
+          <button
+            v-if="userStore.user.userType === 'S' && isLectureRegist"
+            type="button"
+            @click="lectureRegister()"
+          >
+            신청
+          </button>
           <button type="button" @click="modalState.$patch({ isOpen: false })">취소</button>
         </div>
       </form>
     </div>
   </Teleport>
 </template>
+
+<style>
+@import './ListModalStyled.css';
+</style>
