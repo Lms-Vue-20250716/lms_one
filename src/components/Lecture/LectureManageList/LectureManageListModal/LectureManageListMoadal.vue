@@ -34,7 +34,13 @@ onMounted(() => {
               </tr>
               <tr>
                 <th>강사</th>
-                <td>{{ detail.lecInstructorName }}</td>
+                <td>
+                  <select v-model="detail.lecInstructorName">
+                    <option value="">강사 선택</option>
+                    <option value="서다인">서다인</option>
+                    <option value="양지호">양지호</option>
+                  </select>
+                </td>
               </tr>
               <tr>
                 <th>정원</th>
