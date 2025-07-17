@@ -1,73 +1,98 @@
-<script setup></script>
+<script setup>
+import { useModalState } from '@/stores/modalState';
+import axios from 'axios';
+import { onMounted, ref } from 'vue';
+
+const modalState = useModalState();
+const lecDetail = ref('');
+
+const props = defineProps({
+  lectureId: {
+    type: Number,
+    default: 0,
+    require: true,
+  },
+});
+
+const lectureDetail = () => {
+  axios.post('/api/user/lec-detail/' + props.lectureId).then((res) => {
+    lecDetail.value = res.data;
+  });
+};
+
+const modalClose = () => {
+  modalState.$patch({ isOpen: false, type: null });
+};
+
+onMounted(() => {
+  lectureDetail();
+});
+</script>
+
 <template>
-    <!-- 강의 상세 모달 -->
-    <div id="lecDetailModal" class="layerPop layerType2" style="width: 600px;"> 
-		<dl>
-			<dt>
-				<strong>강의 상세</strong>
-			</dt>
-			<dd class="content">
-				<!-- s : 여기에 내용입력 -->
-				<table class="row">
-					<caption>caption</caption>
+  <!-- 강의 상세 모달 -->
+  <Teleport to="body">
+    <div id="lecDetailModal" class="modal-overlay">
+      <div class="modal-container-detail">
+        <label>강의 상세</label>
+        <!-- s : 여기에 내용입력 -->
+        <table class="modal-table">
+          <thead>
+            <tr>
+              <th scope="row">강의 이름</th>
+              <td colspan="3">
+                {{ lecDetail.lecName }}
+              </td>
 
-					<tbody>
-						<tr>
-							<th scope="row">강의 이름 </th>
-							<td colspan="3"><input type="text" class="inputTxt p100"
-								name="lecName" id="lecName" /></td>
-			
-							<th scope="row">회차</th>
-							<td colspan="3">
-								<input type="text" class="inputTxt p100"
-								name="lectureRound" id="lectureRound" /></td>
-						
-						</tr>
-							<tr>
-							<th scope="row">담당 강사</th>
-							<td colspan="3"><input type="text" class="inputTxt p100"
-								name="tutorName" id="tutorName" /></td>
-			
-							<th scope="row">정원 </th>
-							<td colspan="3">
-								<input type="text" class="inputTxt p100"
-								name="lecPersonnel" id="lecPersonnel" /></td>
-					
-						</tr>
-							<tr>
-							<th scope="row">개강 일자 </th>
-							<td colspan="3"><input type="text" class="inputTxt p100"
-								name="lecStartDate" id="lecStartDate" /></td>
-			
-							<th scope="row">종강 일자 </th>
-							<td colspan="3">
-								<input type="text" class="inputTxt p100"
-								name="lecEndDate" id="lecEndDate" /></td>
-						</tr>
+              <th scope="row">회차</th>
+              <td colspan="3">
+                {{ lecDetail.lectureRound }}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">담당 강사</th>
+              <td colspan="3">
+                {{ lecDetail.tutorName }}
+              </td>
 
-							<tr>
-							<th scope="row">평균 점수 </th>
-							<td colspan="3"><input type="text" class="inputTxt p100"
-								name="avgScore" id="avgScore" /></td>
-			
-							<th scope="row">과락 인원 </th>
-							<td colspan="3">
-								<input type="text" class="inputTxt p100"
-								name="failedStudents" id="failedStudents" /></td>
-						</tr>
-			
-					</tbody>
-				</table>
+              <th scope="row">정원</th>
+              <td colspan="3">
+                {{ lecDetail.lecPersonnel }}
+              </td>
+            </tr>
+            <tr>
+              <th scope="row">개강 일자</th>
+              <td colspan="3">
+                {{ lecDetail.lecStartDate }}
+              </td>
 
-				<!-- e : 여기에 내용입력 -->
+              <th scope="row">종강 일자</th>
+              <td colspan="3">
+                {{ lecDetail.lecEndDate }}
+              </td>
+            </tr>
 
-				<div class="btn_areaC mt30">
-					<a href=""	class="btnType gray"  id="btnClose" name="btn"><span>취소</span></a>
-				</div>
-			</dd>
+            <tr>
+              <th scope="row">평균 점수</th>
+              <td colspan="3">
+                {{ lecDetail.avgScore }}
+              </td>
 
-		</dl>
-		<a href="" class="closePop"><span class="hidden">닫기</span></a>
-	</div>
+              <th scope="row">과락 인원</th>
+              <td colspan="3">
+                {{ lecDetail.failedStudents }}
+              </td>
+            </tr>
+          </thead>
+          <tbody></tbody>
+        </table>
+        <div class="button-container">
+          <button @click="modalClose">닫기</button>
+        </div>
+      </div>
+    </div>
+  </Teleport>
 </template>
-<style scoped></style>
+<style scoped>
+@import './styled.css';
+</style>
