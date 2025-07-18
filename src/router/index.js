@@ -4,6 +4,7 @@ import LectureList from '@/views/Lecture/List.vue';
 import NotFound from '@/views/NotFound/NotFound.vue';
 import Notice from '@/views/Support/Notice.vue';
 import QnA from '@/views/Support/QnA.vue';
+import Attendance from '@/views/Lecture/Attendance.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
@@ -47,6 +48,11 @@ const router = createRouter({
               path: 'list',
               name: 'list',
               component: LectureList,
+            },
+            {
+              path: 'attendance',
+              name: 'attendance',
+              component: Attendance,
             },
           ],
         },
