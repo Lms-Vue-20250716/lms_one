@@ -5,18 +5,33 @@
 }
 
 .modal-container-detail {
-  @apply relative h-[500px] w-[500px] rounded-lg bg-white p-5 opacity-100 shadow-lg;
+  @apply relative h-[450px] w-[500px] rounded-lg bg-white p-5 opacity-100 shadow-lg;
 }
 
 .modal-container-statistics {
   @apply relative h-[800px] w-[1000px] rounded-lg bg-white p-5 opacity-100 shadow-lg;
 }
 
+.modal-container-error {
+  @apply relative h-[300px] w-[400px] rounded-lg bg-white p-5 opacity-100 shadow-lg;
+}
+.modal-container-error strong {
+  @apply mx-auto mt-10 flex w-7/8 flex-col justify-center;
+}
+
+.layout-custom {
+  @apply mx-auto;
+}
+
 .modal-table th td {
   @apply mb-4 flex flex-col;
 }
 
-.modal-table input[type='text'] {
+.modal-table tr th {
+  @apply mt-1 rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
+}
+
+.modal-table tr td {
   @apply mt-1 rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
 }
 
@@ -26,4 +41,35 @@
 
 .button-container button {
   @apply cursor-pointer rounded-md px-4 py-2 transition-colors duration-200 first:bg-blue-900 first:text-white last:bg-gray-300 last:text-gray-700 first:hover:bg-blue-950 last:hover:bg-gray-400;
+}
+
+/* 차트관련*/
+.scrollable-area {
+  height: 400px;
+  overflow: scroll;
+}
+
+/* 모달에 있는 테이블 */
+.notice-table {
+  @apply w-full max-w-6xl overflow-hidden rounded-lg bg-white shadow-lg;
+}
+
+.notice-table-header {
+  @apply bg-blue-950 text-gray-900;
+}
+
+.notice-table-header th {
+  @apply border-b border-blue-400 px-6 py-4 text-left text-sm font-semibold tracking-wider text-white uppercase;
+}
+
+.notice-table-row {
+  @apply transition duration-300 ease-in-out hover:bg-gray-50;
+}
+
+.notice-table-row td {
+  @apply border-b border-gray-200 px-6 py-4 text-sm text-gray-700;
+}
+
+.notice-cell {
+  @apply border-b border-gray-200 px-6 py-4 text-sm font-medium text-gray-700;
 }

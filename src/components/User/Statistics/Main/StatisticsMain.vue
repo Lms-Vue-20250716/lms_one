@@ -25,7 +25,6 @@ const statisticsListSearch = (cPage = 1) => {
 
   // 해당 컨트롤러가 반환하는 데이터가 statistics와 같고 json 사용으로 편하게 하기 위해 해당 controller에 요청
   axios.post('/api/user/resumeLectureListBody.do', param).then((res) => {
-    console.log(res);
     statisticsLectureList.value = res.data.resumeLectureList;
     statisticsLectureCnt.value = res.data.resumeLectureCnt;
   });
@@ -85,7 +84,10 @@ watch(
       :on-page-change="statisticsListSearch"
     />
   </div>
-  <LecDetailModal v-if="modal.isOpen && modal.type === 'lecDetail'" :lecture-id />
+  <LecDetailModal
+    v-if="modal.isOpen && modal.type === 'lecDetail'"
+    :lecture-id="Number(lectureId)"
+  />
 </template>
 <style scoped>
 @import './styled.css';
