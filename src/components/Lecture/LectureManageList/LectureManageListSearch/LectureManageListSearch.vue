@@ -1,11 +1,13 @@
 <script setup>
 import router from '@/router';
+import { useModalState } from '@/stores/modalState';
 import { ref, onMounted } from 'vue';
 
 const searchTitle = ref('');
 const searchStDate = ref('');
 const searchEdDate = ref('');
 const searchTag = ref('');
+const modalState = useModalState();
 
 const handlerSearch = () => {
   const query = [];
@@ -37,7 +39,7 @@ onMounted(() => {
       <input v-model="searchStDate" type="date" />
       <input v-model="searchEdDate" type="date" />
       <button @click="handlerSearch">검색</button>
-      <button>등록</button>
+      <button @click="modalState.$patch({ isOpen: true })">신규</button>
     </div>
   </div>
 </template>

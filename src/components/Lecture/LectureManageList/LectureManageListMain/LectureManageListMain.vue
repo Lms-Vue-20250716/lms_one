@@ -17,13 +17,12 @@ const lectureSearch = (cPage = 1) => {
   param.append('currentPage', cPage);
   param.append('pageSize', 5);
 
-  axios.post('/api/lecture/lectureListBody.do', param).then((res) => {
+  axios.post('/api/lecture/lectureManageListBody.do', param).then((res) => {
     if (route.query.searchStDate > route.query.searchEdDate) {
       alert('잘못된 강의기간 조회입니다. 조회 날짜를 확인해주세요.');
     } else {
-      lectureList.value = res.data.list;
-      lectureCount.value = res.data.count;
-      console.log(res);
+      lectureList.value = res.data.lectureManageList;
+      lectureCount.value = res.data.lectureManageCnt;
     }
   });
 };
@@ -86,7 +85,12 @@ onMounted(() => {
       :on-page-change="lectureSearch"
     />
   </div>
-  <LectureManageListMoadal v-if="modalState.isOpen" :detail-id="detailId" />
+  <LectureManageListMoadal
+    v-if="modalState.isOpen"
+    :detail-id="detailId"
+    @post-success="lectureSearch"
+    @un-mounted-modal="detailId = $event"
+  />
 </template>
 
 <!-- <style>
