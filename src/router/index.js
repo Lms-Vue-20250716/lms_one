@@ -57,6 +57,17 @@ const router = createRouter({
             },
           ],
         },
+        {
+          path: 'user',
+          name: 'user',
+          children: [
+            {
+              path: 'statistics',
+              name: 'statistics',
+              component: Statistics,
+            },
+          ],
+        },
       ],
     },
   ],
