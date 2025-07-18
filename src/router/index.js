@@ -6,6 +6,7 @@ import Notice from '@/views/Support/Notice.vue';
 import Statistics from '@/views/User/Statistics/Statistics.vue';
 import QnA from '@/views/Support/QnA.vue';
 import Attendance from '@/views/Lecture/Attendance.vue';
+import Resume from '@/views/User/Resume/Resume.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 
 const router = createRouter({
@@ -65,6 +66,11 @@ const router = createRouter({
               path: 'statistics',
               name: 'statistics',
               component: Statistics,
+            },
+            {
+              path: 'resume',
+              name: 'resume',
+              component: Resume,
             },
           ],
         },
