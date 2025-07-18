@@ -83,30 +83,7 @@ const handlerUpdate = () => {
       alert('수정 중 오류가 발생했습니다.');
     });
 };
-const handleDelete = () => {
-  if (!confirm('삭제하시겠습니까?')) {
-    return;
-  }
 
-  const param = new URLSearchParams();
-  param.append('testId', props.detailId.testId);
-  param.append('lecId', props.detailId.lecId);
-  axios
-    .post('/api/lecture/testInfoDelete.do', param)
-    .then((res) => {
-      if (res.data.result === 'success') {
-        alert('삭제되었습니다.');
-        modalState.$patch({ isOpen: false });
-        emit('postSuccess');
-      } else {
-        alert('삭제에 실패했습니다.');
-      }
-    })
-    .catch((error) => {
-      console.error('삭제 실패:', error);
-      alert('삭제 중 오류가 발생했습니다.');
-    });
-};
 const searchDetail = () => {
   const param = new URLSearchParams();
   param.append('testId', props.detailId.testId);
@@ -224,14 +201,6 @@ onUnmounted(() => {
             class="btn-primary"
           >
             {{ typeof detailId === 'object' && detailId.testId ? '수정' : '저장' }}
-          </button>
-          <button
-            v-if="typeof detailId === 'object' && detailId.testId"
-            type="button"
-            @click="handleDelete"
-            class="btn-danger"
-          >
-            삭제
           </button>
           <button type="button" @click="modalState.$patch({ isOpen: false })" class="btn-secondary">
             나가기

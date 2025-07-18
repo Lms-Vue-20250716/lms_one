@@ -1,5 +1,6 @@
 import Login from '@/views/Auth/Login.vue';
 import DashBoard from '@/views/DashBoard/DashBoard.vue';
+import Test from '@/views/Lecture/Test.vue';
 import TestInfo from '@/views/Lecture/TestInfo.vue';
 import NotFound from '@/views/NotFound/NotFound.vue';
 import Notice from '@/views/Support/Notice.vue';
@@ -41,6 +42,11 @@ const router = createRouter({
               path: 'test-info',
               name: 'test-info',
               component: TestInfo,
+            },
+            {
+              path: 'test',
+              name: 'test',
+              component: Test,
             },
           ],
         },
