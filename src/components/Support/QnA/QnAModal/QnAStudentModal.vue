@@ -1,5 +1,4 @@
 <script setup>
-import router from '@/router';
 import { useModalState } from '@/stores/modalState';
 import axios from 'axios';
 import { onMounted, onUnmounted, ref } from 'vue';
@@ -8,26 +7,13 @@ const emit = defineEmits(['postSuccess', 'unMountedModal']);
 const { detailId: id } = defineProps({ detailId: { type: Number, default: 0 } });
 
 const modalState = useModalState();
-const formRef = ref();
 const detail = ref({});
-const imgObjectUrl = ref('');
-const handlerInsert = () => {
-  const formData = new FormData(formRef.value);
-
-  axios.post('/api/support/noticeFileSave.do', formData).then((res) => {
-    alert('저장되었습니다.');
-    if (res.data.result === 'success') {
-      modalState.$patch({ isOpen: false });
-      emit('postSuccess');
-    }
-  });
-};
 
 const searchDetail = () => {
-  const param = new URLSearchParams();
-  param.append('qnaId', id);
-  axios.post('/api/support/qnaDetail', param).then((res) => {
-    detail.value = res.data.detailValue;
+  const param = [];
+  param.push(`qnaId=${id}`);
+  axios.get(`/api/support/qnaDetail?${param.join('&')}`).then((res) => {
+    detail.value = res.data;
   });
 };
 
@@ -45,25 +31,24 @@ onUnmounted(() => {
 <template>
   <Teleport to="body">
     <div class="modal-overlay">
-      <form ref="formRef" class="modal-form modal-container">
-        <label> 제목 :<input v-model="detail.noticeTitle" type="text" name="fileTitle" /> </label>
+      <div class="modal-form modal-container">
         <label>
-          내용 :<input v-model="detail.noticeContent" type="text" name="fileContent" />
+          제목 :<input v-model="detail.qnaTitle" type="text" name="qnaTitle" readonly />
         </label>
-        파일 :
-        <input id="fileInput" type="file" name="file" @change="handlerFile" />
-        <label class="img-label" htmlFor="fileInput"> 파일 첨부하기 </label>
-        <div class="cursor-pointer" @click="downloadFile">
-          <div>
-            <label>미리보기</label>
-            <img :src="imgObjectUrl" class="preview-image" />
-          </div>
-        </div>
+        <label>
+          내용 :<input v-model="detail.qnaContent" type="text" name="qnaContent" readonly />
+        </label>
+
+        <template v-if="detail.qnaAnswer">
+          댓글
+          <label>댓글 작성자: {{ detail.tutorLoginId }}</label>
+          <label>내용: <textarea v-model="detail.qnaAnswer" readonly> </textarea></label>
+          <label> 댓글 작성일: <input v-model="detail.qnaAnswerDate" readonly /></label>
+        </template>
         <div class="button-container">
-          <button type="button" @click="handlerInsert">저장</button>
           <button type="button" @click="modalState.$patch({ isOpen: false })">나가기</button>
         </div>
-      </form>
+      </div>
     </div>
   </Teleport>
 </template>

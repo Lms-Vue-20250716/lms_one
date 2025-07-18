@@ -7,6 +7,8 @@ import { useModalState } from '@/stores/modalState';
 import QnARegisterModal from '../QnAModal/QnARegisterModal.vue';
 import { useUserInfo } from '@/stores/loginInfoState';
 import QnAStudentModal from '../QnAModal/QnAStudentModal.vue';
+import QnATutorModal from '../QnAModal/QnATutorModal.vue';
+import QnAAdminModal from '../QnAModal/QnAAdminModal.vue';
 
 const route = useRoute();
 const qnaList = ref([]);
@@ -46,7 +48,6 @@ const qnaSearch = (cPage = 1) => {
 };
 
 const noticeDetail = (id) => {
-  console.log(userInfo.user);
   modalState.$patch({ isOpen: true, type: 'detail', payload: userInfo.user.userType });
   detailId.value = id;
 };
@@ -112,9 +113,27 @@ onMounted(() => {
   />
   <QnAStudentModal
     v-if="
-      modalState.isOpen && modalState.type === 'detail' && modalState.payload.toLoswerCase() === 's'
+      modalState.isOpen && modalState.type === 'detail' && modalState.payload.toLowerCase() === 's'
     "
+    :detail-id
     @post-success="qnaSearch"
+    @un-mounted-modal="detailId = $event"
+  />
+  <QnATutorModal
+    v-if="
+      modalState.isOpen && modalState.type === 'detail' && modalState.payload.toLowerCase() === 't'
+    "
+    :detail-id
+    @post-success="qnaSearch"
+    @un-mounted-modal="detailId = $event"
+  />
+  <QnAAdminModal
+    v-if="
+      modalState.isOpen && modalState.type === 'detail' && modalState.payload.toLowerCase() === 'm'
+    "
+    :detail-id
+    @post-success="qnaSearch"
+    @un-mounted-modal="detailId = $event"
   />
 </template>
 
