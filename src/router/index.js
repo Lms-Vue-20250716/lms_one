@@ -1,8 +1,11 @@
 import Login from '@/views/Auth/Login.vue';
 import DashBoard from '@/views/DashBoard/DashBoard.vue';
 import LectureList from '@/views/Lecture/List.vue';
+import Test from '@/views/Lecture/Test.vue';
+import TestInfo from '@/views/Lecture/TestInfo.vue';
 import NotFound from '@/views/NotFound/NotFound.vue';
 import Notice from '@/views/Support/Notice.vue';
+import Statistics from '@/views/User/Statistics/Statistics.vue';
 import QnA from '@/views/Support/QnA.vue';
 import Attendance from '@/views/Lecture/Attendance.vue';
 import { createRouter, createWebHistory } from 'vue-router';
@@ -59,6 +62,33 @@ const router = createRouter({
               path: 'attendance',
               name: 'attendance',
               component: Attendance,
+            },
+          ],
+        },
+        {
+          path: 'user',
+          name: 'user',
+          children: [
+            {
+              path: 'statistics',
+              name: 'statistics',
+              component: Statistics,
+            },
+          ],
+        },
+        {
+          path: 'lecture',
+          name: 'lecture',
+          children: [
+            {
+              path: 'test-info',
+              name: 'test-info',
+              component: TestInfo,
+            },
+            {
+              path: 'test',
+              name: 'test',
+              component: Test,
             },
           ],
         },

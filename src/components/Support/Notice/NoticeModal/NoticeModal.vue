@@ -1,5 +1,4 @@
 <script setup>
-import router from '@/router';
 import { useModalState } from '@/stores/modalState';
 import axios from 'axios';
 import { onMounted, onUnmounted, ref } from 'vue';
@@ -14,7 +13,6 @@ const imgObjectUrl = ref('');
 
 const handlerInsert = () => {
   const formData = new FormData(formRef.value);
-
   axios.post('/api/support/noticeFileSave.do', formData).then((res) => {
     alert('저장되었습니다.');
     if (res.data.result === 'success') {
