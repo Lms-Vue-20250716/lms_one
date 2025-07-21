@@ -5,12 +5,14 @@ import { onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useModalState } from '@/stores/modalState';
 import LectureManageListMoadal from '../LectureManageListModal/LectureManageListMoadal.vue';
+import LectureManagePlanModal from '../LectureManageListModal/LectureManagePlanModal.vue';
 
 const route = useRoute();
 const lectureList = ref([]);
 const lectureCount = ref(0);
 const modalState = useModalState();
 const detailId = ref(0);
+const detailInsId = ref('');
 
 const lectureSearch = (cPage = 1) => {
   const param = new URLSearchParams(route.query);
@@ -28,8 +30,17 @@ const lectureSearch = (cPage = 1) => {
 };
 
 const lectureDetail = (id) => {
-  modalState.$patch({ isOpen: true });
+  modalState.$patch({ isOpen: true, type: 'lectureManage' });
   detailId.value = id;
+};
+
+const lectureDetailPlan = (id, insId) => {
+  modalState.$patch({ isOpen: true, type: 'lectureManagePlan' });
+  detailId.value = id;
+  detailInsId.value = insId;
+
+  console.log('detailId.value', detailId.value);
+  console.log('detailInsId.value', detailInsId.value);
 };
 
 watch(
@@ -69,7 +80,11 @@ onMounted(() => {
             <td>{{ lecture.lecEndDate.substr(0, 10) }}</td>
             <td>{{ lecture.lecPersonnel }}</td>
             <td>{{ lecture.lecRoomName }}</td>
-            <td><button>강의계획서보기</button></td>
+            <td>
+              <button @click="lectureDetailPlan(lecture.lecId, lecture.lecInstructorId)">
+                강의계획서보기
+              </button>
+            </td>
           </tr>
         </template>
         <template v-else>
@@ -86,8 +101,16 @@ onMounted(() => {
     />
   </div>
   <LectureManageListMoadal
-    v-if="modalState.isOpen"
+    v-if="modalState.isOpen && modalState.type == 'lectureManage'"
     :detail-id="detailId"
+    @post-success="lectureSearch"
+    @un-mounted-modal="detailId = $event"
+  />
+
+  <LectureManagePlanModal
+    v-if="modalState.isOpen && modalState.type == 'lectureManagePlan'"
+    :detail-id="detailId"
+    :detail-ins-id="detailInsId"
     @post-success="lectureSearch"
     @un-mounted-modal="detailId = $event"
   />

@@ -128,7 +128,7 @@ const lectureManageSave = () => {
   axios.post('/api/lecture/lectureManageSave.do', param).then((res) => {
     if (res.data.result === 'success') {
       alert('저장되었습니다.');
-      modalState.$patch({ isOpen: false });
+      modalState.$patch({ isOpen: false, type: null });
       emit('postSuccess');
     }
   });
@@ -199,7 +199,7 @@ const lectureManageUpdate = () => {
   axios.post('/api/lecture/lectureManageUpdate.do', param).then((res) => {
     if (res.data.result === 'success') {
       alert('수정되었습니다.');
-      modalState.$patch({ isOpen: false });
+      modalState.$patch({ isOpen: false, type: null });
       emit('postSuccess');
     }
   });
@@ -403,7 +403,9 @@ watch([lecStartDate, lecEndDate], ([newStart, newEnd]) => {
             <button type="button" @click="!id ? lectureManageSave() : lectureManageUpdate()">
               {{ !id ? '저장' : '수정' }}
             </button>
-            <button type="button" @click="modalState.$patch({ isOpen: false })">취소</button>
+            <button type="button" @click="modalState.$patch({ isOpen: false, type: null })">
+              취소
+            </button>
           </div>
         </form>
       </div>
