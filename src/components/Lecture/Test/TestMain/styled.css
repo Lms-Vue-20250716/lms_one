@@ -2,37 +2,30 @@
 
 .test-main-container {
   @apply flex min-h-screen flex-col items-center justify-start p-5;
-  background-color: #f8f9fa;
 }
 
 .test-table {
-  @apply w-full max-w-6xl overflow-hidden rounded-lg shadow-lg;
-  background-color: #e9ecef;
+  @apply w-full max-w-6xl overflow-hidden rounded-lg bg-white shadow-lg;
 }
 
 .test-table-header {
-  background-color: #e9ecef;
+  @apply bg-blue-950 text-gray-900;
 }
 
 .test-table-header th {
-  @apply border-b border-gray-300 px-6 py-4 text-left text-sm font-semibold text-gray-800;
+  @apply border-b border-blue-400 px-6 py-4 text-left text-sm font-semibold tracking-wider text-white uppercase;
 }
 
 .test-table-row {
-  @apply transition duration-300 ease-in-out;
-  background-color: #e9ecef;
-}
-
-.test-table-row:hover {
-  background-color: #dee2e6;
+  @apply transition duration-300 ease-in-out hover:bg-gray-50;
 }
 
 .test-table-row td {
-  @apply border-b border-gray-300 px-6 py-4 text-sm text-gray-700;
+  @apply border-b border-gray-200 px-6 py-4 text-sm text-gray-700;
 }
 
 .test-cell {
-  @apply border-b border-gray-300 px-6 py-4 text-sm font-medium text-gray-700;
+  @apply border-b border-gray-200 px-6 py-4 text-sm font-medium text-gray-700;
 }
 
 .test-empty-row {

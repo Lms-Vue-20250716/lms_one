@@ -1,13 +1,11 @@
 <script setup>
 import router from '@/router';
-import { useModalState } from '@/stores/modalState';
 import { onMounted, ref } from 'vue';
 
 const searchTitle = ref('');
 const searchStDate = ref('');
 const searchEdDate = ref('');
 const searchTag = ref('lecName');
-const modalState = useModalState();
 
 const handlerSearch = () => {
   const query = [];
@@ -34,9 +32,6 @@ const handleEnter = (e) => {
     handlerSearch();
   }
 };
-const openRegisterModal = () => {
-  modalState.$patch({ isOpen: true, type: 'test' });
-};
 onMounted(() => {
   window.location.search && router.replace(window.location.pathname);
 });
@@ -53,7 +48,6 @@ onMounted(() => {
       <input v-model="searchStDate" type="date" />
       <input v-model="searchEdDate" type="date" />
       <button @click="handlerSearch">검색</button>
-      <button @click="openRegisterModal">등록</button>
     </div>
   </div>
 </template>

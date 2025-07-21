@@ -5,12 +5,17 @@ import { onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
 import { useModalState } from '@/stores/modalState';
 import TestInfoModal from '../TestInfoModal/TestInfoModal.vue';
+import TestQuestionInfoDetailModal from '../TestInfoModal/testQuestionInfoDetailModal.vue';
 
 const route = useRoute();
 const testInfoList = ref([]);
 const testInfoCount = ref(0);
 const detailId = ref(0);
 const modalState = useModalState();
+
+// 시험문제 모달 관련 상태
+const testQuestionModal = ref(null);
+const testQuestionModalData = ref({ testId: '', lecId: '' });
 
 const testInfoSearch = (cPage = 1) => {
   const param = new URLSearchParams(route.query);
@@ -30,8 +35,15 @@ const testInfoDetail = (testId, lecId) => {
 };
 
 const viewTestQuestions = (testId, lecId) => {
-  console.log('시험문제 보기:', { testId, lecId });
-  alert('시험문제 보기 기능은 준비 중입니다.');
+  testQuestionModalData.value = { testId, lecId };
+  if (testQuestionModal.value) {
+    testQuestionModal.value.openModal(testId, lecId);
+  }
+};
+
+// 시험문제 모달에서 검색을 호출할 때 사용
+const onTestQuestionPostSuccess = () => {
+  testInfoSearch();
 };
 
 watch(
@@ -105,11 +117,21 @@ onMounted(() => {
       :on-page-change="testInfoSearch"
     />
   </div>
+
+  <!-- 기존 시험정보 모달 -->
   <TestInfoModal
     v-if="modalState.isOpen && modalState.type == 'test_info'"
     :detail-id="detailId"
     @post-success="testInfoSearch"
     @un-mounted-modal="detailId = $event"
+  />
+
+  <!-- 시험문제 상세 모달 -->
+  <TestQuestionInfoDetailModal
+    ref="testQuestionModal"
+    :user-type="$userType"
+    :login-id="$loginId"
+    @post-success="onTestQuestionPostSuccess"
   />
 </template>
 

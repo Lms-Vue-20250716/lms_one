@@ -20,7 +20,7 @@ const testData = ref({
   testQuestionInfoDetail: [],
   testQuestionOptionInfoDetail: [],
   testQuestionAnswerInfoDetail: [],
-  testSubmitOptionDetail: [],
+  testSubmitOptionDetailValue: [],
   testResultInfoValue: {},
 });
 
@@ -43,8 +43,8 @@ const modalTitle = computed(() => {
 // 제출 여부 확인
 const isSubmitted = computed(() => {
   return (
-    Array.isArray(testData.value.testSubmitOptionDetail) &&
-    testData.value.testSubmitOptionDetail.length > 0
+    Array.isArray(testData.value.testSubmitOptionDetailValue) &&
+    testData.value.testSubmitOptionDetailValue.length > 0
   );
 });
 
@@ -53,42 +53,126 @@ const showSubmitButton = computed(() => {
   return props.mode === 'take' && !isSubmitted.value;
 });
 
-// 시험 점수 계산
+// 시험 점수 계산 (디버깅 강화)
 const testScore = computed(() => {
-  if (props.mode !== 'result') return null;
+  console.log('=== testScore computed 실행됨 ===');
+  console.log('현재 모드:', props.mode);
 
-  const { testQuestionInfoDetail, testQuestionAnswerInfoDetail, testSubmitOptionDetail } =
+  if (props.mode !== 'result') {
+    console.log('result 모드가 아님, null 반환');
+    return null;
+  }
+
+  const { testQuestionInfoDetail, testQuestionAnswerInfoDetail, testSubmitOptionDetailValue } =
     testData.value;
+
+  console.log('추출된 데이터:');
+  console.log('- testQuestionInfoDetail:', testQuestionInfoDetail);
+  console.log('- testQuestionAnswerInfoDetail:', testQuestionAnswerInfoDetail);
+  console.log('- testSubmitOptionDetailValue:', testSubmitOptionDetailValue);
+
+  // 데이터 존재 여부 확인
+  if (
+    !testQuestionInfoDetail ||
+    !Array.isArray(testQuestionInfoDetail) ||
+    testQuestionInfoDetail.length === 0
+  ) {
+    console.warn('testQuestionInfoDetail이 비어있거나 배열이 아닙니다:', testQuestionInfoDetail);
+    return null;
+  }
+
+  if (!testQuestionAnswerInfoDetail || !Array.isArray(testQuestionAnswerInfoDetail)) {
+    console.warn(
+      'testQuestionAnswerInfoDetail이 비어있거나 배열이 아닙니다:',
+      testQuestionAnswerInfoDetail,
+    );
+    return null;
+  }
+
+  if (!testSubmitOptionDetailValue || !Array.isArray(testSubmitOptionDetailValue)) {
+    console.warn(
+      'testSubmitOptionDetailValue이 비어있거나 배열이 아닙니다:',
+      testSubmitOptionDetailValue,
+    );
+    console.log('제출된 답안이 없어서 점수 계산 불가');
+    return {
+      correctCount: 0,
+      totalQuestions: testQuestionInfoDetail?.length || 0,
+      earnedScore: 0,
+      totalScore: 0,
+      percentage: 0,
+      noSubmission: true, // 제출 답안 없음을 표시
+    };
+  }
+
+  console.log('=== testScore 계산 시작 ===');
+  console.log('문제 수:', testQuestionInfoDetail.length);
+  console.log('정답 데이터:', testQuestionAnswerInfoDetail);
+  console.log('제출 답안 데이터:', testSubmitOptionDetailValue);
+
   let correctCount = 0;
   let totalQuestions = testQuestionInfoDetail.length;
   let totalScore = 0;
   let earnedScore = 0;
 
-  testQuestionInfoDetail.forEach((question) => {
-    totalScore += question.questionScore || 0;
+  testQuestionInfoDetail.forEach((question, index) => {
+    const questionScore = parseInt(question.questionScore) || 0;
+    totalScore += questionScore;
+
+    console.log(`\n--- 문제 ${index + 1} (ID: ${question.questionId}) ---`);
+    console.log('문제 점수:', questionScore);
+
+    // 정답 찾기 (타입 변환 고려)
     const correctAnswer = testQuestionAnswerInfoDetail.find(
-      (answer) => answer.questionId === question.questionId,
+      (answer) => parseInt(answer.questionId) === parseInt(question.questionId),
     );
-    const submittedAnswer = testSubmitOptionDetail.find(
-      (submit) => submit.questionId === question.questionId,
+
+    // 제출된 답안 찾기 (타입 변환 고려)
+    const submittedAnswer = testSubmitOptionDetailValue.find(
+      (submit) => parseInt(submit.questionId) === parseInt(question.questionId),
     );
-    if (
-      correctAnswer &&
-      submittedAnswer &&
-      correctAnswer.correctOptionId === submittedAnswer.optionId
-    ) {
+
+    console.log('정답 데이터:', correctAnswer);
+    console.log('제출 답안:', submittedAnswer);
+
+    if (!correctAnswer) {
+      console.warn(`문제 ${question.questionId}의 정답을 찾을 수 없습니다`);
+      return;
+    }
+
+    if (!submittedAnswer) {
+      console.warn(`문제 ${question.questionId}의 제출 답안을 찾을 수 없습니다`);
+      return;
+    }
+
+    // 정답 비교 (타입 변환 고려)
+    const isCorrect =
+      parseInt(correctAnswer.correctOptionId) === parseInt(submittedAnswer.optionId);
+    console.log(
+      `정답 옵션 ID: ${correctAnswer.correctOptionId}, 제출 옵션 ID: ${submittedAnswer.optionId}, 정답 여부: ${isCorrect}`,
+    );
+
+    if (isCorrect) {
       correctCount++;
-      earnedScore += question.questionScore || 0;
+      earnedScore += questionScore;
+      console.log('정답! 획득 점수:', questionScore);
+    } else {
+      console.log('오답');
     }
   });
 
-  return {
+  const result = {
     correctCount,
     totalQuestions,
     earnedScore,
     totalScore,
     percentage: totalScore > 0 ? Math.round((earnedScore / totalScore) * 100) : 0,
   };
+
+  console.log('=== 최종 결과 ===');
+  console.log(result);
+
+  return result;
 });
 
 // 현재 날짜시간 포맷
@@ -194,9 +278,10 @@ const loadTestData = async () => {
       lecId: props.lecId,
       studentId: props.studentId,
     };
-
-    const response = await axios.post(endpoint, params);
-    testData.value = response.data;
+    const urlParam = new URLSearchParams(params);
+    await axios.post(endpoint, urlParam).then((res) => {
+      testData.value = res.data;
+    });
 
     // 문제 존재 여부 확인
     if (
@@ -210,10 +295,10 @@ const loadTestData = async () => {
 
     // 기존 제출 답안 로드
     if (
-      testData.value.testSubmitOptionDetail &&
-      Array.isArray(testData.value.testSubmitOptionDetail)
+      testData.value.testSubmitOptionDetailValue &&
+      Array.isArray(testData.value.testSubmitOptionDetailValue)
     ) {
-      testData.value.testSubmitOptionDetail.forEach((submit) => {
+      testData.value.testSubmitOptionDetailValue.forEach((submit) => {
         answers.value.push({
           questionId: submit.questionId,
           testId: submit.testId,
@@ -233,7 +318,7 @@ const loadTestData = async () => {
 // 옵션 선택 여부 확인
 const isOptionSelected = (questionId, optionId) => {
   if (props.mode === 'result') {
-    return testData.value.testSubmitOptionDetail.some(
+    return testData.value.testSubmitOptionDetailValue.some(
       (submit) => submit.questionId === questionId && submit.optionId === optionId,
     );
   }
@@ -263,6 +348,10 @@ const isWrongAnswer = (questionId, optionId) => {
 };
 
 onMounted(() => {
+  console.log(props.lecId);
+  console.log(props.testId);
+  console.log(props.studentId);
+
   loadTestData();
 });
 
