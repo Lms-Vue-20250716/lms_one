@@ -1,5 +1,40 @@
 <script setup>
 import PageNavigation from '@/components/common/PageNavigation.vue';
+import { useModalState } from '@/stores/modalState';
+import axios from 'axios';
+import { onMounted, ref, watch } from 'vue';
+import { useRoute } from 'vue-router';
+
+const route = useRoute();
+const modalState = useModalState();
+const resumeLectureList = ref([]);
+const resumeLectureCnt = ref(0);
+
+const resumeSearchList = (cPage = 1) => {
+  const param = new URLSearchParams(route.query);
+  param.append('currentPage', cPage);
+  param.append('pageSize', 5);
+
+  axios.post('/api/user/resumeLectureListBody.do', param).then((res) => {
+    resumeLectureList.value = res.data.resumeLectureList;
+    resumeLectureCnt.value = res.data.resumeLectureCnt;
+  });
+};
+
+const opneModal = () => {
+  modalState.$patch({ isOpen: true, type: 'resume' });
+};
+
+watch(
+  () => route.query,
+  () => {
+    resumeSearchList();
+  },
+);
+
+onMounted(() => {
+  resumeSearchList();
+});
 </script>
 <template>
   <div class="list-main-container">
@@ -15,13 +50,25 @@ import PageNavigation from '@/components/common/PageNavigation.vue';
           <th scope="col">종강일</th>
         </tr>
       </thead>
-      <tbody class="list-table-row" id="resumeList">
-        <td class="list-cell"></td>
-        <!-- <td class="list-empty-row"></td> -->
+      <tbody id="resumeList" class="list-table-row">
+        <tr v-for="resumeData in resumeLectureList" :key="resumeData.lecId">
+          <td class="list-cell">{{ resumeData.lecId }}</td>
+          <td class="list-cell">{{ resumeData.lecName }}</td>
+          <td class="list-cell">{{ resumeData.lectureRound }}</td>
+          <td class="list-cell">{{ resumeData.tutorName }}</td>
+          <td class="list-cell">{{ resumeData.lecPersonnel }}</td>
+          <td class="list-cell">{{ resumeData.lecStartDate }}</td>
+          <td class="list-cell">{{ resumeData.lecEndDate }}</td>
+          <!-- <td class="list-empty-row"></td> -->
+        </tr>
       </tbody>
     </table>
-
-    <PageNavigation />
+    <ResumeModal v-if="modalState.isOpen && modalState.type === 'resume'" />
+    <PageNavigation
+      :total-items="resumeLectureCnt"
+      :items-per-page="5"
+      @page-change="resumeSearchList"
+    />
   </div>
 </template>
 <style scoped>

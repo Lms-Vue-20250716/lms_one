@@ -11,6 +11,12 @@ const lectureStartRound = ref('');
 const lectureEnsRound = ref('');
 const roundRangeArr = ref([]);
 
+const get_LecNameSelectBox = () => {
+  axios.post('/api/user/lecture-selectbox').then((res) => {
+    lecNameList.value = res.data;
+  });
+};
+
 const handlerLectureSearch = () => {
   const query = [];
   if (lectureName.value) {
@@ -93,26 +99,46 @@ watch(lectureName, () => {
   }
 });
 
-//
-const modalState = useModalState();
-
-const opneModal = () => {
-  modalState.$patch({ isOpen: true, type: 'resume' });
-};
+onMounted(() => {
+  get_LecNameSelectBox();
+  handlerLectureSearch();
+});
 </script>
 <template>
   <div class="list-container" style="height: 110px">
     <div class="input-box">
       강의 이름
-      <select name="lec"></select>
+      <select v-model="lectureName" name="lec" @change="getRoundRange">
+        <option value="" selected>전체</option>
+        <option v-for="lecture in lecNameList" :key="lecture.lecId">
+          {{ lecture.lecName }}
+        </option>
+      </select>
       회차
-      <select name="lectureStartRound"></select>
+      <select v-model="lectureStartRound" name="lectureStartRound">
+        <option value="" selected>전체</option>
+        <option
+          v-for="round in roundRangeArr"
+          :key="round.lectureRound"
+          :value="round.lectureRound"
+        >
+          {{ round.lectureRound }}회차
+        </option>
+      </select>
       ~
-      <select name="lectureEnsRound"></select>
-      <button @click="opneModal">검색</button>
+      <select v-model="lectureEnsRound" name="lectureEnsRound">
+        <option v-if="filteredItems.length > 0 ? false : true" value="" selected>전체</option>
+        <option
+          v-for="round in filteredItems"
+          :key="round.lectureRound"
+          :value="round.lectureRound"
+        >
+          {{ round.lectureRound }}회차
+        </option>
+      </select>
+      <button @click="handlerLectureSearch">검색</button>
     </div>
   </div>
-  <ResumeModal v-if="modalState.isOpen && modalState.type === 'resume'" />
 </template>
 <style scoped>
 @import './styled.css';
