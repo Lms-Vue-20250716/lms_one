@@ -138,8 +138,9 @@ const numberFilter = () => {
 onMounted(() => {
   if (id) {
     lectureDetail();
+  } else {
+    lectureSelectBox();
   }
-  lectureSelectBox();
 });
 
 onUnmounted(() => {
