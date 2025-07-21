@@ -86,7 +86,7 @@ onMounted(() => {
   </div>
   <NoticeModal
     v-if="modalState.isOpen"
-    :detail-id
+    :detail-id="detailId"
     @post-success="noticeSearch"
     @un-mounted-modal="detailId = $event"
   />
