@@ -1,7 +1,7 @@
 <script setup>
 import { useModalState } from '@/stores/modalState';
 import axios from 'axios';
-import { onMounted, onUnmounted, ref, watch } from 'vue';
+import { onMounted, onUnmounted, readonly, ref, watch } from 'vue';
 
 const modalState = useModalState();
 const { detailId: id } = defineProps({ detailId: { type: Number, default: 0 } });
@@ -18,6 +18,7 @@ const lecStartDate = ref('');
 const lecEndDate = ref('');
 const lecDaysCnt = ref();
 const emit = defineEmits(['postSuccess', 'unMountedModal']);
+const lecNameDirect = ref('');
 
 const lectureSelectBox = () => {
   const param = new URLSearchParams();
@@ -32,20 +33,93 @@ const lectureDetail = () => {
   const param = new URLSearchParams();
   param.append('lecId', id);
 
-  axios.post('/api/lecture/lectureManageDetail.do', param).then((res) => {
-    detail.value = res.data.lectureManageDetailValue;
-    console.log('res.data.lectureManageDetailValue', res.data.lectureManageDetailValue);
-    console.log(detail.value);
+  axios.post('/api/lecture/lectureDetail.do', param).then((res) => {
+    detail.value = res.data.lectureDetailValue;
+
+    console.log(detail);
+
+    lecName.value = detail.value.lecName;
+    insName.value = detail.value.lecInstructorName;
+    lecDaysCnt.value = detail.value.lecDaysCnt;
+    lecPersonnel.value = detail.value.lecPersonnel;
+    lecClassRoom.value = detail.value.lecRoomName;
+    lecStartDate.value = detail.value.lecStartDate;
+    lecEndDate.value = detail.value.lecEndDate;
   });
 };
 
 const lectureManageSave = () => {
+  // lecInstructorId, roomId 추출
+  const selectIns = insName.value;
+  const selectRoom = lecClassRoom.value;
+
+  const InsId = instructorInfoList.value.find((item) => item.insName === selectIns);
+  const roomId = classRoomList.value.find((item) => item.roomName === selectRoom);
+
+  // 강의명 직접 입력 시 저장
+  if (lecName.value === 'direct' || lecName.value === '직접 입력') {
+    if (!lecNameDirect.value) {
+      alert('강의명을 입력해주세요.');
+      return;
+    }
+    lecName.value = lecNameDirect.value;
+  }
+
+  if (!lecName.value) {
+    alert('강의명을 선택해주세요.');
+    return;
+  }
+
+  if (!insName.value) {
+    alert('강사명을 입력해주세요.');
+    return;
+  }
+
+  if (!lecClassRoom.value) {
+    alert('강의실을 선택해주세요.');
+    return;
+  }
+
+  // 정원 숫자 검사
+  const personnelRaw = lecPersonnel.value;
+  const personnel = parseInt(personnelRaw);
+
+  if (!personnelRaw || isNaN(personnel)) {
+    alert('정원은 숫자로 입력해주세요.');
+    return;
+  } else if (personnel === 0) {
+    alert('정원은 0이하로 입력 할 수  없습니다.\n다시 입력해주세요.');
+    return;
+  }
+
+  if (personnel > 50) {
+    const confirmResult = confirm('정원이 50명을 초과했습니다. 계속 진행하시겠습니까?');
+    if (!confirmResult) {
+      return;
+    }
+  }
+
+  if (!lecStartDate.value) {
+    alert('강의 시작일을 선택해주세요.');
+    return;
+  }
+
+  if (!lecEndDate.value) {
+    alert('강의 종료일을 선택해주세요.');
+    return;
+  }
+
+  if (!lecDaysCnt.value) {
+    alert('강의 일수를 확인해주세요.');
+    return;
+  }
+
   const param = {
-    lecId: id,
+    // lecId: id,
     lecName: lecName.value,
-    insName: insName.value,
+    lecInstructorId: InsId.lecInstructorId,
     lecPersonnel: lecPersonnel.value,
-    lecClassRoom: lecClassRoom.value,
+    lecRoomId: roomId.roomId,
     lecStartDate: lecStartDate.value,
     lecEndDate: lecEndDate.value,
     lecDaysCnt: lecDaysCnt.value,
@@ -54,7 +128,78 @@ const lectureManageSave = () => {
   axios.post('/api/lecture/lectureManageSave.do', param).then((res) => {
     if (res.data.result === 'success') {
       alert('저장되었습니다.');
-      modalState.$patch({ isOpen: true });
+      modalState.$patch({ isOpen: false });
+      emit('postSuccess');
+    }
+  });
+};
+
+const lectureManageUpdate = () => {
+  // lecInstructorId, roomId 추출
+  const selectIns = insName.value;
+  const selectRoom = lecClassRoom.value;
+
+  const InsId = instructorInfoList.value.find((item) => item.insName === selectIns);
+  const roomId = classRoomList.value.find((item) => item.roomName === selectRoom);
+
+  if (!insName.value) {
+    alert('강사명을 입력해주세요.');
+    return;
+  }
+
+  if (!lecClassRoom.value) {
+    alert('강의실을 선택해주세요.');
+    return;
+  }
+
+  // 정원 숫자 검사
+  const personnelRaw = lecPersonnel.value;
+  const personnel = parseInt(personnelRaw);
+
+  if (!personnelRaw || isNaN(personnel)) {
+    alert('정원은 숫자로 입력해주세요.');
+    return;
+  } else if (personnel === 0) {
+    alert('정원은 0이하로 입력 할 수  없습니다.\n다시 입력해주세요.');
+    return;
+  }
+
+  if (personnel > 50) {
+    const confirmResult = confirm('정원이 50명을 초과했습니다. 계속 진행하시겠습니까?');
+    if (!confirmResult) {
+      return;
+    }
+  }
+
+  if (!lecStartDate.value) {
+    alert('강의 시작일을 선택해주세요.');
+    return;
+  }
+
+  if (!lecEndDate.value) {
+    alert('강의 종료일을 선택해주세요.');
+    return;
+  }
+
+  if (!lecDaysCnt.value) {
+    alert('강의 일수를 확인해주세요.');
+    return;
+  }
+
+  const param = new URLSearchParams();
+  param.append('lecId', id);
+  param.append('lecName', lecName.value);
+  param.append('lecInstructorId', InsId.lecInstructorId);
+  param.append('lecPersonnel', lecPersonnel.value);
+  param.append('lecRoomId', roomId.roomId);
+  param.append('lecStartDate', lecStartDate.value);
+  param.append('lecEndDate', lecEndDate.value);
+  param.append('lecDaysCnt', lecDaysCnt.value);
+
+  axios.post('/api/lecture/lectureManageUpdate.do', param).then((res) => {
+    if (res.data.result === 'success') {
+      alert('수정되었습니다.');
+      modalState.$patch({ isOpen: false });
       emit('postSuccess');
     }
   });
@@ -138,18 +283,36 @@ const numberFilter = () => {
 onMounted(() => {
   if (id) {
     lectureDetail();
-  } else {
-    lectureSelectBox();
+    console.log();
   }
+  lectureSelectBox();
 });
 
 onUnmounted(() => {
   emit('unMountedModal', 0);
 });
 
+const validateEndDate = () => {
+  const sDate = new Date(lecStartDate.value);
+  const eDate = new Date(lecEndDate.value);
+
+  do {
+    sDate.setDate(sDate.getDate() + 1);
+  } while (sDate.getDay() === 0 || sDate.getDay() === 6);
+
+  const newEnd = sDate.toISOString().split('T')[0];
+  lecEndDate.value = newEnd;
+  console.log(sDate, eDate, newEnd);
+};
+
 watch([lecStartDate, lecEndDate], ([newStart, newEnd]) => {
   if (newStart && newEnd) {
-    dateCalc();
+    if (newStart > newEnd) {
+      alert('강의 종료일은 강의 시작일보다 빠를 수 없습니다.');
+      validateEndDate();
+    } else {
+      dateCalc();
+    }
   }
 });
 </script>
@@ -165,15 +328,15 @@ watch([lecStartDate, lecEndDate], ([newStart, newEnd]) => {
               <tr>
                 <th>강의명</th>
                 <td>
-                  <select v-model="lecName" name="lecName">
+                  <select v-model="lecName" name="lecName" :disabled="id ? true : isReadOnly">
                     <option>강의 선택</option>
-                    <option>직접 입력</option>
                     <option v-for="lecName in lecNameList" :key="lecName.lecId">
                       {{ lecName.lecName }}
                     </option>
                   </select>
-                  <div :hidden="lecName !== 'direct' && lecName !== '직접 입력'">
-                    <input type="text" name="lecName" />
+                  <!-- <div :hidden="lecName !== 'direct' && lecName !== '직접 입력'"> -->
+                  <div v-if="lecName === 'direct' || lecName === '직접 입력'">
+                    <input v-model="lecNameDirect" type="text" />
                   </div>
                 </td>
               </tr>
@@ -184,7 +347,7 @@ watch([lecStartDate, lecEndDate], ([newStart, newEnd]) => {
                     <option>강사 선택</option>
                     <option
                       v-for="instructorInfo in instructorInfoList"
-                      :key="instructorInfo.insNum"
+                      :key="instructorInfo.lecInstructorId"
                     >
                       {{ instructorInfo.insName }}
                     </option>
@@ -231,13 +394,15 @@ watch([lecStartDate, lecEndDate], ([newStart, newEnd]) => {
               <tr>
                 <th>강의 일수</th>
                 <td>
-                  <input v-model="lecDaysCnt" type="text" name="lecDaysCnt" />{{ lecDaysCnt }}
+                  <input v-model="lecDaysCnt" type="text" name="lecDaysCnt" :disabled="readonly" />
                 </td>
               </tr>
             </tbody>
           </table>
           <div class="button-container">
-            <button type="button" @click="lectureManageSave">{{ !id ? '저장' : '수정' }}</button>
+            <button type="button" @click="!id ? lectureManageSave() : lectureManageUpdate()">
+              {{ !id ? '저장' : '수정' }}
+            </button>
             <button type="button" @click="modalState.$patch({ isOpen: false })">취소</button>
           </div>
         </form>
