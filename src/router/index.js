@@ -9,6 +9,7 @@ import Statistics from '@/views/User/Statistics/Statistics.vue';
 import QnA from '@/views/Support/QnA.vue';
 import Attendance from '@/views/Lecture/Attendance.vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import LearningMaterials from '@/views/Support/LearningMaterials.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -41,6 +42,11 @@ const router = createRouter({
               name: 'qna',
               component: QnA,
             },
+            {
+              path: 'learning-materials',
+              name: 'learning-materials',
+              component: LearningMaterials,
+            },
           ],
         },
         {
@@ -57,6 +63,16 @@ const router = createRouter({
               name: 'attendance',
               component: Attendance,
             },
+            {
+              path: 'test-info',
+              name: 'test-info',
+              component: TestInfo,
+            },
+            {
+              path: 'test',
+              name: 'test',
+              component: Test,
+            },
           ],
         },
         {
@@ -67,22 +83,6 @@ const router = createRouter({
               path: 'statistics',
               name: 'statistics',
               component: Statistics,
-            },
-          ],
-        },
-        {
-          path: 'lecture',
-          name: 'lecture',
-          children: [
-            {
-              path: 'test-info',
-              name: 'test-info',
-              component: TestInfo,
-            },
-            {
-              path: 'test',
-              name: 'test',
-              component: Test,
             },
           ],
         },
