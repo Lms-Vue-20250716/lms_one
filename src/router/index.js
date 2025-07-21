@@ -6,6 +6,7 @@ import Notice from '@/views/Support/Notice.vue';
 import QnA from '@/views/Support/QnA.vue';
 import Attendance from '@/views/Lecture/Attendance.vue';
 import { createRouter, createWebHistory } from 'vue-router';
+import SurveyManage from '@/views/Support/SurveyManage.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -37,6 +38,11 @@ const router = createRouter({
               path: 'qna',
               name: 'qna',
               component: QnA,
+            },
+            {
+              path: 'manage-survey',
+              path: 'manage-survey',
+              component: SurveyManage,
             },
           ],
         },
