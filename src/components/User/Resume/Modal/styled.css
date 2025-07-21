@@ -17,6 +17,7 @@
   background-color: #fff;
   border-radius: 8px;
   width: 100%; /* 더 넓게 */
+  height: 80%;
   max-width: 1200px; /* 최대 너비 증가 */
   padding: 20px; /* 여백 증가 */
   box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
@@ -24,6 +25,26 @@
   max-height: 95vh; /* 더 높은 세로 공간 */
 }
 
+.modal-container select {
+  margin-top: 1rem; /* mt-4 (16px) */
+  border-radius: 0.5rem; /* rounded-lg (8px) */
+  border-width: 1px; /* border */
+  border-color: #d1d5db; /* border-gray-300 */
+  background-color: #ffffff; /* bg-white */
+  padding-left: 1rem; /* px-4 (16px) */
+  padding-right: 1rem; /* px-4 (16px) */
+  padding-top: 0.5rem; /* py-2 (8px) */
+  padding-bottom: 0.5rem; /* py-2 (8px) */
+  color: #4b5563; /* text-gray-700 */
+  transition-property: all; /* transition */
+  transition-duration: 300ms; /* duration-300 */
+  transition-timing-function: ease-in-out; /* ease-in-out */
+}
+
+.modal-form {
+  padding-left: 70px;
+  padding-right: 70px;
+}
 .modal-form table {
   width: 100%;
   border-collapse: collapse;
@@ -34,9 +55,16 @@
 .modal-form td {
   border: 1px solid #ddd;
   padding: 16px; /* 셀 안 여백 증가 */
-  text-align: left;
-  vertical-align: top;
+  text-align: center;
+  /* vertical-align: center; */
   font-size: 15px; /* 글자 크기 약간 증가 */
+}
+
+.modal-form tr:nth-child(odd) {
+  background-color: #ffffff;
+}
+.modal-form tr:nth-child(even) {
+  background-color: #f8f8f8;
 }
 
 .modal-form th {
@@ -44,8 +72,8 @@
   font-weight: 600;
 }
 
-.left-align {
-  text-align: left;
+.center-align {
+  text-align: center;
 }
 
 .modal-form strong {
@@ -59,6 +87,8 @@
   justify-content: flex-end;
   gap: 12px;
   margin-top: 16px;
+  padding-left: 70px;
+  padding-right: 70px;
 }
 
 .button-container button {
@@ -81,4 +111,48 @@
 
 .button-container button:last-child:hover {
   background-color: #757575;
+}
+
+.delete-button {
+  padding: 8px 16px;
+  border: none;
+  border-radius: 4px;
+  background-color: #d32020;
+  color: white;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.delete-button:hover {
+  background-color: #757575;
+}
+
+.modify-button {
+  padding: 8px 16px;
+  width: 80px;
+  border: none;
+  border-radius: 4px;
+  background-color: #1976d2;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.modify-button:hover {
+  background-color: #0f4a8d;
+}
+
+.upload-button {
+  padding: 8px 16px;
+  width: 80px;
+  border: none;
+  border-radius: 4px;
+  background-color: #1976d2;
+  color: #ffffff;
+  cursor: pointer;
+  font-size: 14px;
+}
+
+.upload-button:hover {
+  background-color: #0f4a8d;
 }

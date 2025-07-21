@@ -1,6 +1,4 @@
 <script setup>
-import { useModalState } from '@/stores/modalState';
-import ResumeModal from '../Modal/ResumeModal.vue';
 import { computed, onMounted, ref, watch } from 'vue';
 import router from '@/router';
 import axios from 'axios';
@@ -105,7 +103,7 @@ onMounted(() => {
 });
 </script>
 <template>
-  <div class="list-container" style="height: 110px">
+  <div class="list-container">
     <div class="input-box">
       강의 이름
       <select v-model="lectureName" name="lec" @change="getRoundRange">

@@ -1,6 +1,7 @@
 <script setup>
 import PageNavigation from '@/components/common/PageNavigation.vue';
 import { useModalState } from '@/stores/modalState';
+import ResumeModal from '../Modal/ResumeModal.vue';
 import axios from 'axios';
 import { onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
@@ -9,6 +10,7 @@ const route = useRoute();
 const modalState = useModalState();
 const resumeLectureList = ref([]);
 const resumeLectureCnt = ref(0);
+const lecId = ref(0);
 
 const resumeSearchList = (cPage = 1) => {
   const param = new URLSearchParams(route.query);
@@ -21,8 +23,9 @@ const resumeSearchList = (cPage = 1) => {
   });
 };
 
-const opneModal = () => {
+const opneModal = (id = 0) => {
   modalState.$patch({ isOpen: true, type: 'resume' });
+  lecId.value = id;
 };
 
 watch(
@@ -53,7 +56,12 @@ onMounted(() => {
       <tbody id="resumeList" class="list-table-row">
         <tr v-for="resumeData in resumeLectureList" :key="resumeData.lecId">
           <td class="list-cell">{{ resumeData.lecId }}</td>
-          <td class="list-cell">{{ resumeData.lecName }}</td>
+          <td
+            class="list-cell cursor-pointer text-blue-600 hover:underline"
+            @click="opneModal(resumeData.lecId)"
+          >
+            {{ resumeData.lecName }}
+          </td>
           <td class="list-cell">{{ resumeData.lectureRound }}</td>
           <td class="list-cell">{{ resumeData.tutorName }}</td>
           <td class="list-cell">{{ resumeData.lecPersonnel }}</td>
@@ -63,7 +71,7 @@ onMounted(() => {
         </tr>
       </tbody>
     </table>
-    <ResumeModal v-if="modalState.isOpen && modalState.type === 'resume'" />
+    <ResumeModal v-if="modalState.isOpen && modalState.type === 'resume'" :lec-id="Number(lecId)" />
     <PageNavigation
       :total-items="resumeLectureCnt"
       :items-per-page="5"
