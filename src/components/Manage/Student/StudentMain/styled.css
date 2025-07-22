@@ -1,0 +1,33 @@
+@import 'tailwindcss';
+
+.notice-main-container {
+  @apply flex min-h-screen flex-col items-center justify-start p-5;
+}
+
+.notice-table {
+  @apply w-full max-w-6xl overflow-hidden rounded-lg bg-white shadow-lg;
+}
+
+.notice-table-header {
+  @apply bg-blue-950 text-gray-900;
+}
+
+.notice-table-header th {
+  @apply border-b border-blue-400 px-6 py-4 text-left text-sm font-semibold tracking-wider text-white uppercase;
+}
+
+.notice-table-row {
+  @apply transition duration-300 ease-in-out hover:bg-gray-50;
+}
+
+.notice-table-row td {
+  @apply border-b border-gray-200 px-6 py-4 text-sm text-gray-700;
+}
+
+.notice-cell {
+  @apply border-b border-gray-200 px-6 py-4 text-sm font-medium text-gray-700;
+}
+
+.notice-empty-row {
+  @apply py-8 text-center text-gray-500;
+}
