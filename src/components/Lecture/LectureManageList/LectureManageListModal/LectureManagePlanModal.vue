@@ -193,6 +193,6 @@ onUnmounted(() => {
   </div>
 </template>
 
-<style>
+<style scoped>
 @import './ManagePlanModalStyled.css';
 </style>
