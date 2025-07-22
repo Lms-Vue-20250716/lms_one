@@ -59,12 +59,13 @@ const handlerLogin = () => {
         <div>
           <button class="login-button" @click="handlerLogin">Login</button>
           <button class="signup-button">Sign Up</button>
+          <label class="find-id-password"><a href="">[아이디/비밀번호 찾기]</a></label>
         </div>
       </div>
     </div>
   </div>
 </template>
 
-<style lang="css">
+<style lang="css" scoped>
 @import './styled.css';
 </style>

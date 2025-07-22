@@ -50,3 +50,7 @@
 .login-main button:hover {
   @apply opacity-90;
 }
+
+.find-id-password {
+  @apply cursor-pointer justify-center p-2;
+}
