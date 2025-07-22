@@ -55,7 +55,14 @@ const lectureManagePlanUpdate = () => {
     lecGoal: detail.value.lecGoal,
     lecContent: detail.value.lecContent,
     lecSpecifics: detail.value.lecSpecifics,
-    lecManageWeekPlanList: lecWeekPlanList.value,
+    // lecWeekPlanList.lecWeekPlanId 를 String으로 받아야해서 변환
+    lecManageWeekPlanList: lecWeekPlanList.value.map((item) => ({
+      ...item,
+      lecWeekPlanId:
+        item.lecWeekPlanId !== undefined && item.lecWeekPlanId !== null
+          ? item.lecWeekPlanId.toString()
+          : '',
+    })),
   };
 
   axios.post('/api/lecture/lectureManagePlanUpdate.do', param).then((res) => {

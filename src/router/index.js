@@ -2,7 +2,6 @@ import Login from '@/views/Auth/Login.vue';
 import DashBoard from '@/views/DashBoard/DashBoard.vue';
 import LectureManageList from '@/views/Lecture/LectureManageList.vue';
 import List from '@/views/Lecture/List.vue';
-import LectureList from '@/views/Lecture/List.vue';
 import Test from '@/views/Lecture/Test.vue';
 import TestInfo from '@/views/Lecture/TestInfo.vue';
 import NotFound from '@/views/NotFound/NotFound.vue';
