@@ -156,3 +156,8 @@
 .upload-button:hover {
   background-color: #0f4a8d;
 }
+
+.text-hover-decoration:hover {
+  text-decoration: underline;
+  cursor: pointer;
+}
