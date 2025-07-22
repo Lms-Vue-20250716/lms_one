@@ -1,0 +1,66 @@
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background: rgba(0, 0, 0, 0.6);
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.modal {
+  background: white;
+  padding: 2rem;
+  border-radius: 10px;
+  width: 600px;
+  max-height: 90vh;
+  overflow-y: auto;
+}
+
+.section,
+.weekly-section {
+  margin-bottom: 20px;
+}
+
+.lecture-table,
+.weekly-table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-bottom: 20px;
+}
+
+.lecture-table th,
+.lecture-table td,
+.weekly-table th,
+.weekly-table td {
+  border: 1px solid #ddd;
+  padding: 10px;
+  vertical-align: top;
+  text-align: left;
+}
+
+.weekly-plan {
+  margin-top: 10px;
+}
+
+.buttons {
+  display: flex;
+  justify-content: flex-end;
+  gap: 10px;
+  margin-top: 20px;
+}
+
+button {
+  padding: 10px 20px;
+  cursor: pointer;
+  background: #4285f4;
+  color: white;
+  border: none;
+  border-radius: 4px;
+}
+
+button:hover {
+  background: #3367d6;
+}
