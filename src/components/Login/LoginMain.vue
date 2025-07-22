@@ -25,6 +25,8 @@ const handlerLogin = () => {
     }
   });
 };
+
+const registeredAccount = () => {};
 </script>
 
 <template>
@@ -58,7 +60,7 @@ const handlerLogin = () => {
         </div>
         <div>
           <button class="login-button" @click="handlerLogin">Login</button>
-          <button class="signup-button">Sign Up</button>
+          <button class="signup-button" @click="">Sign Up</button>
           <label class="find-id-password"><a href="">[아이디/비밀번호 찾기]</a></label>
         </div>
       </div>
