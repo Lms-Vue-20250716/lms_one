@@ -1,6 +1,7 @@
 import Login from '@/views/Auth/Login.vue';
 import DashBoard from '@/views/DashBoard/DashBoard.vue';
-import LectureList from '@/views/Lecture/List.vue';
+import LectureManageList from '@/views/Lecture/LectureManageList.vue';
+import List from '@/views/Lecture/List.vue';
 import Test from '@/views/Lecture/Test.vue';
 import TestInfo from '@/views/Lecture/TestInfo.vue';
 import NotFound from '@/views/NotFound/NotFound.vue';
@@ -8,8 +9,10 @@ import Notice from '@/views/Support/Notice.vue';
 import Statistics from '@/views/User/Statistics/Statistics.vue';
 import QnA from '@/views/Support/QnA.vue';
 import Attendance from '@/views/Lecture/Attendance.vue';
+import Resume from '@/views/User/Resume/Resume.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import SurveyManage from '@/views/Support/SurveyManage.vue';
+import Student from '@/views/Manage/Student.vue';
 import Survey from '@/views/Support/Survey.vue';
 
 const router = createRouter({
@@ -62,12 +65,27 @@ const router = createRouter({
             {
               path: 'list',
               name: 'list',
-              component: LectureList,
+              component: List,
+            },
+            {
+              path: 'lecture-manage-list',
+              name: 'lecture-manage-list',
+              component: LectureManageList,
             },
             {
               path: 'attendance',
               name: 'attendance',
               component: Attendance,
+            },
+            {
+              path: 'test-info',
+              name: 'test-info',
+              component: TestInfo,
+            },
+            {
+              path: 'test',
+              name: 'test',
+              component: Test,
             },
           ],
         },
@@ -80,21 +98,21 @@ const router = createRouter({
               name: 'statistics',
               component: Statistics,
             },
+            {
+              path: 'resume',
+              name: 'resume',
+              component: Resume,
+            },
           ],
         },
         {
-          path: 'lecture',
-          name: 'lecture',
+          path: 'manage',
+          name: 'manage',
           children: [
             {
-              path: 'test-info',
-              name: 'test-info',
-              component: TestInfo,
-            },
-            {
-              path: 'test',
-              name: 'test',
-              component: Test,
+              path: 'student',
+              name: 'student',
+              component: Student,
             },
           ],
         },
