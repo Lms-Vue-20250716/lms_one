@@ -10,6 +10,7 @@ import QnA from '@/views/Support/QnA.vue';
 import Attendance from '@/views/Lecture/Attendance.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import SurveyManage from '@/views/Support/SurveyManage.vue';
+import Survey from '@/components/Support/Survey/Student/Survey.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -44,8 +45,13 @@ const router = createRouter({
             },
             {
               path: 'manage-survey',
-              path: 'manage-survey',
+              name: 'manage-survey',
               component: SurveyManage,
+            },
+            {
+              path: 'lecture-survey',
+              name: 'lecture-survey',
+              component: Survey,
             },
           ],
         },
