@@ -46,7 +46,7 @@ const router = createRouter({
             },
             {
               path: 'manage-survey',
-              path: 'manage-survey',
+              name: 'manage-survey',
               component: SurveyManage,
             },
           ],
@@ -70,6 +70,16 @@ const router = createRouter({
               name: 'attendance',
               component: Attendance,
             },
+            {
+              path: 'test-info',
+              name: 'test-info',
+              component: TestInfo,
+            },
+            {
+              path: 'test',
+              name: 'test',
+              component: Test,
+            },
           ],
         },
         {
@@ -80,22 +90,6 @@ const router = createRouter({
               path: 'statistics',
               name: 'statistics',
               component: Statistics,
-            },
-          ],
-        },
-        {
-          path: 'lecture',
-          name: 'lecture',
-          children: [
-            {
-              path: 'test-info',
-              name: 'test-info',
-              component: TestInfo,
-            },
-            {
-              path: 'test',
-              name: 'test',
-              component: Test,
             },
           ],
         },
