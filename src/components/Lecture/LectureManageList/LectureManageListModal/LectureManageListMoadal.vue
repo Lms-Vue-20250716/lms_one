@@ -36,8 +36,6 @@ const lectureDetail = () => {
   axios.post('/api/lecture/lectureDetail.do', param).then((res) => {
     detail.value = res.data.lectureDetailValue;
 
-    console.log(detail.value);
-
     lecName.value = detail.value.lecName;
     insName.value = detail.value.lecInstructorName;
     lecDaysCnt.value = detail.value.lecDaysCnt;

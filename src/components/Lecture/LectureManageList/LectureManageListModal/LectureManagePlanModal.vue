@@ -20,8 +20,6 @@ const lectureManagePlanDetail = () => {
   axios.post('/api/lecture/lectureManagePlanDetail.do', param).then((res) => {
     detail.value = res.data.lectureManagePlanDetailValue;
     lecWeekPlanList.value = detail.value.lecWeekPlanList;
-    console.log(detail.value);
-    console.log(lecWeekPlanList.value);
   });
 };
 
@@ -164,20 +162,20 @@ onUnmounted(() => {
             </thead>
             <!-- <tbody v-if="lecWeekPlanList.length > 0"> -->
             <tbody>
-              <tr v-for="lecWeekPlan in lecWeekPlanList" :key="lecWeekPlan.lecWeekRound">
+              <!-- <tr v-for="lecWeekPlan in lecWeekPlanList" :key="lecWeekPlan.lecWeekRound"> -->
+              <tr v-for="i in detail.lecSectionCnt" :key="i">
                 <!-- <td>{{ lecWeekPlan.lecWeekRound }}주차</td>
-                <td>{{ lecWeekPlan.lecWeekGoal || '' }}</td>
-                <td>{{ lecWeekPlan.lecWeekContent || '' }}</td> -->
-                <td>{{ lecWeekPlan.lecWeekRound }}주차</td>
                 <td><input v-model="lecWeekPlan.lecWeekGoal" /></td>
-                <td><input v-model="lecWeekPlan.lecWeekContent" /></td>
+                <td><input v-model="lecWeekPlan.lecWeekContent" /></td> -->
+                <td>{{ i }}주차</td>
+                <td><input v-model="lecWeekPlanList[i - 1].lecWeekGoal" /></td>
+                <td><input v-model="lecWeekPlanList[i - 1].lecWeekContent" /></td>
               </tr>
             </tbody>
           </table>
         </div>
 
         <div class="buttons">
-          <!-- detail.value.lecWeekPlanList.length != 0 ? 저장() : 수정() // button 까지 -->
           <button
             type="button"
             @click="

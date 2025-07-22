@@ -38,9 +38,6 @@ const lectureDetailPlan = (id, insId) => {
   modalState.$patch({ isOpen: true, type: 'lectureManagePlan' });
   detailId.value = id;
   detailInsId.value = insId;
-
-  console.log('detailId.value', detailId.value);
-  console.log('detailInsId.value', detailInsId.value);
 };
 
 watch(
