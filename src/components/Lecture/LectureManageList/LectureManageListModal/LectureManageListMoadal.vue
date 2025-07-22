@@ -36,15 +36,15 @@ const lectureDetail = () => {
   axios.post('/api/lecture/lectureDetail.do', param).then((res) => {
     detail.value = res.data.lectureDetailValue;
 
-    console.log(detail);
+    console.log(detail.value);
 
     lecName.value = detail.value.lecName;
     insName.value = detail.value.lecInstructorName;
     lecDaysCnt.value = detail.value.lecDaysCnt;
     lecPersonnel.value = detail.value.lecPersonnel;
     lecClassRoom.value = detail.value.lecRoomName;
-    lecStartDate.value = detail.value.lecStartDate;
-    lecEndDate.value = detail.value.lecEndDate;
+    // lecStartDate.value = detail.value.lecStartDate;
+    // lecEndDate.value = detail.value.lecEndDate;
   });
 };
 
@@ -283,7 +283,6 @@ const numberFilter = () => {
 onMounted(() => {
   if (id) {
     lectureDetail();
-    console.log();
   }
   lectureSelectBox();
 });
@@ -294,7 +293,6 @@ onUnmounted(() => {
 
 const validateEndDate = () => {
   const sDate = new Date(lecStartDate.value);
-  const eDate = new Date(lecEndDate.value);
 
   do {
     sDate.setDate(sDate.getDate() + 1);
@@ -302,7 +300,6 @@ const validateEndDate = () => {
 
   const newEnd = sDate.toISOString().split('T')[0];
   lecEndDate.value = newEnd;
-  console.log(sDate, eDate, newEnd);
 };
 
 watch([lecStartDate, lecEndDate], ([newStart, newEnd]) => {
@@ -334,7 +331,6 @@ watch([lecStartDate, lecEndDate], ([newStart, newEnd]) => {
                       {{ lecName.lecName }}
                     </option>
                   </select>
-                  <!-- <div :hidden="lecName !== 'direct' && lecName !== '직접 입력'"> -->
                   <div v-if="lecName === 'direct' || lecName === '직접 입력'">
                     <input v-model="lecNameDirect" type="text" />
                   </div>
