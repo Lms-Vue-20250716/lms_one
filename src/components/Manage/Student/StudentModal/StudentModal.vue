@@ -14,10 +14,6 @@ const studentDetail = () => {
   axios.post(`/api/manage/student-detail/${studentId}`).then((res) => {
     detail.value = res.data;
     lectureInfoList.value = res.data.lectureInfo;
-    console.log('lectureInfoList => ', lectureInfoList.value);
-    console.log('stdt => ', lectureInfoList.value.lectureStartDate);
-    console.log('eddt => ', lectureInfoList.value.lectureEndDate);
-    console.log(res.data.lectureInfo[0].lectureStartDate);
   });
 };
 
