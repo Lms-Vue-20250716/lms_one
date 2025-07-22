@@ -1,12 +1,23 @@
 <script setup>
 import router from '@/router';
 import { useModalState } from '@/stores/modalState';
-import { onMounted, ref } from 'vue';
+import { useUserInfo } from '@/stores/loginInfoState';
+import { computed, onMounted, ref } from 'vue';
 
 const searchTitle = ref('');
 const searchDate = ref('');
 const modalState = useModalState();
 const searchTag = ref('title');
+const userStore = useUserInfo();
+
+// 사용자 권한 체크
+const canCreateMaterial = computed(() => userStore.user?.userType === 'T');
+
+const initializeUser = async () => {
+  await userStore.initializeFromSession();
+  console.log('현재 사용자 정보:', userStore.user);
+  console.log('사용자 타입:', userStore.user?.userType);
+};
 
 const handlerSearch = () => {
   const query = [];
@@ -16,16 +27,28 @@ const handlerSearch = () => {
   const queryString = query.length > 0 ? `?${query.join('&')}` : '';
   router.push(queryString);
 };
+
 const handleEnter = (e) => {
   if (e.key === 'Enter') {
     console.log('enter');
     handlerSearch();
   }
 };
-onMounted(() => {
+
+const openNewMaterialModal = () => {
+  if (!canCreateMaterial.value) {
+    alert('권한이 없습니다.');
+    return;
+  }
+  modalState.$patch({ isOpen: true });
+};
+
+onMounted(async () => {
+  await initializeUser(); // 사용자 정보 초기화
   window.location.search && router.replace(window.location.pathname);
 });
 </script>
+
 <template>
   <div class="notice-container">
     <div class="input-box">
@@ -35,7 +58,7 @@ onMounted(() => {
       </select>
       <input v-model.lazy="searchTitle" @keydown="handleEnter" />
       <button @click="handlerSearch">검색</button>
-      <button @click="modalState.$patch({ isOpen: true })">신규</button>
+      <button v-if="canCreateMaterial" @click="openNewMaterialModal">신규</button>
     </div>
   </div>
 </template>

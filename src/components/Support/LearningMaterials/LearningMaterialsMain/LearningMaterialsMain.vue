@@ -9,6 +9,7 @@ import LearningMaterialsModal from '../LearningMaterialsModal/LearningMaterialsM
 const route = useRoute();
 const materialList = ref([]);
 const materialCount = ref(0);
+const materialLectures = ref([]);
 const detailId = ref(0);
 const modalState = useModalState();
 
@@ -21,6 +22,7 @@ const materialSearch = (cPage = 1) => {
     console.log('응답:', res.data);
     materialList.value = res.data.mtrList;
     materialCount.value = res.data.mtrCnt || 0;
+    materialLectures.value = res.data.lectures; // 이 데이터를 모달로 전달
   });
 };
 
@@ -39,9 +41,10 @@ watch(
 );
 
 onMounted(() => {
-  materialSearch(1);
+  materialSearch();
 });
 </script>
+
 <template>
   <div class="material-main-container">
     <table class="material-table">
@@ -80,9 +83,11 @@ onMounted(() => {
       :on-page-change="materialSearch"
     />
   </div>
+  <!-- lectures props 추가 -->
   <LearningMaterialsModal
     v-if="modalState.isOpen"
     :detail-id="detailId"
+    :lectures="materialLectures"
     @post-success="materialSearch"
     @un-mounted-modal="detailId = $event"
   />

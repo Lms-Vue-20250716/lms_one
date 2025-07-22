@@ -10,6 +10,7 @@ import QnA from '@/views/Support/QnA.vue';
 import Attendance from '@/views/Lecture/Attendance.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import LearningMaterials from '@/views/Support/LearningMaterials.vue';
+import Commoncode from '@/views/System/Commoncode.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -83,6 +84,17 @@ const router = createRouter({
               path: 'statistics',
               name: 'statistics',
               component: Statistics,
+            },
+          ],
+        },
+        {
+          path: 'system',
+          name: 'system',
+          children: [
+            {
+              path: 'commoncode',
+              name: 'commoncode',
+              component: Commoncode,
             },
           ],
         },
