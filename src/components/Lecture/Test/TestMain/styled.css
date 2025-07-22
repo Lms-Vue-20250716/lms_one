@@ -1,0 +1,93 @@
+@import 'tailwindcss';
+
+.test-main-container {
+  @apply flex min-h-screen flex-col items-center justify-start p-5;
+}
+
+.test-table {
+  @apply w-full max-w-6xl overflow-hidden rounded-lg bg-white shadow-lg;
+}
+
+.test-table-header {
+  @apply bg-blue-950 text-gray-900;
+}
+
+.test-table-header th {
+  @apply border-b border-blue-400 px-6 py-4 text-left text-sm font-semibold tracking-wider text-white uppercase;
+}
+
+.test-table-row {
+  @apply transition duration-300 ease-in-out hover:bg-gray-50;
+}
+
+.test-table-row td {
+  @apply border-b border-gray-200 px-6 py-4 text-sm text-gray-700;
+}
+
+.test-cell {
+  @apply border-b border-gray-200 px-6 py-4 text-sm font-medium text-gray-700;
+}
+
+.test-empty-row {
+  @apply py-8 text-center text-gray-500;
+}
+
+/* 파란색 버튼 스타일 */
+.status-button {
+  @apply inline-block rounded px-3 py-1 text-sm font-medium text-white;
+  background-color: #0ea5e9;
+  border: none;
+  cursor: pointer;
+  transition: background-color 0.2s ease;
+}
+
+.status-button:hover {
+  background-color: #0284c7;
+}
+
+/* 다른 상태별 버튼들 */
+.status-pending {
+  background-color: #64748b;
+}
+
+.status-pending:hover {
+  background-color: #475569;
+}
+
+.status-completed {
+  background-color: #0ea5e9;
+}
+
+.status-completed:hover {
+  background-color: #0284c7;
+}
+
+.status-processing {
+  background-color: #06b6d4;
+}
+
+.status-processing:hover {
+  background-color: #0891b2;
+}
+
+/* 페이지네이션 스타일 */
+.pagination-container {
+  @apply mt-4 flex items-center justify-center space-x-2;
+}
+
+.pagination-button {
+  @apply rounded border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50;
+  transition: all 0.2s ease;
+}
+
+.pagination-button.active {
+  @apply border-blue-500 bg-blue-500 text-white;
+}
+
+.pagination-button:hover:not(.active) {
+  @apply bg-gray-50;
+}
+
+.pagination-button:disabled {
+  @apply cursor-not-allowed opacity-50;
+}
