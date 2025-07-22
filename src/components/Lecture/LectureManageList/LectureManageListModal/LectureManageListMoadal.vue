@@ -407,6 +407,6 @@ watch([lecStartDate, lecEndDate], ([newStart, newEnd]) => {
   </Teleport>
 </template>
 
-<style>
+<style scoped>
 @import './ManageListModalStyled.css';
 </style>
