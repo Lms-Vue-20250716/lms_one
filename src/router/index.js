@@ -11,6 +11,7 @@ import QnA from '@/views/Support/QnA.vue';
 import Attendance from '@/views/Lecture/Attendance.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import SurveyManage from '@/views/Support/SurveyManage.vue';
+import Student from '@/views/Manage/Student.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -89,6 +90,17 @@ const router = createRouter({
               path: 'statistics',
               name: 'statistics',
               component: Statistics,
+            },
+          ],
+        },
+        {
+          path: 'manage',
+          name: 'manage',
+          children: [
+            {
+              path: 'student',
+              name: 'student',
+              component: Student,
             },
           ],
         },
