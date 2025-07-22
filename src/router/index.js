@@ -10,7 +10,7 @@ import QnA from '@/views/Support/QnA.vue';
 import Attendance from '@/views/Lecture/Attendance.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import SurveyManage from '@/views/Support/SurveyManage.vue';
-import Survey from '@/components/Support/Survey/Student/Survey.vue';
+import Survey from '@/views/Support/Survey.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
