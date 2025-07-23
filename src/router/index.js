@@ -14,6 +14,9 @@ import { createRouter, createWebHistory } from 'vue-router';
 import SurveyManage from '@/views/Support/SurveyManage.vue';
 import Student from '@/views/Manage/Student.vue';
 import Survey from '@/views/Support/Survey.vue';
+import Tutor from '@/views/Manage/Tutor.vue';
+import Classroom from '@/views/System/Classroom.vue';
+import Counsel from '@/views/Manage/Counsel.vue';
 import LearningMaterials from '@/views/Support/LearningMaterials.vue';
 import Commoncode from '@/views/System/Commoncode.vue';
 
@@ -130,6 +133,38 @@ const router = createRouter({
               path: 'student',
               name: 'student',
               component: Student,
+            },
+            {
+              path: 'tutor',
+              name: 'tutor',
+              component: Tutor,
+            },
+            {
+              path: 'counsel',
+              name: 'counsel',
+              component: Counsel,
+            },
+          ],
+        },
+        {
+          path: 'system',
+          name: 'system',
+          children: [
+            {
+              path: 'classroom',
+              name: 'classroom',
+              component: Classroom,
+            },
+          ],
+        },
+        {
+          path: 'system',
+          name: 'system',
+          children: [
+            {
+              path: 'commoncode',
+              name: 'commoncode',
+              component: Commoncode,
             },
           ],
         },
