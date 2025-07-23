@@ -1,0 +1,84 @@
+@import 'tailwindcss';
+
+.modal-overlay {
+  @apply fixed inset-0 flex items-center justify-center bg-gray-500/50 font-bold backdrop-blur-xs;
+}
+
+.modal-container {
+  @apply relative w-[400px] rounded-lg bg-white p-5 opacity-100 shadow-lg;
+}
+
+.modal-form label {
+  @apply mb-4 flex flex-col;
+}
+
+.modal-form input[type='text'] {
+  @apply mt-1 rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
+}
+
+.modal-form input[type='file'] {
+  @apply hidden;
+}
+
+.preview-image {
+  @apply h-[100px] w-[100px] rounded-md border border-gray-300 object-cover;
+}
+
+.no-image {
+  @apply flex h-[100px] w-[100px] items-center justify-center rounded-md border border-gray-300 bg-gray-100 text-sm text-gray-500;
+}
+
+.img-label {
+  @apply mt-2 cursor-pointer rounded bg-gray-300 px-6 py-2 text-gray-900 transition-all duration-200 ease-in-out hover:bg-green-500 hover:text-white active:translate-y-0.5 active:transform active:bg-green-600 active:shadow-inner;
+}
+
+.button-container {
+  @apply mt-4 space-x-2 text-right;
+}
+
+.button-container button {
+  @apply cursor-pointer rounded-md px-4 py-2 transition-colors duration-200 first:bg-blue-900 first:text-white last:bg-gray-300 last:text-gray-700 first:hover:bg-blue-950 last:hover:bg-gray-400;
+}
+.modal-header {
+  @apply mb-4 flex items-center justify-between border-b border-gray-200 pb-2;
+}
+
+.modal-header h2 {
+  @apply m-0 text-lg font-bold text-gray-800;
+}
+
+.close-button {
+  @apply flex h-6 w-6 cursor-pointer items-center justify-center rounded-full border-none bg-gray-200 text-sm font-bold text-gray-600 transition-colors duration-200 hover:bg-gray-300 hover:text-gray-800;
+}
+
+.modal-table {
+  @apply w-full border-collapse;
+}
+
+.modal-table td {
+  @apply border-0 py-2;
+}
+
+.label-cell {
+  @apply w-24 border-r border-gray-200 bg-gray-100 px-4 py-3 text-center font-bold text-gray-700;
+}
+
+.input-cell {
+  @apply px-4 py-2;
+}
+
+.input-cell input[type='text'] {
+  @apply mt-0 w-full rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
+}
+
+.required {
+  @apply ml-1 text-red-500;
+}
+
+.modal-form {
+  @apply m-0;
+}
+
+.modal-form label {
+  @apply mb-0;
+}
