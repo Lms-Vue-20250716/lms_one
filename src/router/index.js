@@ -140,17 +140,6 @@ const router = createRouter({
             },
           ],
         },
-        {
-          path: 'system',
-          name: 'system',
-          children: [
-            {
-              path: 'classroom',
-              name: 'classroom',
-              component: Classroom,
-            },
-          ],
-        },
       ],
     },
   ],
