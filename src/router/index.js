@@ -15,6 +15,7 @@ import SurveyManage from '@/views/Support/SurveyManage.vue';
 import Student from '@/views/Manage/Student.vue';
 import Survey from '@/views/Support/Survey.vue';
 import Tutor from '@/views/Manage/Tutor.vue';
+import Classroom from '@/views/System/Classroom.vue';
 import Counsel from '@/views/Manage/Counsel.vue';
 
 const router = createRouter({
@@ -125,6 +126,28 @@ const router = createRouter({
               path: 'counsel',
               name: 'counsel',
               component: Counsel,
+            },
+          ],
+        },
+        {
+          path: 'system',
+          name: 'system',
+          children: [
+            {
+              path: 'classroom',
+              name: 'classroom',
+              component: Classroom,
+            },
+          ],
+        },
+        {
+          path: 'system',
+          name: 'system',
+          children: [
+            {
+              path: 'classroom',
+              name: 'classroom',
+              component: Classroom,
             },
           ],
         },
