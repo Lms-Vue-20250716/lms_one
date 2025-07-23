@@ -18,13 +18,6 @@ const noticeSearch = (cPage = 1) => {
   param.append('currentPage', cPage);
   param.append('pageSize', 5);
 
-  // { cPage : 1 }
-  // const params = {
-  //   currentPage: cPage,
-  //   pageSize: 5,
-  //   ...route.query,
-  // };
-
   axios.post(`/api/support/noticeListBody.do`, param).then((res) => {
     noticeList.value = res.data.list;
     noticeCount.value = res.data.count;

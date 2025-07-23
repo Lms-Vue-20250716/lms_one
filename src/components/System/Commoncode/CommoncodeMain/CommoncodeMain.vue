@@ -3,29 +3,40 @@ import PageNavigation from '@/components/common/PageNavigation.vue';
 import { useModalState } from '@/stores/modalState';
 import axios from 'axios';
 import { onMounted, ref, watch } from 'vue';
+import CommoncodeModal from '../CommoncodeModal/CommoncodeModal.vue';
 import { useRoute } from 'vue-router';
 
 const route = useRoute();
 const commonList = ref([]);
 const commonCount = ref(0);
-// const detailId = ref(0);
-// const modalState = useModalState();
+const detailId = ref(0);
+const modalState = useModalState();
 
 const commonSearch = (cPage = 1) => {
-  const param = new URLSearchParams(route.query);
+  const param = {
+    currentPage: cPage,
+    pageSize: 5,
+    ...route.query,
+  };
+  // const param = new URLSearchParams(route.query);
+  // param.append('currentPage', cPage);
+  // param.append('pageSize', 5);
 
-  param.append('currentPage', cPage);
-  param.appent('pageSize', 5);
+  const urlParam = new URLSearchParams(param);
 
-  axios.post(``, param).then((res) => {
+  console.log(param);
+  axios.post(`/api/system/commonListJson.do`, urlParam).then((res) => {
+    console.log('서버 응답 전체:', res.data);
+    console.log('리스트 개수:', res.data.list.length);
     commonList.value = res.data.list;
-    commonCount.value = res.data.count;
+    commonCount.value = res.data.CommonCnt;
   });
 };
-// const commonDetail = (id) => {
-//   modalState.$patch({ isOpen: true });
-//   detailId.value = id;
-// };
+
+const commonDetail = (id) => {
+  modalState.$patch({ isOpen: true });
+  detailId.value = id;
+};
 watch(
   () => {
     return route.query;
@@ -38,6 +49,7 @@ onMounted(() => {
   commonSearch();
 });
 </script>
+
 <template>
   <div class="common-main-container">
     <table class="common-table">
@@ -58,7 +70,7 @@ onMounted(() => {
         </template>
         <template v-else>
           <tr
-            v-for="(item, index) in commonList"
+            v-for="item in commonList"
             :key="item.detailCode"
             class="common-table-row"
             id="listHover"
@@ -73,7 +85,7 @@ onMounted(() => {
               <a
                 href="javascript:void(0);"
                 class="cursor-pointer text-blue-600 hover:underline"
-                @click="commonDetailModal(item.detailCode)"
+                @click="commonDetail(item.detailCode)"
               >
                 {{ item.detailName }}
               </a>
@@ -83,14 +95,16 @@ onMounted(() => {
         </template>
       </tbody>
     </table>
-    <PageNavigation
-      :items-per-page="pageSize"
-      :total-items="commonCount"
-      :current-page="currentPage"
-      :on-page-change="commonSearch"
-    />
+    <PageNavigation :items-per-page="5" :total-items="commonCount" :on-page-change="commonSearch" />
   </div>
+  <CommoncodeModal
+    v-if="modalState.isOpen"
+    :detail-id="detailId"
+    @post-success="commonSearch"
+    @un-mounted-modal="detailId = $event"
+  />
 </template>
+
 <style>
 @import './styled.css';
 </style>
