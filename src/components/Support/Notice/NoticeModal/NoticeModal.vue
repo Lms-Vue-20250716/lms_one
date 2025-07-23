@@ -13,6 +13,7 @@ const imgObjectUrl = ref('');
 
 const handlerInsert = () => {
   const formData = new FormData(formRef.value);
+  console.log(formData);
   axios.post('/api/support/noticeFileSave.do', formData).then((res) => {
     alert('저장되었습니다.');
     if (res.data.result === 'success') {
