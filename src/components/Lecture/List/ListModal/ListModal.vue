@@ -139,10 +139,10 @@ onMounted(() => {
               <tr>
                 <th colspan="4">강의기타사항<span style="color: red">*</span></th>
               </tr>
-              <template v-if="detail.lectureSpecifics && detail.lectureSpecifics.length > 0">
+              <template v-if="detail.lecSpecifics && detail.lecSpecifics.length > 0">
                 <tr>
                   <td>
-                    {{ detail.lectureSpecifics }}
+                    {{ detail.lecSpecifics }}
                   </td>
                 </tr>
               </template>
