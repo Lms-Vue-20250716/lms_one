@@ -4,10 +4,13 @@ import { ref } from 'vue';
 import { useUserInfo } from '@/stores/loginInfoState';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { useModalState } from '@/stores/modalState';
+import UserInfo from '../User/UserInfo/UserInfo.vue';
 
 const loginInfo = ref({});
 const { setUserData } = useUserInfo();
 const router = useRouter();
+const modalState = useModalState();
 
 const handlerLogin = () => {
   const param = new URLSearchParams(loginInfo.value);
@@ -26,7 +29,9 @@ const handlerLogin = () => {
   });
 };
 
-const registeredAccount = () => {};
+const registeredAccount = () => {
+  modalState.$patch({ isOpen: true, type: 'user-info' });
+};
 </script>
 
 <template>
@@ -50,21 +55,24 @@ const registeredAccount = () => {};
     </div>
     <div class="login-box">
       <div class="buttons inputs">
-        <div>
-          <label> 아이디 </label>
-          <input v-model="loginInfo.lgn_Id" required />
-        </div>
-        <div>
-          <label> 비밀번호 </label>
-          <input v-model="loginInfo.pwd" required type="password" />
-        </div>
-        <div>
-          <button class="login-button" @click="handlerLogin">Login</button>
-          <button class="signup-button" @click="">Sign Up</button>
-          <label class="find-id-password"><a href="">[아이디/비밀번호 찾기]</a></label>
-        </div>
+        <form>
+          <div>
+            <label> 아이디 </label>
+            <input v-model="loginInfo.lgn_Id" required />
+          </div>
+          <div>
+            <label> 비밀번호 </label>
+            <input v-model="loginInfo.pwd" required type="password" autocomplete="off" />
+          </div>
+          <div>
+            <button class="login-button" @click.prevent="handlerLogin">Login</button>
+            <button class="signup-button" @click.prevent="registeredAccount">Sign Up</button>
+            <label class="find-id-password"><a href="">[아이디/비밀번호 찾기]</a></label>
+          </div>
+        </form>
       </div>
     </div>
+    <UserInfo v-if="modalState.isOpen && modalState.type === 'user-info'" />
   </div>
 </template>
 
