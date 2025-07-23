@@ -8,17 +8,17 @@ const { detailId: id } = defineProps({ detailId: { type: String, default: null }
 const detail = ref({});
 const lectureInfoList = ref([]);
 
-const studentDetail = () => {
-  const studentId = id;
+const tutorDetail = () => {
+  const tutorId = id;
 
-  axios.post(`/api/manage/student-detail/${studentId}`).then((res) => {
+  axios.post(`/api/manage/tutor-detail/${tutorId}`).then((res) => {
     detail.value = res.data;
     lectureInfoList.value = res.data.lectureInfo;
   });
 };
 
 onMounted(() => {
-  studentDetail();
+  tutorDetail();
 });
 </script>
 <template>
@@ -39,28 +39,28 @@ onMounted(() => {
           <table class="info-table">
             <tbody>
               <tr>
-                <td class="label">학생ID</td>
-                <td class="value">{{ detail.studentId }}</td>
+                <td class="label">강사ID</td>
+                <td class="value">{{ detail.insId }}</td>
                 <td class="label">이름</td>
-                <td class="value">{{ detail.studentName }}</td>
+                <td class="value">{{ detail.insName }}</td>
               </tr>
               <tr>
-                <td class="label">학번</td>
-                <td class="value">{{ detail.studentNumber }}</td>
+                <td class="label">강사 번호</td>
+                <td class="value">{{ detail.insNumber }}</td>
                 <td class="label">연락처</td>
-                <td class="value">{{ detail.studentHp }}</td>
+                <td class="value">{{ detail.insHp }}</td>
               </tr>
               <tr>
                 <td class="label">이메일</td>
-                <td class="value">{{ detail.studentEmail }}</td>
-                <td class="label">생일</td>
-                <td class="value">{{ detail.studentBirthday }}</td>
+                <td class="value">{{ detail.insEmail }}</td>
+                <td class="label">재직 상태</td>
+                <td class="value">{{ detail.insStatusYn === 'Y' ? '재직' : '퇴직' }}</td>
               </tr>
               <tr>
-                <td class="label">재학 상태</td>
-                <td class="value">{{ detail.statusYn === 'Y' ? '재학' : '탈퇴' }}</td>
-                <td class="label">취업 상태</td>
-                <td class="value">{{ detail.studentEmpStatus === 'Y' ? '취업' : '미취업' }}</td>
+                <td class="label">은행</td>
+                <td class="value">{{ detail.insBank }}</td>
+                <td class="label">계좌 번호</td>
+                <td class="value">{{ detail.insAccount }}</td>
               </tr>
             </tbody>
           </table>
@@ -84,9 +84,9 @@ onMounted(() => {
               </tr>
               <tr v-for="lectureInfo in lectureInfoList" :key="lectureInfo.lecId">
                 <td>{{ lectureInfo.lecId }}</td>
-                <td>{{ lectureInfo.lectureName }}</td>
-                <td>{{ new Date(lectureInfo.lectureStartDate).toISOString().slice(0, 10) }}</td>
-                <td>{{ new Date(lectureInfo.lectureEndDate).toISOString().slice(0, 10) }}</td>
+                <td>{{ lectureInfo.lecName }}</td>
+                <td>{{ lectureInfo.lecStartDate }}</td>
+                <td>{{ lectureInfo.lecEndDate }}</td>
               </tr>
             </tbody>
           </table>
@@ -104,5 +104,5 @@ onMounted(() => {
 </template>
 
 <style scoped>
-@import './studentModalstyled.css';
+@import './tutorModalstyled.css';
 </style>
