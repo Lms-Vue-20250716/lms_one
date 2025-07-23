@@ -125,13 +125,19 @@ const router = createRouter({
         {
           path: 'manage',
           name: 'manage',
-          path: 'system',
-          name: 'system',
           children: [
             {
               path: 'student',
               name: 'student',
               component: Student,
+            },
+          ],
+        },
+        {
+          path: 'system',
+          name: 'system',
+          children: [
+            {
               path: 'commoncode',
               name: 'commoncode',
               component: Commoncode,
