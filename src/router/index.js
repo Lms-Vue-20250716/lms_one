@@ -13,6 +13,7 @@ import Resume from '@/views/User/Resume/Resume.vue';
 import { createRouter, createWebHistory } from 'vue-router';
 import SurveyManage from '@/views/Support/SurveyManage.vue';
 import Student from '@/views/Manage/Student.vue';
+import Survey from '@/views/Support/Survey.vue';
 import Tutor from '@/views/Manage/Tutor.vue';
 
 const router = createRouter({
@@ -50,6 +51,11 @@ const router = createRouter({
               path: 'manage-survey',
               name: 'manage-survey',
               component: SurveyManage,
+            },
+            {
+              path: 'lecture-survey',
+              name: 'lecture-survey',
+              component: Survey,
             },
           ],
         },

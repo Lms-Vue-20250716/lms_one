@@ -1,5 +1,5 @@
 <template>
-  <ContentBox>설문조사</ContentBox>
+  <ContentBox>설문조사관리</ContentBox>
   <SurveyManageMain />
 </template>
 <script setup>
