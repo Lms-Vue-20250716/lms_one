@@ -103,6 +103,6 @@ onMounted(() => {
   </div>
 </template>
 
-<style>
+<style scoped>
 @import './studentModalstyled.css';
 </style>
