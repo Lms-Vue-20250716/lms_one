@@ -191,6 +191,6 @@ onMounted(() => {
   </Teleport>
 </template>
 
-<style>
+<style scoped>
 @import './ListModalStyled.css';
 </style>

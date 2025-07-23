@@ -1,0 +1,81 @@
+@import 'tailwindcss';
+
+.modal-overlay {
+  @apply fixed inset-0 flex items-center justify-center bg-gray-500/50 font-bold backdrop-blur-xs;
+}
+
+.modal-container {
+  @apply relative w-[400px] rounded-lg bg-white p-5 opacity-100 shadow-lg;
+  z-index: 1000;
+}
+
+.modal-form label {
+  @apply mb-4 flex flex-col;
+}
+
+.modal-form input[type='text'] {
+  @apply mt-1 rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
+}
+
+.modal-form textarea {
+  @apply mt-1 resize-none rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
+}
+
+.modal-form input[type='file'] {
+  @apply hidden;
+}
+
+.preview-image {
+  @apply h-[100px] w-[100px] rounded-md border border-gray-300 object-cover;
+}
+
+.no-image {
+  @apply flex h-[100px] w-[100px] items-center justify-center rounded-md border border-gray-300 bg-gray-100 text-sm text-gray-500;
+}
+
+.img-label {
+  @apply mt-2 cursor-pointer rounded bg-gray-300 px-6 py-2 text-gray-900 transition-all duration-200 ease-in-out hover:bg-green-500 hover:text-white active:translate-y-0.5 active:transform active:bg-green-600 active:shadow-inner;
+}
+
+.button-container {
+  @apply mt-4 space-x-2 text-right;
+}
+
+.button-container button {
+  @apply cursor-pointer rounded-md px-4 py-2 transition-colors duration-200 first:bg-blue-900 first:text-white last:bg-gray-300 last:text-gray-700 first:hover:bg-blue-950 last:hover:bg-gray-400;
+}
+
+.lecture-dropdown-container {
+  @apply relative;
+  z-index: 1001;
+}
+
+.lecture-input-wrapper {
+  @apply relative flex;
+}
+
+.lecture-input-wrapper input {
+  @apply flex-1 pr-8;
+}
+
+.dropdown-toggle-btn {
+  @apply absolute top-1/2 right-2 -translate-y-1/2 transform text-sm text-gray-500 hover:text-gray-700 focus:outline-none;
+}
+
+.dropdown-list {
+  @apply absolute top-full right-0 left-0 z-[9999] max-h-48 overflow-y-auto rounded-b-md border border-t-0 border-gray-300 bg-white shadow-lg;
+  margin-top: 1px;
+  border-top: 1px solid #d1d5db;
+}
+
+.dropdown-item {
+  @apply cursor-pointer border-b border-gray-100 px-3 py-2 transition-colors duration-150 last:border-b-0 hover:bg-gray-50;
+}
+
+.dropdown-item-empty {
+  @apply px-3 py-2 text-center text-sm text-gray-500;
+}
+
+.cursor-pointer {
+  @apply cursor-pointer;
+}
