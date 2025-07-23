@@ -155,23 +155,6 @@ const router = createRouter({
               name: 'classroom',
               component: Classroom,
             },
-          ],
-        },
-        {
-          path: 'system',
-          name: 'system',
-          children: [
-            {
-              path: 'commoncode',
-              name: 'commoncode',
-              component: Commoncode,
-            },
-          ],
-        },
-        {
-          path: 'system',
-          name: 'system',
-          children: [
             {
               path: 'commoncode',
               name: 'commoncode',
