@@ -4,7 +4,7 @@ import { useModalState } from '@/stores/modalState';
 import axios from 'axios';
 import { onMounted, ref, watch } from 'vue';
 import { useRoute } from 'vue-router';
-import CounselModal from '../CounselModal/counselModal.vue';
+import CounselModal from '../CounselModal/CounselModal.vue';
 
 const counselList = ref([]);
 const counselCount = ref(0);
