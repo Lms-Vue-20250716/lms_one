@@ -89,6 +89,10 @@
   min-height: 36px;
 }
 
+.form-label.required {
+  color: black;
+}
+
 .form-label.required::after {
   content: '*';
   color: red;

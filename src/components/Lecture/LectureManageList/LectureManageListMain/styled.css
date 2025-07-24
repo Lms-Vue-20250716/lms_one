@@ -2,9 +2,6 @@
 
 .notice-main-container {
   @apply flex min-h-screen flex-col items-center justify-start p-5;
-  select {
-    @apply rounded-lg border border-gray-300 bg-white px-4 py-2 text-gray-700 transition duration-300 ease-in-out focus:border-blue-400 focus:outline-none;
-  }
 }
 
 .notice-table {
@@ -33,4 +30,8 @@
 
 .notice-empty-row {
   @apply py-8 text-center text-gray-500;
+}
+
+.button {
+  @apply rounded-lg bg-blue-950 px-4 py-2 text-white transition duration-300 ease-in-out hover:bg-blue-300;
 }

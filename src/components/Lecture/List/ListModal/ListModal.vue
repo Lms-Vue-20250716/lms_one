@@ -139,10 +139,10 @@ onMounted(() => {
               <tr>
                 <th colspan="4">강의기타사항<span style="color: red">*</span></th>
               </tr>
-              <template v-if="detail.lectureSpecifics && detail.lectureSpecifics.length > 0">
+              <template v-if="detail.lecSpecifics && detail.lecSpecifics.length > 0">
                 <tr>
                   <td>
-                    {{ detail.lectureSpecifics }}
+                    {{ detail.lecSpecifics }}
                   </td>
                 </tr>
               </template>
@@ -161,7 +161,16 @@ onMounted(() => {
                 <th>학습 내용</th>
               </tr>
             </thead>
-            <tbody v-if="lecWeekPlanList.length > 0">
+            <tbody>
+              <tr v-for="i in detail.lecSectionCnt" :key="i">
+                <td>{{ i }}주차</td>
+                <td>{{ (lecWeekPlanList[i - 1] && lecWeekPlanList[i - 1].lecWeekGoal) || '' }}</td>
+                <td>
+                  {{ (lecWeekPlanList[i - 1] && lecWeekPlanList[i - 1].lecWeekContent) || '' }}
+                </td>
+              </tr>
+            </tbody>
+            <!-- <tbody v-if="lecWeekPlanList.length > 0">
               <tr v-for="lecWeekPlan in lecWeekPlanList" :key="lecWeekPlan.lecWeekRound">
                 <td>{{ lecWeekPlan.lecWeekRound }}주차</td>
                 <td>{{ lecWeekPlan.lecWeekGoal || '' }}</td>
@@ -173,7 +182,7 @@ onMounted(() => {
               <tr v-for="i in detail.lecSectionCnt" :key="i">
                 <td>{{ i }}주차</td>
               </tr>
-            </tbody>
+            </tbody> -->
           </table>
         </div>
         <div class="button-container">
