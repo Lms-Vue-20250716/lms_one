@@ -1,19 +1,19 @@
 <script setup>
 import router from '@/router';
 import { useModalState } from '@/stores/modalState';
-import { ref, onMounted } from 'vue';
+import { onMounted, ref } from 'vue';
 
 const searchTitle = ref('');
 const searchStDate = ref('');
 const searchEdDate = ref('');
-const searchTag = ref('lecName');
 const modalState = useModalState();
 
+// 검색 버튼을 클릭을 할 때, 검색 데이터가 queryParam에 들어가게끔 하는 함수
 const handlerSearch = () => {
   const query = [];
 
-  !searchTag.value || query.push(`searchTag=${searchTag.value}`);
-  !searchTitle.value || query.push(`searchTitle=${searchTitle.value}`);
+  // 1. searchTitle의 값이 있을 경우, 쿼리라는 array에 담아 둘 겁니다.
+  !searchTitle.value || query.push(`equipName=${searchTitle.value}`);
   !searchStDate.value || query.push(`searchStDate=${searchStDate.value}`);
   !searchEdDate.value || query.push(`searchEdDate=${searchEdDate.value}`);
 
@@ -22,24 +22,26 @@ const handlerSearch = () => {
   router.push(queryString);
 };
 
+const handleEnter = (e) => {
+  if (e.key === 'Enter') {
+    console.log('enter');
+    handlerSearch();
+  }
+};
+
 onMounted(() => {
   window.location.search && router.replace(window.location.pathname);
 });
 </script>
 
 <template>
-  <div class="list-container">
+  <div class="notice-container">
     <div class="input-box">
-      <select v-model="searchTag">
-        <option value="lecName">강의명</option>
-        <option value="lecInstructorName">강사명</option>
-        <option value="lecRoomName">강의실</option>
-      </select>
-      <input v-model="searchTitle" />
+      제목: <input v-model.lazy="searchTitle" @keydown="handleEnter" />
       <input v-model="searchStDate" type="date" />
       <input v-model="searchEdDate" type="date" />
       <button @click="handlerSearch">검색</button>
-      <button @click="modalState.$patch({ isOpen: true, type: 'lectureManage' })">신규</button>
+      <button @click="modalState.$patch({ isOpen: true })">등록</button>
     </div>
   </div>
 </template>
@@ -50,6 +52,6 @@ onMounted(() => {
 
     scoped을 사용하지 않고, css파일을 import 하거나, <style scoped> 안에 css를 구성해야한다.
 -->
-<style scoped>
-@import './lectureManageListStyled.css';
+<style>
+@import './styled.css';
 </style>
