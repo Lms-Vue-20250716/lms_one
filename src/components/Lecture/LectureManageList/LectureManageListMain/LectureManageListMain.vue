@@ -78,7 +78,10 @@ onMounted(() => {
             <td>{{ lecture.lecPersonnel }}</td>
             <td>{{ lecture.lecRoomName }}</td>
             <td>
-              <button @click="lectureDetailPlan(lecture.lecId, lecture.lecInstructorId)">
+              <button
+                class="button"
+                @click="lectureDetailPlan(lecture.lecId, lecture.lecInstructorId)"
+              >
                 강의계획서보기
               </button>
             </td>
@@ -113,6 +116,6 @@ onMounted(() => {
   />
 </template>
 
-<!-- <style>
+<style>
 @import './styled.css';
-</style> -->
+</style>

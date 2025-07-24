@@ -109,3 +109,7 @@ onMounted(() => {
   </div>
   <TutorModal v-if="modalState.isOpen && modalState.type == 'manageTutor'" :detail-id="detailId" />
 </template>
+
+<style scoped>
+@import './styled.css';
+</style>

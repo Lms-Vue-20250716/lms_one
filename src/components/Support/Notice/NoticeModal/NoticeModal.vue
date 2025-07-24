@@ -13,6 +13,7 @@ const imgObjectUrl = ref('');
 
 const handlerInsert = () => {
   const formData = new FormData(formRef.value);
+  console.log(formData);
   axios.post('/api/support/noticeFileSave.do', formData).then((res) => {
     alert('저장되었습니다.');
     if (res.data.result === 'success') {
@@ -41,7 +42,7 @@ const handleDelete = () => {
 
   const param = new URLSearchParams();
   param.append('noticeId', id);
-  axios.post('/api/support/noticeFileDelete.do', param).then((res) => {
+  axios.post('/api/support/noticeFileDelete.do', param).then(() => {
     alert('삭제되었습니다.');
     modalState.$patch({ isOpen: false });
     emit('postSuccess');
