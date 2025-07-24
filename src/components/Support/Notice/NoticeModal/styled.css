@@ -5,37 +5,74 @@
 }
 
 .modal-container {
-  @apply relative w-[400px] rounded-lg bg-white p-5 opacity-100 shadow-lg;
+  @apply relative w-[500px] rounded-lg bg-white shadow-lg;
 }
 
-.modal-form label {
-  @apply mb-4 flex flex-col;
+.modal-header {
+  @apply flex items-center justify-between rounded-t-lg bg-slate-600 px-5 py-4 text-white;
 }
 
-.modal-form input[type='text'] {
-  @apply mt-1 rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
+.modal-title {
+  @apply text-lg font-bold;
 }
 
-.modal-form input[type='file'] {
-  @apply hidden;
+.close-button {
+  @apply flex h-8 w-8 items-center justify-center rounded text-xl hover:bg-white/20;
 }
 
-.preview-image {
-  @apply h-[100px] w-[100px] rounded-md border border-gray-300 object-cover;
+.modal-form {
+  @apply p-5;
 }
 
-.no-image {
-  @apply flex h-[100px] w-[100px] items-center justify-center rounded-md border border-gray-300 bg-gray-100 text-sm text-gray-500;
+.form-row {
+  @apply mb-4 flex;
 }
 
-.img-label {
-  @apply mt-2 cursor-pointer rounded bg-gray-300 px-6 py-2 text-gray-900 transition-all duration-200 ease-in-out hover:bg-green-500 hover:text-white active:translate-y-0.5 active:transform active:bg-green-600 active:shadow-inner;
+.form-label {
+  @apply flex w-24 items-center justify-center bg-gray-200 px-4 py-3 text-sm font-medium text-gray-700;
+}
+
+.form-label.required::after {
+  @apply ml-1 text-red-500;
+  content: '*';
+}
+
+.form-input {
+  @apply flex-1 border border-l-0 border-gray-300 px-3 py-3 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none;
+}
+
+.form-input.readonly {
+  @apply bg-gray-50;
+}
+
+.form-input:read-only {
+  @apply bg-gray-50;
+}
+
+.form-select {
+  @apply flex-1 border border-l-0 border-gray-300 px-3 py-3 text-sm focus:border-blue-500 focus:ring-1 focus:ring-blue-500 focus:outline-none;
+}
+
+.address-row {
+  @apply flex flex-1 gap-2;
+}
+
+.address-input {
+  @apply border border-gray-300;
+}
+
+.address-search-btn {
+  @apply rounded bg-blue-500 px-4 py-3 text-sm text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none;
 }
 
 .button-container {
-  @apply mt-4 space-x-2 text-right;
+  @apply mt-6 flex justify-center gap-3;
 }
 
-.button-container button {
-  @apply cursor-pointer rounded-md px-4 py-2 transition-colors duration-200 first:bg-blue-900 first:text-white last:bg-gray-300 last:text-gray-700 first:hover:bg-blue-950 last:hover:bg-gray-400;
+.save-button {
+  @apply rounded bg-blue-500 px-6 py-2 text-sm text-white hover:bg-blue-600 focus:ring-2 focus:ring-blue-500 focus:outline-none;
+}
+
+.cancel-button {
+  @apply rounded bg-gray-400 px-6 py-2 text-sm text-white hover:bg-gray-500 focus:ring-2 focus:ring-gray-400 focus:outline-none;
 }
