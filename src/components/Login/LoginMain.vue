@@ -5,7 +5,7 @@ import { useUserInfo } from '@/stores/loginInfoState';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
 import { useModalState } from '@/stores/modalState';
-import UserInfo from '../User/UserInfo/UserInfo.vue';
+import UserInfoModal from '../User/UserInfo/UserInfoModal.vue';
 
 const loginInfo = ref({});
 const { setUserData } = useUserInfo();
@@ -72,7 +72,7 @@ const registeredAccount = () => {
         </form>
       </div>
     </div>
-    <UserInfo v-if="modalState.isOpen && modalState.type === 'user-info'" />
+    <UserInfoModal v-if="modalState.isOpen && modalState.type === 'user-info'" />
   </div>
 </template>
 

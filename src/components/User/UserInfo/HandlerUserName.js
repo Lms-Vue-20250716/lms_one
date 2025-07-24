@@ -20,5 +20,5 @@ export const filterInputUserName = (event, v_model_value) => {
 // 유효성 검사
 // 한글과 영어 최소 2문자 이상
 export const isVaildName = (value) => {
-  return positiveRegex.text(value);
+  return positiveRegex.test(value);
 };
