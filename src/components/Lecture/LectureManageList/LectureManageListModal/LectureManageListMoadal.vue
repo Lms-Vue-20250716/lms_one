@@ -323,7 +323,7 @@ watch([lecStartDate, lecEndDate], ([newStart, newEnd]) => {
               <tr>
                 <th>강의명</th>
                 <td>
-                  <select v-model="lecName" name="lecName" :disabled="id ? true : isReadOnly">
+                  <select v-model="lecName" name="lecName" :disabled="id ? true : false">
                     <option>강의 선택</option>
                     <option v-for="lecNames in lecNameList" :key="lecNames.lecId">
                       {{ lecNames.lecName }}
