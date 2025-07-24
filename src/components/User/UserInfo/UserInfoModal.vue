@@ -1,7 +1,7 @@
 <script setup>
 import ContentBox from '@/components/common/ContentBox.vue';
 import { useModalState } from '@/stores/modalState';
-import { ref } from 'vue';
+import { ref, watch } from 'vue';
 import { filterInputUserId, isVaildUserInfo, checkDuplicationId } from './HandlerUserInfo.js';
 import { filterInputUserName, isVaildName } from './HandlerUserName.js';
 import { filterInputUserPassword, isVaildPassword } from './HandlerPassword.js';
@@ -60,7 +60,6 @@ const vaildFormData = () => {
   }
 
   /* 아이디 중복 확인 */
-  console.log('duplicationIdCheck', duplicationIdCheck.value);
   if (!duplicationIdCheck.value) {
     alert('아이디 중복확인을 진행해주세요.');
     document.getElementById('loginId').focus();
@@ -115,6 +114,13 @@ const vaildFormData = () => {
     return false;
   }
 
+  //이메일 기입 확인
+  if (!emailValue.value) {
+    alert('이메일을 입력해주세요.');
+    document.getElementById('email').focus();
+    return false;
+  }
+
   /* 이메일 중복 확인 */
   console.log('duplicationEmailCheck', duplicationEmailCheck.value);
   if (!duplicationEmailCheck.value) {
@@ -140,7 +146,7 @@ const vaildFormData = () => {
   return true;
 };
 
-const formRef = ref();
+
 
 const submitUserInfo = () => {
   if (!vaildFormData()) {
@@ -150,7 +156,6 @@ const submitUserInfo = () => {
   const param = new URLSearchParams();
   param.append('userType', identityType.value);
   param.append('loginId', identityValue.value);
-  //param.append('ckIdcheckreg', duplicationIdCheck.value);
   param.append('loc', locationValue.value);
   param.append('sex', genderValue.value);
   param.append('name', userNameValue.value);
@@ -159,7 +164,6 @@ const submitUserInfo = () => {
   param.append('hp', phoneNumberValue.value);
   param.append('birthday', birthdayValue.value);
   param.append('email', emailValue.value);
-  //param.append('ckEmailcheckreg', duplicationEmailCheck.value);
   param.append('insAccount', accountValue.value);
   param.append('insBank', bankTypeValue.value);
 
@@ -182,11 +186,12 @@ const submitUserInfo = () => {
 const closeModal = () => {
   modalState.$patch({ isOpen: false, type: null });
 };
+
 </script>
 <template>
   <Teleport to="body">
     <div class="modal-overlay">
-      <form id="registerForm" ref="formRef" class="modal-container">
+      <form id="registerForm" class="modal-container">
         <div class="modal-form">
           <ContentBox>회원가입</ContentBox>
           <!-- s : 여기에 내용입력 -->
@@ -215,7 +220,7 @@ const closeModal = () => {
                     @focus="handlerPlaceholder($event, true)"
                     @focusout="handlerPlaceholder($event, false)"
                   />
-                  <button @click.prevent.self="duplicationIdCheck = checkDuplicationId($event)">
+                  <button @click.prevent="duplicationIdCheck = checkDuplicationId($event)">
                     중복확인
                   </button>
                 </td>
@@ -346,7 +351,7 @@ const closeModal = () => {
                     @focusout="handlerPlaceholder($event, false)"
                   />
                   <button
-                    @click.prevent.self="duplicationEmailCheck = checkDuplicationEmail($event)"
+                    @click.prevent="duplicationEmailCheck = checkDuplicationEmail($event)"
                   >
                     중복확인
                   </button>

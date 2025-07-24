@@ -1,6 +1,5 @@
 //아이디 관련 정보 처리
 //제약사항 정규식
-
 import axios from 'axios';
 
 //숫자, 영문자가 아닌 모든 문자, filter에 사용
@@ -23,13 +22,17 @@ export const filterInputUserId = (event, v_model_value) => {
 // 아이디 입력 값의 유효성 검사
 // "숫자, 영문자 조합으로 6~20자리"
 export const isVaildUserInfo = (value) => {
-  const reuslt = positiveRegex.test(value);
-  return reuslt;
+  return positiveRegex.test(value);
 };
 
 // 중복 확인 버튼을 눌렀을 때, 처리작업
-export const checkDuplicationId = (event) => {
+/* 유의*/
+// 일반 반환값과 Promise를 통한 반환 값이 존재함
+// Promise를 통한 반환이 처리되기 전에 함수가 종료되서 아무것도 반환 안할 수도 있음
+// async/await를 사용하여 axios에 await를 걸어 axios가 값을 반드시 반환하도록 보장함
+export const checkDuplicationId = async (event) => {
   const inputTag = event.target.previousElementSibling;
+
   if (inputTag.value === '') {
     alert('아이디를 입력해주세요.');
     inputTag.focus();
@@ -40,8 +43,7 @@ export const checkDuplicationId = (event) => {
     alert('아이디는 숫자,영문자 조합으로 6~20자리를 사용해야 합니다.');
     return false;
   }
-
-  axios
+  await axios
     .get('/api/user/checkId/' + inputTag.value)
     .then((res) => {
       if (res.data.toLowerCase() === 'false') {

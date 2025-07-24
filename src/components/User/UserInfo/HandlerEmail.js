@@ -10,7 +10,11 @@ export const isVaildEmail = (value) => {
   return positiveRegex.test(value);
 };
 
-export const checkDuplicationEmail = (event) => {
+/* 유의*/
+// 일반 반환값과 Promise를 통한 반환 값이 존재함
+// Promise를 통한 반환이 처리되기 전에 함수가 종료되서 아무것도 반환 안할 수도 있음
+// async/await를 사용하여 axios에 await를 걸어 axios가 값을 반드시 반환하도록 보장함
+export const checkDuplicationEmail = async (event) => {
   const inputTag = event.target.previousElementSibling;
   if (inputTag.value === '') {
     alert('이메일을 입력해주세요.');
@@ -25,7 +29,7 @@ export const checkDuplicationEmail = (event) => {
 
   const param = new URLSearchParams();
   param.append('email', inputTag.value);
-  axios
+  await axios
     .post('/api/user/checkEmail/', param)
     .then((res) => {
       if (res.data.toLowerCase() === 'false') {
