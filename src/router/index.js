@@ -16,6 +16,7 @@ import Student from '@/views/Manage/Student.vue';
 import Survey from '@/views/Support/Survey.vue';
 import Tutor from '@/views/Manage/Tutor.vue';
 import Classroom from '@/views/System/Classroom.vue';
+import Equipment from '@/views/System/Equipment.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -131,6 +132,11 @@ const router = createRouter({
               path: 'classroom',
               name: 'classroom',
               component: Classroom,
+            },
+            {
+              path: 'equipment',
+              name: 'equipment',
+              component: Equipment,
             },
           ],
         },
