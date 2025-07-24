@@ -40,3 +40,7 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
+<style scoped>
+@import './styled.css';
+</style>

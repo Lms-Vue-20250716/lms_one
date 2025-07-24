@@ -6,7 +6,7 @@ import { ref, onMounted } from 'vue';
 const searchTitle = ref('');
 const searchStDate = ref('');
 const searchEdDate = ref('');
-const searchTag = ref('');
+const searchTag = ref('lecName');
 const modalState = useModalState();
 
 const handlerSearch = () => {
@@ -50,6 +50,6 @@ onMounted(() => {
 
     scoped을 사용하지 않고, css파일을 import 하거나, <style scoped> 안에 css를 구성해야한다.
 -->
-<!-- <style>
-@import './styled.css';
-</style> -->
+<style scoped>
+@import './lectureManageListStyled.css';
+</style>
