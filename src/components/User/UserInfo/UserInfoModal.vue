@@ -62,7 +62,7 @@ const vaildFormData = () => {
   /* 아이디 중복 확인 */
   if (!duplicationIdCheck.value) {
     alert('아이디 중복확인을 진행해주세요.');
-    document.getElementById('loginId').focus();
+    document.getElementById('loginId-duplication-check').focus();
     return false;
   }
 
@@ -95,8 +95,12 @@ const vaildFormData = () => {
   }
 
   /* 전화번호 확인 */
-  if (!isVaildPhoneNumber(phoneNumberValue.value)) {
-    alert('전화번호 형식이 아닙니다.');
+  if (phoneNumberValue.value === '') {
+    alert('전화번호를 기입해주세요.');
+    document.getElementById('hp').focus();
+    return false;
+  } else if (!isVaildPhoneNumber(phoneNumberValue.value)) {
+    alert('잘못된 전화번호 형식입니다.');
     document.getElementById('hp').focus();
     return false;
   }
@@ -122,10 +126,9 @@ const vaildFormData = () => {
   }
 
   /* 이메일 중복 확인 */
-  console.log('duplicationEmailCheck', duplicationEmailCheck.value);
   if (!duplicationEmailCheck.value) {
     alert('이메일 중복확인을 해주세요');
-    document.getElementById('email').focus();
+    document.getElementById('email-duplication-check').focus();
     return false;
   }
 
@@ -145,8 +148,6 @@ const vaildFormData = () => {
 
   return true;
 };
-
-
 
 const submitUserInfo = () => {
   if (!vaildFormData()) {
@@ -187,6 +188,17 @@ const closeModal = () => {
   modalState.$patch({ isOpen: false, type: null });
 };
 
+watch(identityValue, () => {
+  if (duplicationIdCheck.value) {
+    duplicationIdCheck.value = false;
+  }
+});
+
+watch(emailValue, () => {
+  if (duplicationEmailCheck.value) {
+    duplicationEmailCheck.value = false;
+  }
+});
 </script>
 <template>
   <Teleport to="body">
@@ -220,7 +232,10 @@ const closeModal = () => {
                     @focus="handlerPlaceholder($event, true)"
                     @focusout="handlerPlaceholder($event, false)"
                   />
-                  <button @click.prevent="duplicationIdCheck = checkDuplicationId($event)">
+                  <button
+                    id="loginId-duplication-check"
+                    @click.prevent="duplicationIdCheck = checkDuplicationId($event)"
+                  >
                     중복확인
                   </button>
                 </td>
@@ -351,6 +366,7 @@ const closeModal = () => {
                     @focusout="handlerPlaceholder($event, false)"
                   />
                   <button
+                    id="email-duplication-check"
                     @click.prevent="duplicationEmailCheck = checkDuplicationEmail($event)"
                   >
                     중복확인
