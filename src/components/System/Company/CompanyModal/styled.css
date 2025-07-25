@@ -39,3 +39,32 @@
 .button-container button {
   @apply cursor-pointer rounded-md px-4 py-2 transition-colors duration-200 first:bg-blue-900 first:text-white last:bg-gray-300 last:text-gray-700 first:hover:bg-blue-950 last:hover:bg-gray-400;
 }
+.email-warning {
+  color: red;
+  font-size: 12px;
+  margin-top: 4px;
+}
+
+.address-row {
+  display: flex;
+  gap: 8px;
+}
+
+.address-input {
+  flex: 1;
+}
+
+.address-search-btn {
+  background-color: #4db3f2;
+  border: none;
+  color: white;
+  padding: 8px 12px;
+  border-radius: 4px;
+  cursor: pointer;
+  font-size: 12px;
+  white-space: nowrap;
+}
+
+.address-search-btn:hover {
+  background-color: #3399dd;
+}

@@ -13,61 +13,89 @@ const detail = ref({});
 const searchAddress = () => {
   new window.daum.Postcode({
     oncomplete: function (data) {
-      const currentFormData = new FormData(formRef.value);
-      const currentValues = {};
-      for (let [key, value] of currentFormData.entries()) {
-        currentValues[key] = value;
-      }
       detail.value = {
         ...detail.value,
-        ...currentValues,
         zipcode: data.zonecode,
-        companyLoc: '001',
         roadAddress: data.roadAddress,
-        detailAddress:
-          data.roadAddress + (detail.value.detailAddress ? ' ' + detail.value.detailAddress : ''),
       };
     },
   }).open();
 };
 
 const handlerInsert = () => {
-  const formData = new FormData(formRef.value);
-  formData.append('companyId', id);
+  const param = {
+    companyName: detail.value.companyName || '',
+    companyCeo: detail.value.companyCeo || '',
+    companyHp: detail.value.companyHp || '',
+    companyLoc: detail.value.zipcode || '',
+    companyEmail: detail.value.companyEmail || '',
+    companyRegDate: detail.value.companyRegDate || '',
+    companyDetailAddress: detail.value.detailAddress || '',
+    detailName: detail.value.roadAddress || '',
+  };
 
-  axios.post('/api/system/companySave.do', formData).then((res) => {
-    alert('저장되었습니다.');
-    if (res.data.result === 'success') {
-      modalState.$patch({ isOpen: false });
-      emit('postSuccess');
-    }
-  });
+  axios
+    .post('/api/system/companySave.do', param, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+    .then((res) => {
+      alert('저장되었습니다.');
+      if (res.data.result === 'success') {
+        modalState.$patch({ isOpen: false });
+        emit('postSuccess');
+      }
+    });
 };
 
 const handlerUpdate = () => {
-  const formData = new FormData(formRef.value);
-  formData.append('companyId', id);
+  const param = {
+    companyId: id,
+    companyName: detail.value.companyName || '',
+    companyCeo: detail.value.companyCeo || '',
+    companyHp: detail.value.companyHp || '',
+    companyLoc: detail.value.zipcode || '',
+    companyEmail: detail.value.companyEmail || '',
+    companyRegDate: detail.value.companyRegDate || '',
+    companyDetailAddress: detail.value.detailAddress || '',
+    detailName: detail.value.roadAddress || '',
+  };
 
-  axios.post('/api/system/companyUpdate.do', formData).then((res) => {
-    alert('수정되었습니다.');
-    if (res.data.result === 'success') {
-      modalState.$patch({ isOpen: false });
-      emit('postSuccess');
-    }
-  });
+  axios
+    .post('/api/system/companyUpdate.do', param, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+    .then((res) => {
+      alert('수정되었습니다.');
+      if (res.data.result === 'success') {
+        modalState.$patch({ isOpen: false });
+        emit('postSuccess');
+      }
+    });
 };
 
 const handleDelete = () => {
   if (!confirm('삭제하시겠습니까?')) {
     return;
   }
-  const param = new URLSearchParams();
-  param.append('companyId', id);
-  axios.post('/api/system/companyDelete.do', param).then(() => {
-    alert('삭제되었습니다.');
-    modalState.$patch({ isOpen: false });
-    emit('postSuccess');
-  });
+  const param = {
+    companyId: id,
+  };
+
+  axios
+    .post('/api/system/companyDelete.do', param, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+    .then(() => {
+      alert('삭제되었습니다.');
+      modalState.$patch({ isOpen: false });
+      emit('postSuccess');
+    });
 };
 
 const searchDetail = () => {
@@ -75,22 +103,80 @@ const searchDetail = () => {
     detail.value = {};
     return;
   }
-  const param = new URLSearchParams();
-  param.append('companyId', id);
-  axios.post('/api/system/companyDetail.do', param).then((res) => {
-    const data = res.data.detailValue || {};
-    detail.value = {
-      ...data,
-      roadAddress: data.companyLoc || '',
-      companyLoc: data.zipcode || '',
-      zipcode: data.zipcode || '',
-    };
-  });
+  const param = {
+    companyId: id,
+  };
+
+  axios
+    .post('/api/system/companyDetail.do', param, {
+      headers: {
+        'Content-Type': 'application/x-www-form-urlencoded',
+      },
+    })
+    .then((res) => {
+      const data = res.data.detailValue || {};
+      detail.value = {
+        companyName: data.companyName || '',
+        companyCeo: data.companyCeo || '',
+        companyHp: data.companyHp || '',
+        companyEmail: data.companyEmail || '',
+        companyRegDate: formatDate(data.companyRegDate) || '',
+        detailAddress: data.detailAddress || '',
+        zipcode: data.zipcode || '',
+        roadAddress: data.companyLoc || '',
+      };
+    });
+};
+
+const formatDate = (timestamp) => {
+  if (!timestamp) return '';
+  const date = new Date(timestamp);
+  const year = date.getFullYear();
+  const month = ('0' + (date.getMonth() + 1)).slice(-2);
+  const day = ('0' + date.getDate()).slice(-2);
+  return year + '-' + month + '-' + day;
+};
+
+const formatPhoneNumber = (event) => {
+  const input = event.target;
+  let numbers = input.value.replace(/\D/g, '');
+  let formatted = '';
+
+  if (numbers.startsWith('02')) {
+    if (numbers.length <= 2) {
+      formatted = numbers;
+    } else if (numbers.length <= 5) {
+      formatted = numbers.slice(0, 2) + '-' + numbers.slice(2);
+    } else if (numbers.length <= 9) {
+      formatted = numbers.slice(0, 2) + '-' + numbers.slice(2, 5) + '-' + numbers.slice(5);
+    } else {
+      formatted = numbers.slice(0, 2) + '-' + numbers.slice(2, 6) + '-' + numbers.slice(6, 10);
+    }
+  } else {
+    if (numbers.length <= 3) {
+      formatted = numbers;
+    } else if (numbers.length <= 7) {
+      formatted = numbers.slice(0, 3) + '-' + numbers.slice(3);
+    } else if (numbers.length <= 11) {
+      formatted = numbers.slice(0, 3) + '-' + numbers.slice(3, 7) + '-' + numbers.slice(7, 11);
+    } else {
+      formatted = numbers.slice(0, 3) + '-' + numbers.slice(3, 7) + '-' + numbers.slice(7, 11);
+    }
+  }
+
+  detail.value.companyHp = formatted;
+};
+
+const validateEmail = (event) => {
+  const value = event.target.value;
+  const isValid = /^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(value);
+  detail.value.emailValid = value.length === 0 || isValid;
 };
 
 onMounted(() => {
   searchDetail();
 });
+
 onUnmounted(() => {
   emit('unMountedModal', 0);
 });
@@ -110,43 +196,33 @@ onUnmounted(() => {
 
       <form ref="formRef" class="modal-form">
         <div class="form-row">
-          <label class="form-label required">회사명</label>
-          <input
-            :value="detail.companyName || ''"
-            type="text"
-            name="companyName"
-            class="form-input"
-          />
+          <label class="form-label required">회사명 *</label>
+          <input v-model="detail.companyName" type="text" class="form-input" />
         </div>
 
         <div class="form-row">
-          <label class="form-label required">대표명</label>
-          <input
-            :value="detail.companyCeo || ''"
-            type="text"
-            name="companyCeo"
-            class="form-input"
-          />
+          <label class="form-label required">대표명 *</label>
+          <input v-model="detail.companyCeo" type="text" class="form-input" />
         </div>
 
         <div class="form-row">
-          <label class="form-label required">휴대전화</label>
+          <label class="form-label required">휴대전화 *</label>
           <input
-            :value="detail.companyHp || ''"
+            v-model="detail.companyHp"
             type="text"
-            name="companyHp"
             class="form-input"
             placeholder="전화번호 입력"
+            maxlength="13"
+            @input="formatPhoneNumber"
           />
         </div>
 
         <div class="form-row">
-          <label class="form-label required">우편번호</label>
+          <label class="form-label required">우편번호 *</label>
           <div class="address-row">
             <input
-              :value="detail.zipcode || ''"
+              v-model="detail.zipcode"
               type="text"
-              name="zipcode"
               class="form-input address-input"
               placeholder="우편번호"
               readonly
@@ -158,47 +234,43 @@ onUnmounted(() => {
         </div>
 
         <div class="form-row">
-          <label class="form-label required">기본주소</label>
+          <label class="form-label required">기본주소 *</label>
           <input
-            :value="detail.roadAddress || ''"
+            v-model="detail.roadAddress"
             type="text"
             class="form-input readonly"
             placeholder="기본주소"
             readonly
           />
-          <input type="hidden" name="companyLoc" :value="detail.companyLoc || '001'" />
         </div>
 
         <div class="form-row">
-          <label class="form-label required">상세주소</label>
+          <label class="form-label required">상세주소 *</label>
           <input
-            :value="detail.detailAddress || ''"
+            v-model="detail.detailAddress"
             type="text"
-            name="companyDetailAddress"
             class="form-input"
-            placeholder="상세주소 (도로명주소 + 상세주소)"
+            placeholder="상세주소"
           />
         </div>
 
         <div class="form-row">
-          <label class="form-label required">이메일</label>
+          <label class="form-label required">이메일 *</label>
           <input
-            :value="detail.companyEmail || ''"
+            v-model="detail.companyEmail"
             type="email"
-            name="companyEmail"
             class="form-input"
             placeholder="example@example.com"
+            @input="validateEmail"
           />
+          <div v-if="detail.emailValid === false" class="email-warning">
+            이메일 형식이 올바르지 않습니다.
+          </div>
         </div>
 
         <div class="form-row">
-          <label class="form-label required">가입일자</label>
-          <input
-            :value="detail.companyRegDate || ''"
-            type="date"
-            name="companyRegDate"
-            class="form-input"
-          />
+          <label class="form-label required">가입일자 *</label>
+          <input v-model="detail.companyRegDate" type="date" class="form-input" />
         </div>
 
         <div class="button-container">

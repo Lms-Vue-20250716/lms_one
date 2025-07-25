@@ -12,6 +12,20 @@ const companyCount = ref(0);
 const detailId = ref(0);
 const modalState = useModalState();
 
+const formatDate = (dateString) => {
+  if (!dateString) return '';
+
+  const date = new Date(dateString);
+
+  if (isNaN(date.getTime())) return dateString;
+
+  const year = date.getFullYear();
+  const month = String(date.getMonth() + 1).padStart(2, '0');
+  const day = String(date.getDate()).padStart(2, '0');
+
+  return `${year}-${month}-${day}`;
+};
+
 const companySearch = (cPage = 1) => {
   const param = new URLSearchParams(route.query);
 
@@ -67,12 +81,12 @@ onMounted(() => {
             <td class="company-cell">{{ company.companyHp }}</td>
             <td class="company-cell">{{ company.companyLoc }}</td>
             <td class="company-cell">{{ company.companyEmail }}</td>
-            <td class="company-cell">{{ company.companyRegDate }}</td>
+            <td class="company-cell">{{ formatDate(company.companyRegDate) }}</td>
           </tr>
         </template>
         <template v-else>
           <tr class="no-data-row">
-            <td colspan="4">등록된 회사가 없습니다.</td>
+            <td colspan="7">등록된 회사가 없습니다.</td>
           </tr>
         </template>
       </tbody>

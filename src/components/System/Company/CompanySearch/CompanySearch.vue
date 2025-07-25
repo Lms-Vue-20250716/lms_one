@@ -2,7 +2,6 @@
 import router from '@/router';
 import { useModalState } from '@/stores/modalState';
 import { onMounted, ref } from 'vue';
-
 const searchTitle = ref('');
 const searchStDate = ref('');
 const searchEdDate = ref('');
@@ -11,9 +10,9 @@ const modalState = useModalState();
 const handlerSearch = () => {
   const query = [];
 
-  !searchTitle.value || query.push(`title=${searchTitle.value}`);
-  !searchStDate.value || query.push(`joinDate=${searchStDate.value}`);
-  !searchEdDate.value || query.push(`joinDate=${searchEdDate.value}`);
+  !searchTitle.value || query.push(`companyName=${encodeURIComponent(searchTitle.value)}`);
+  !searchStDate.value || query.push(`searchStDate=${searchStDate.value}`);
+  !searchEdDate.value || query.push(`searchEdDate=${searchEdDate.value}`);
 
   const queryString = query.length > 0 ? `?${query.join('&')}` : '';
 
@@ -24,10 +23,12 @@ const handleEnter = (e) => {
     handlerSearch();
   }
 };
+
 onMounted(() => {
   window.location.search && router.replace(window.location.pathname);
 });
 </script>
+
 <template>
   <div class="company-container">
     <div class="input-box">
@@ -39,6 +40,7 @@ onMounted(() => {
     </div>
   </div>
 </template>
+
 <style>
 @import './styled.css';
 </style>
