@@ -19,6 +19,7 @@ import Classroom from '@/views/System/Classroom.vue';
 import Counsel from '@/views/Manage/Counsel.vue';
 import LearningMaterials from '@/views/Support/LearningMaterials.vue';
 import Commoncode from '@/views/System/Commoncode.vue';
+import Equipment from '@/views/System/Equipment.vue';
 import Company from '@/views/System/Company.vue';
 
 const router = createRouter({
@@ -160,6 +161,11 @@ const router = createRouter({
               path: 'commoncode',
               name: 'commoncode',
               component: Commoncode,
+            },
+            {
+              path: 'equipment',
+              name: 'equipment',
+              component: Equipment,
             },
             {
               path: 'company',
