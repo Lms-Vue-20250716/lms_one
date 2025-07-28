@@ -41,7 +41,7 @@ const handlerInsert = () => {
       },
     })
     .then((res) => {
-      alert('저장되었습니다.');
+      alert('저장되었습니다');
       if (res.data.result === 'success') {
         modalState.$patch({ isOpen: false });
         emit('postSuccess');
