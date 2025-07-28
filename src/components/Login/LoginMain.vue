@@ -4,10 +4,14 @@ import { ref } from 'vue';
 import { useUserInfo } from '@/stores/loginInfoState';
 import { useRouter } from 'vue-router';
 import axios from 'axios';
+import { useModalState } from '@/stores/modalState';
+import UserInfoModal from '../User/UserInfo/UserInfoModal.vue';
+import UserFindInfo from '../User/UserFindInfo/UserFindInfo.vue';
 
 const loginInfo = ref({});
 const { setUserData } = useUserInfo();
 const router = useRouter();
+const modalState = useModalState();
 
 const handlerLogin = () => {
   const param = new URLSearchParams(loginInfo.value);
@@ -24,6 +28,14 @@ const handlerLogin = () => {
       return;
     }
   });
+};
+
+const registeredAccount = () => {
+  modalState.$patch({ isOpen: true, type: 'user-info' });
+};
+
+const findUserInfo = () => {
+  modalState.$patch({ isOpen: true, type: 'user-find-info' });
 };
 </script>
 
@@ -48,23 +60,30 @@ const handlerLogin = () => {
     </div>
     <div class="login-box">
       <div class="buttons inputs">
-        <div>
-          <label> 아이디 </label>
-          <input v-model="loginInfo.lgn_Id" required />
-        </div>
-        <div>
-          <label> 비밀번호 </label>
-          <input v-model="loginInfo.pwd" required type="password" />
-        </div>
-        <div>
-          <button class="login-button" @click="handlerLogin">Login</button>
-          <button class="signup-button">Sign Up</button>
-        </div>
+        <form>
+          <div>
+            <label> 아이디 </label>
+            <input v-model="loginInfo.lgn_Id" required />
+          </div>
+          <div>
+            <label> 비밀번호 </label>
+            <input v-model="loginInfo.pwd" required type="password" autocomplete="off" />
+          </div>
+          <div>
+            <button class="login-button" @click.prevent="handlerLogin">Login</button>
+            <button class="signup-button" @click.prevent="registeredAccount">Sign Up</button>
+            <label class="find-id-password" style="cursor: pointer" @click.prevent="findUserInfo"
+              >[아이디/비밀번호 찾기]</label
+            >
+          </div>
+        </form>
       </div>
     </div>
+    <UserInfoModal v-if="modalState.isOpen && modalState.type === 'user-info'" />
+    <UserFindInfo v-if="modalState.isOpen && modalState.type === 'user-find-info'" />
   </div>
 </template>
 
-<style lang="css">
+<style lang="css" scoped>
 @import './styled.css';
 </style>
