@@ -1,0 +1,33 @@
+@import 'tailwindcss';
+
+.recruit-main-container {
+  @apply flex min-h-screen flex-col items-center justify-start p-5;
+}
+
+.recruit-table {
+  @apply w-full max-w-6xl overflow-hidden rounded-lg bg-white shadow-lg;
+}
+
+.recruit-table-header {
+  @apply bg-blue-950 text-gray-900;
+}
+
+.recruit-table-header th {
+  @apply border-b border-blue-400 px-6 py-4 text-left text-sm font-semibold tracking-wider text-white uppercase;
+}
+
+.recruit-table-row {
+  @apply transition duration-300 ease-in-out hover:bg-gray-50;
+}
+
+.recruit-table-row td {
+  @apply border-b border-gray-200 px-6 py-4 text-sm text-gray-700;
+}
+
+.recruit-cell {
+  @apply border-b border-gray-200 px-6 py-4 text-sm font-medium text-gray-700;
+}
+
+.recruit-empty-row {
+  @apply py-8 text-center text-gray-500;
+}
