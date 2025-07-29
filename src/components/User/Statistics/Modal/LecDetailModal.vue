@@ -37,57 +37,49 @@ onMounted(() => {
       <div class="modal-container-detail">
         <ContentBox>강의 상세</ContentBox>
         <!-- s : 여기에 내용입력 -->
-        <table class="modal-table layout-custom">
-          <thead>
+        <table class="modal-table">
+          <tbody>
             <tr>
-              <th scope="row">강의 이름</th>
-              <td colspan="3">
+              <th>강의 이름</th>
+              <td>
                 {{ lecDetail.lecName }}
               </td>
-
-              <th scope="row">회차</th>
-              <td colspan="3">
+              <th>담당 강사</th>
+              <td>
                 {{ lecDetail.lectureRound }}
               </td>
             </tr>
             <tr>
-              <th scope="row">담당 강사</th>
-              <td colspan="3">
+              <th>회차</th>
+              <td>
                 {{ lecDetail.tutorName }}
               </td>
-
-              <th scope="row">정원</th>
-              <td colspan="3">
+              <th>정원</th>
+              <td>
                 {{ lecDetail.lecPersonnel }}
               </td>
             </tr>
             <tr>
-              <th scope="row">개강 일자</th>
-              <td colspan="3">
-                <!-- {{ lecDetail.lecStartDate.split(' ')[0] }} -->
+              <th>개강 일자</th>
+              <td>
                 {{ String(lecDetail.lecStartDate).split(' ')[0] }}
               </td>
-
-              <th scope="row">종강 일자</th>
-              <td colspan="3">
-                <!-- {{ lecDetail.lecEndDate.split(' ')[0] }} -->
+              <th>종강 일자</th>
+              <td>
                 {{ String(lecDetail.lecEndDate).split(' ')[0] }}
               </td>
             </tr>
-
             <tr>
-              <th scope="row">평균 점수</th>
-              <td colspan="3">
+              <th>평균 점수</th>
+              <td>
                 {{ lecDetail.avgScore > 0 ? lecDetail.avgScore : '미기재' }}
               </td>
-
-              <th scope="row">과락 인원</th>
-              <td colspan="3">
+              <th>과락 인원</th>
+              <td>
                 {{ lecDetail.failedStudents > 0 ? lecDetail.failedStudents : '없음' }}
               </td>
             </tr>
-          </thead>
-          <tbody></tbody>
+          </tbody>
         </table>
         <div class="button-container">
           <button @click="modalClose">닫기</button>

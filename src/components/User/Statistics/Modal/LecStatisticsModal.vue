@@ -172,38 +172,54 @@ watch(
     <div class="modal-overlay">
       <div v-if="rendering" class="modal-container-statistics">
         <ContentBox>강의 통계</ContentBox>
-        <table class="col notice-table">
-          <thead class="notice-table-header">
-            <tr>
-              <th scope="col">강의 번호</th>
-              <th scope="col">강의 이름</th>
-              <th scope="col">강사 이름</th>
-              <th scope="col">회차</th>
-              <th scope="col">개강일</th>
-              <th scope="col">종강일</th>
-              <th scope="col">정원</th>
-              <th scope="col">평균 점수</th>
-              <th scope="col">최고 점수</th>
-              <th scope="col">최저 점수</th>
-              <th scope="col">과락 인원</th>
-            </tr>
-          </thead>
-          <tbody id="statisticsPage" class="notice-table-row">
-            <tr v-for="statisticsInfo in statisticsInfoList" :key="statisticsInfo.lecId">
-              <td class="notice-cell">{{ statisticsInfo.lecId }}</td>
-              <td class="notice-cell">{{ statisticsInfo.lecName }}</td>
-              <td class="notice-cell">{{ statisticsInfo.tutorName }}</td>
-              <td class="notice-cell">{{ statisticsInfo.lectureRound }}</td>
-              <td class="notice-cell">{{ statisticsInfo.lecStartDate.split(' ')[0] }}</td>
-              <td class="notice-cell">{{ statisticsInfo.lecEndDate.split(' ')[0] }}</td>
-              <td class="notice-cell">{{ statisticsInfo.lecPersonnel }}</td>
-              <td class="notice-cell">{{ statisticsInfo.avgScore }}</td>
-              <td class="notice-cell">{{ statisticsInfo.maxScore }}</td>
-              <td class="notice-cell">{{ statisticsInfo.minScore }}</td>
-              <td class="notice-cell">{{ statisticsInfo.failedStudents }}</td>
-            </tr>
-          </tbody>
-        </table>
+        <div class="rounded-element">
+          <table class="statistics-table">
+            <colgroup>
+              <col style="width: 9%" />
+              <col style="width: 9%" />
+              <col style="width: 9%" />
+              <col style="width: 1%" />
+              <col style="width: 15%" />
+              <col style="width: 15%" />
+              <col style="width: 1%" />
+              <col style="width: 10%" />
+              <col style="width: 10%" />
+              <col style="width: 10%" />
+              <col style="width: 10%" />
+            </colgroup>
+            <thead class="statistics-table-header">
+              <tr>
+                <th>강의 번호</th>
+                <th>강의 이름</th>
+                <th>강사 이름</th>
+                <th>회차</th>
+                <th>개강일</th>
+                <th>종강일</th>
+                <th>정원</th>
+                <th>평균 점수</th>
+                <th>최고 점수</th>
+                <th>최저 점수</th>
+                <th>과락 인원</th>
+              </tr>
+            </thead>
+            <tbody id="statisticsPage" class="statistics-table-row">
+              <tr v-for="statisticsInfo in statisticsInfoList" :key="statisticsInfo.lecId">
+                <td class="statistics-cell">{{ statisticsInfo.lecId }}</td>
+                <td class="statistics-cell">{{ statisticsInfo.lecName }}</td>
+                <td class="statistics-cell">{{ statisticsInfo.tutorName }}</td>
+                <td class="statistics-cell">{{ statisticsInfo.lectureRound }}</td>
+                <td class="statistics-cell">{{ statisticsInfo.lecStartDate.split(' ')[0] }}</td>
+                <td class="statistics-cell">{{ statisticsInfo.lecEndDate.split(' ')[0] }}</td>
+                <td class="statistics-cell">{{ statisticsInfo.lecPersonnel }}</td>
+                <td class="statistics-cell">{{ statisticsInfo.avgScore }}</td>
+                <td class="statistics-cell">{{ statisticsInfo.maxScore }}</td>
+                <td class="statistics-cell">{{ statisticsInfo.minScore }}</td>
+                <td class="statistics-cell">{{ statisticsInfo.failedStudents }}</td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
+
         <div class="scrollable-area">
           <div class="charts">
             <ContentBox>수강인원</ContentBox>
