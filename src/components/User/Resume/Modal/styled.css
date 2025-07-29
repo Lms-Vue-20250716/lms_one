@@ -1,4 +1,21 @@
 /* styled.css */
+/*
+@import 'tailwindcss';
+
+.modal-overlay {
+@apply fixed top-0 left-0 w-screen h-screen bg-black/40 z-[999] flex justify-center items-center;
+  .modal-container {
+    @apply bg-white rounded-lg w-full h-4/5 max-w-6xl p-5 shadow-xl overflow-y-auto max-h-[95vh];
+
+    .modal-form {
+      padding-left: 70px;
+      padding-right: 70px;
+    }
+  }
+
+
+}
+*/
 
 .modal-overlay {
   position: fixed;
