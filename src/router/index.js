@@ -21,6 +21,7 @@ import LearningMaterials from '@/views/Support/LearningMaterials.vue';
 import Commoncode from '@/views/System/Commoncode.vue';
 import Equipment from '@/views/System/Equipment.vue';
 import Recruit from '@/views/Manage/Recruit.vue';
+import Company from '@/views/System/Company.vue';
 
 const router = createRouter({
   history: createWebHistory(import.meta.env.BASE_URL),
@@ -171,6 +172,11 @@ const router = createRouter({
               path: 'equipment',
               name: 'equipment',
               component: Equipment,
+            },
+            {
+              path: 'company',
+              name: 'company',
+              component: Company,
             },
           ],
         },
