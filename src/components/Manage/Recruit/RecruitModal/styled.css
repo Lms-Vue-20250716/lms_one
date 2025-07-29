@@ -1,0 +1,127 @@
+@import 'tailwindcss';
+
+.modal-overlay {
+  @apply fixed inset-0 flex items-center justify-center bg-gray-500/50 font-bold backdrop-blur-xs;
+}
+
+.modal-container {
+  @apply relative w-[1000px] rounded-lg bg-white p-5 opacity-100 shadow-lg;
+}
+
+.modal-table {
+  @apply mx-auto mt-10 w-7/8 overflow-hidden rounded-lg bg-white shadow-lg;
+}
+
+.modal-table-header {
+  @apply bg-blue-950 text-gray-900;
+}
+
+.modal-table-header th {
+  @apply border-b border-blue-400 px-6 py-4 text-left text-sm font-semibold tracking-wider text-white uppercase last:items-center last:text-center;
+}
+
+.modal-table-row {
+  @apply transition duration-300 ease-in-out hover:bg-gray-50;
+}
+
+.modal-table-row td {
+  @apply border-b border-gray-200 px-6 py-4 text-sm text-gray-700;
+}
+
+.modal-cell {
+  @apply border-b border-gray-200 px-6 py-4 text-sm font-medium text-gray-700;
+}
+
+.modal-empty-row {
+  @apply py-8 text-center text-gray-500;
+}
+
+.button-container {
+  @apply mx-auto mt-4 w-7/8 space-x-2 text-right;
+}
+
+.button-container button {
+  @apply cursor-pointer rounded-md px-4 py-2 transition-colors duration-200 first:bg-blue-900 first:text-white last:bg-gray-300 last:text-gray-700 first:hover:bg-blue-950 last:hover:bg-gray-400;
+}
+
+.center-button {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  height: 100%;
+}
+
+.center-button button {
+  justify-content: center;
+  background-color: #d1d5dc;
+  cursor: pointer;
+  padding: 8px 12px 8px 12px;
+  border-radius: 6px;
+  font-weight: 550;
+  font-size: 10pt;
+}
+
+.center-button button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
+
+.center-button button:disabled:hover {
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.button-container button:disabled {
+  background-color: #cccccc;
+  color: #666666;
+  cursor: not-allowed;
+}
+
+.button-container button:disabled:hover {
+  background-color: #cccccc;
+  color: #666666;
+}
+
+.modal-table-detail-info {
+  @apply mx-auto mt-10 w-7/8 overflow-hidden rounded-lg bg-white shadow-lg;
+  tr {
+    @apply flex w-full;
+
+    th {
+      @apply flex-1/4 border-b border-blue-400 bg-blue-950 px-6 py-4 text-left text-sm font-semibold tracking-wider text-white uppercase;
+    }
+
+    td {
+      @apply flex-3/4 p-0;
+
+      input {
+        @apply m-0 h-full w-full border border-gray-300 bg-white pl-4 text-gray-700 transition duration-300 ease-in-out focus:border-blue-400 focus:outline-none;
+      }
+    }
+  }
+}
+
+.modal-table-registered-new {
+  @apply mx-auto mt-10 w-7/8 overflow-hidden rounded-lg bg-white shadow-lg;
+
+  tr {
+    @apply flex w-full;
+
+    th {
+      @apply flex-1/4 border-b border-blue-400 bg-blue-950 px-6 py-4 text-left text-sm font-semibold tracking-wider text-white uppercase;
+
+      label {
+        @apply text-red-500;
+      }
+    }
+
+    td {
+      @apply flex-3/4 p-0;
+
+      input {
+        @apply m-0 h-full w-full border border-gray-300 bg-white pl-4 text-gray-700 transition duration-300 ease-in-out focus:border-blue-400 focus:placeholder-transparent focus:outline-none;
+      }
+    }
+  }
+}

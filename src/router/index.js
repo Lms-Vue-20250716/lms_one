@@ -20,6 +20,7 @@ import Counsel from '@/views/Manage/Counsel.vue';
 import LearningMaterials from '@/views/Support/LearningMaterials.vue';
 import Commoncode from '@/views/System/Commoncode.vue';
 import Equipment from '@/views/System/Equipment.vue';
+import Recruit from '@/views/Manage/Recruit.vue';
 import Company from '@/views/System/Company.vue';
 
 const router = createRouter({
@@ -145,6 +146,11 @@ const router = createRouter({
               path: 'counsel',
               name: 'counsel',
               component: Counsel,
+            },
+            {
+              path: 'recruit',
+              name: 'recruit',
+              component: Recruit,
             },
           ],
         },
