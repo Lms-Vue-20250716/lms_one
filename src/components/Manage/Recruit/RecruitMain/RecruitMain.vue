@@ -80,7 +80,7 @@ onMounted(() => {
             <td class="recruit-cell">{{ getTodayAsLocalDate(recruit.empJoinDate) }}</td>
             <td class="recruit-cell">{{ getTodayAsLocalDate(recruit.empRetireDate) }}</td>
             <td class="recruit-cell">{{ recruit.empName }}</td>
-            <td class="recruit-cell">{{ !recruit.empRetireDate ? '취업' : '퇴직' }}</td>
+            <td class="recruit-cell">{{ !recruit.empRetireDate ? '취업' : '실업' }}</td>
           </tr>
         </template>
         <template v-else>
@@ -96,7 +96,11 @@ onMounted(() => {
       :on-page-change="recruitSearch"
     />
   </div>
-  <RecruitModal v-if="modalState.isOpen && modalState.type === 'recruit'" :login-id="loginId" />
+  <RecruitModal
+    v-if="modalState.isOpen && modalState.type === 'recruit'"
+    :login-id="loginId"
+    @refresh-main="recruitSearch"
+  />
 </template>
 <style scoped>
 @import './styled.css';

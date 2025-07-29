@@ -3,20 +3,28 @@ import ContentBox from '@/components/common/ContentBox.vue';
 import PageNavigation from '@/components/common/PageNavigation.vue';
 import { useModalState } from '@/stores/modalState';
 import axios from 'axios';
-import { onMounted, ref, watch } from 'vue';
+import { onMounted, reactive, ref, defineEmits } from 'vue';
 
 const modalState = useModalState();
+const emit = defineEmits(['refreshMain']);
 const props = defineProps({ loginId: { type: String, default: '' } });
 const recruitDetailList = ref([]);
 const recruitDetailCount = ref(0);
+const recruitDetailInfo = ref([]);
+
 const saveFlag = ref({ main: 0, detail: 1, registeredNew: 2 });
 const currentFlag = ref(saveFlag.value.main);
-const recruitDetailInfo = ref([]);
-const infoEmpId = ref(0);
-const infoEmpName = ref('');
-const infoEmpJoinDate = ref('');
-const infoLoginId = ref('');
-const infoEmpRetireDate = ref('');
+
+const recruitInfo = reactive({
+  empId: 0,
+  empJoinDate: '',
+  empName: '',
+  empRetireDate: '',
+  recruitId: '',
+  studentName: '',
+  studentsEmpStatus: '',
+});
+const registerNewRecruitInfo = reactive({ RecruitId: '', empName: '', RecruitJoinDate: '' });
 
 const recruitDetail = (cpage = 1) => {
   const param = new URLSearchParams();
@@ -33,11 +41,10 @@ const recruitDetail = (cpage = 1) => {
 const recruitChangeModal = (recruit) => {
   currentFlag.value = saveFlag.value.detail;
 
-  infoEmpId.value = recruit.empId;
-  infoEmpName.value = recruit.empName;
-  infoEmpJoinDate.value = recruit.empJoinDate;
-  infoLoginId.value = recruit.loginID;
-  infoEmpRetireDate.value = recruit.empRetireDate;
+  recruitInfo.empId = recruit.empId;
+  recruitInfo.empName = recruit.empName;
+  recruitInfo.empJoinDate = recruit.empJoinDate;
+  recruitInfo.empRetireDate = recruit.empRetireDate;
 
   const param = new URLSearchParams();
   param.append('empId', recruit.empId);
@@ -46,39 +53,40 @@ const recruitChangeModal = (recruit) => {
   // 매개변수 값을 제외한 나머지 값만 덮어씌우기
   axios.post('/api/manage/empStudentDetail.do', param).then((res) => {
     recruitDetailInfo.value = res.data.detailValue;
-    infoEmpName.value = recruitDetailInfo.value.empName;
-    infoEmpJoinDate.value = recruitDetailInfo.value.empJoinDate;
-    infoEmpRetireDate.value = recruitDetailInfo.value.empRetireDate;
+    recruitInfo.empName = recruitDetailInfo.value.empName;
+    recruitInfo.empJoinDate = recruitDetailInfo.value.empJoinDate;
+    recruitInfo.empRetireDate = recruitDetailInfo.value.empRetireDate;
   });
 };
 
 const empStudentUpdate = () => {
-  if (!infoEmpName.value) {
+  if (!recruitInfo.empName) {
     alert('업체명을 입력해주세요.');
     return;
   }
-  if (!infoEmpJoinDate.value) {
+  if (!recruitInfo.empJoinDate) {
     alert('입사일을 입력해주세요.');
     return;
   }
 
   if (
-    !infoEmpRetireDate.value &&
-    new Date(infoEmpRetireDate.value) < new Date(infoEmpJoinDate.value)
+    !!recruitInfo.empRetireDate &&
+    new Date(recruitInfo.empRetireDate).getTime() < new Date(recruitInfo.empJoinDate).getTime()
   ) {
     alert('퇴직일자가 입사일보다 빠를 수 없습니다.');
     return;
   }
 
-  //as-is에서 이전 항목 리스트의 날자 범위끼리 충돌하는지 검증하는 것이 없으므로
-  //같은 방식으로 그대로 컨버팅
+  //as-is에서 이전 항목 리스트의 날자 범위끼리 충돌하는지 검증없음
+  //retirefail 200 응답의 메시지가 있으므로
+  //서버에서 하는 거로 간주, 같은 방식으로 그대로 컨버팅
 
   const param = new URLSearchParams();
-  param.append('empId', infoEmpId.value);
-  param.append('empName', infoEmpName.value);
-  param.append('empJoinDate', infoEmpJoinDate.value);
-  param.append('loginID', infoLoginId.value);
-  param.append('empRetireDate', infoEmpRetireDate.value);
+  param.append('empId', recruitInfo.empId);
+  param.append('empName', recruitInfo.empName);
+  param.append('empJoinDate', recruitInfo.empJoinDate);
+  param.append('loginID', props.loginId);
+  param.append('empRetireDate', recruitInfo.empRetireDate);
 
   axios
     .post('/api/manage/empStudentUpdate.do', param)
@@ -86,6 +94,7 @@ const empStudentUpdate = () => {
       console.log('res', res);
       if (res.data.result.toLowerCase() === 'success') {
         alert('수정되었습니다.');
+        closeModal();
       } else if (res.data.result.toLowerCase() == 'retirefail') {
         alert('입사와 퇴직일자를 확인해주세요.');
       } else {
@@ -94,8 +103,55 @@ const empStudentUpdate = () => {
     })
     .catch(() => {
       alert('서버 오류');
-    })
-    .finally(closeModal());
+    });
+};
+
+const retireStudentEnsure = () => {
+  if (confirm('정말 퇴직하시겠습니까?')) {
+    const param = new URLSearchParams();
+    param.append('loginID', props.loginId);
+
+    axios.post('/api/manage/RetireStudent.do', param).then((res) => {
+      if (res.data.result.toLowerCase() === 'success') {
+        alert('퇴직되었습니다.');
+        recruitDetail();
+      }
+    });
+  } else {
+    return;
+  }
+};
+
+const registerNewRecruitSave = () => {
+  if (!registerNewRecruitInfo.empName) {
+    alert('업체명을 입력해주세요.');
+    document.getElementById('newEmpName').focus();
+    return;
+  }
+
+  if (!registerNewRecruitInfo.RecruitJoinDate) {
+    alert('입사일을 입력해주세요.');
+    document.getElementById('newRecruitJoinDate').focus();
+    return;
+  }
+
+  const param = new URLSearchParams();
+  param.append('loginID', props.loginId);
+  param.append('empName', registerNewRecruitInfo.empName);
+  param.append('empJoinDate', registerNewRecruitInfo.RecruitJoinDate);
+
+  axios.post('/api/manage/RecruitSave.do', param).then((res) => {
+    if (res.data.result.toLowerCase() == 'success') {
+      alert('저장되었습니다.');
+      closeModal();
+    } else if (res.data.result.toLowerCase() == 'retirefail') {
+      alert('입사와 퇴직일자를 확인해주세요.');
+      return;
+    } else if (res.data.result.toLowerCase() == 'fail') {
+      alert('재직여부를 확인해주세요');
+      return;
+    }
+  });
 };
 
 const getTodayAsLocalDate = (dateString) => {
@@ -109,6 +165,16 @@ const getTodayAsLocalDate = (dateString) => {
   return `${year}-${month}-${day}`;
 };
 
+const updateClickedRecruit = (recruit) => {
+  recruitInfo.empId = recruit.empId;
+  recruitInfo.empName = recruit.empName;
+  recruitInfo.empJoinDate = recruit.empJoinDate;
+  recruitInfo.empRetireDate = recruit.empRetireDate;
+  recruitInfo.recruitId = recruit.recruitId;
+  recruitInfo.studentName = recruit.studentName;
+  recruitInfo.studentsEmpStatus = recruit.studentsEmpStatus;
+};
+
 const isEnabled = (isEnable) => {
   if (isEnable === 'Y') {
     return false;
@@ -118,6 +184,7 @@ const isEnabled = (isEnable) => {
 };
 
 const closeModal = () => {
+  emit('refreshMain');
   modalState.$patch({ isOpen: false, type: null });
 };
 
@@ -145,12 +212,13 @@ onMounted(() => {
               </tr>
             </thead>
             <tbody v-if="recruitDetailList.length > 0">
-              <tr v-for="recruit in recruitDetailList" :key="recruit.empId">
+              <tr
+                v-for="recruit in recruitDetailList"
+                :key="recruit.empId"
+                @click="updateClickedRecruit(recruit)"
+              >
                 <td class="modal-cell">{{ recruit.empId }}</td>
-                <td
-                  class="modal-cell cursor-pointer hover:underline"
-                  @click="recruitChangeModal(recruit)"
-                >
+                <td class="modal-cell cursor-pointer hover:underline" @click="recruitChangeModal()">
                   {{ recruit.studentName }}
                 </td>
                 <td class="modal-cell">{{ getTodayAsLocalDate(recruit.empJoinDate) }}</td>
@@ -158,7 +226,12 @@ onMounted(() => {
                 <td class="modal-cell">{{ recruit.empName }}</td>
                 <td class="modal-cell">{{ !recruit.empRetireDate ? '취업' : '퇴직' }}</td>
                 <td class="center-button">
-                  <button :disabled="isEnabled(!recruit.empRetireDate ? 'Y' : 'N')">퇴직</button>
+                  <button
+                    :disabled="isEnabled(!recruit.empRetireDate ? 'Y' : 'N')"
+                    @click="retireStudentEnsure()"
+                  >
+                    퇴직
+                  </button>
                 </td>
               </tr>
             </tbody>
@@ -184,15 +257,15 @@ onMounted(() => {
             <tbody>
               <tr>
                 <th>기업명</th>
-                <td><input v-model="infoEmpName" type="text" /></td>
+                <td><input v-model="recruitInfo.empName" type="text" /></td>
               </tr>
               <tr>
                 <th>입사일</th>
-                <td><input v-model="infoEmpJoinDate" type="date" /></td>
+                <td><input v-model="recruitInfo.empJoinDate" type="date" /></td>
               </tr>
               <tr>
                 <th>퇴사일</th>
-                <td><input v-model="infoEmpRetireDate" type="date" /></td>
+                <td><input v-model="recruitInfo.empRetireDate" type="date" /></td>
               </tr>
             </tbody>
           </table>
@@ -207,16 +280,30 @@ onMounted(() => {
             <tbody>
               <tr>
                 <th>업체명<label>*</label></th>
-                <td><input type="text" /></td>
+                <td>
+                  <input
+                    id="newEmpName"
+                    v-model="registerNewRecruitInfo.empName"
+                    type="text"
+                    placeholder="업체명을 입력해주세요."
+                  />
+                </td>
               </tr>
               <tr>
                 <th>입사일<label>*</label></th>
-                <td><input type="date" /></td>
+                <td>
+                  <input
+                    id="newRecruitJoinDate"
+                    v-model="registerNewRecruitInfo.RecruitJoinDate"
+                    type="date"
+                    placeholder="입사일을 입력해주세요."
+                  />
+                </td>
               </tr>
             </tbody>
           </table>
           <div class="button-container">
-            <button type="button" @click="null">저장</button>
+            <button type="button" @click="registerNewRecruitSave">저장</button>
             <button type="button" @click="closeModal">닫기</button>
           </div>
         </div>

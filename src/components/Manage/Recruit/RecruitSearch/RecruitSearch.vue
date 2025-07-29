@@ -8,7 +8,7 @@ const endDate = ref('');
 
 const handleRecruit = () => {
   const query = [];
-  !studentName.value || query.push(`searchTitle=${studentName.value}`);
+  !studentName.value || query.push(`studentName=${studentName.value}`);
   !startDate.value || query.push(`searchStDate=${startDate.value}`);
   !endDate.value || query.push(`searchEdDate=${endDate.value}`);
 

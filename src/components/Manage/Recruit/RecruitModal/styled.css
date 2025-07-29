@@ -120,7 +120,7 @@
       @apply flex-3/4 p-0;
 
       input {
-        @apply m-0 h-full w-full border border-gray-300 bg-white pl-4 text-gray-700 transition duration-300 ease-in-out focus:border-blue-400 focus:outline-none;
+        @apply m-0 h-full w-full border border-gray-300 bg-white pl-4 text-gray-700 transition duration-300 ease-in-out focus:border-blue-400 focus:placeholder-transparent focus:outline-none;
       }
     }
   }
