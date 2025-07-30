@@ -146,8 +146,7 @@ const changePwdGo = async () => {
   param.append('email', email.value);
   await axios
     .post('/api/changePwd.do', param)
-    .then((res) => {
-      console.log('res ', res);
+    .then(() => {
       alert('비밀번호 변경 완료');
       closeModal(false);
     })
@@ -208,36 +207,40 @@ const changePwdGo = async () => {
       <div v-else class="modal-container">
         <ContentBox>비밀번호 변경</ContentBox>
         <div class="modal-form">
-          <table>
-            <tbody>
-              <tr>
-                <th>새 비밀번호</th>
-                <td>
-                  <input
-                    id="new-password"
-                    v-model="newPassword"
-                    type="password"
-                    placeholder="새 비밀번호를 입력하세요"
-                  />
-                </td>
-              </tr>
-              <tr>
-                <th>비밀번호 확인</th>
-                <td>
-                  <input
-                    id="check-password"
-                    v-model="checkPassword"
-                    type="password"
-                    placeholder="다시 한번 입력해 주세요"
-                  />
-                </td>
-              </tr>
-            </tbody>
-          </table>
-          <div class="button-container tail">
-            <button @click="changePwdGo">비밀번호 변경</button>
-            <button @click="closeModal(true)">취소</button>
-          </div>
+          <form>
+            <table>
+              <tbody>
+                <tr>
+                  <th>새 비밀번호</th>
+                  <td>
+                    <input
+                      id="new-password"
+                      v-model="newPassword"
+                      autocomplete="new-password"
+                      type="password"
+                      placeholder="새 비밀번호를 입력하세요"
+                    />
+                  </td>
+                </tr>
+                <tr>
+                  <th>비밀번호 확인</th>
+                  <td>
+                    <input
+                      id="check-password"
+                      v-model="checkPassword"
+                      autocomplete="new-password"
+                      type="password"
+                      placeholder="다시 한번 입력해 주세요"
+                    />
+                  </td>
+                </tr>
+              </tbody>
+            </table>
+            <div class="button-container tail">
+              <button @click.prevent="changePwdGo">비밀번호 변경</button>
+              <button @click.prevent="closeModal(true)">취소</button>
+            </div>
+          </form>
         </div>
       </div>
     </div>

@@ -2,79 +2,66 @@
 
 .modal-overlay {
   @apply fixed inset-0 flex items-center justify-center bg-gray-500/50 font-bold backdrop-blur-xs;
-}
 
-.modal-container-detail {
-  @apply relative h-[450px] w-[500px] rounded-lg bg-white p-5 opacity-100 shadow-lg;
-}
+  .modal-container-detail {
+    @apply relative h-[450px] w-[500px] rounded-lg bg-white p-5 opacity-100 shadow-lg;
 
-.modal-container-statistics {
-  @apply relative h-[800px] w-[1000px] rounded-lg bg-white p-5 opacity-100 shadow-lg;
-}
+    .modal-table {
+      @apply m-auto mt-2 flex h-fit w-7/8 table-fixed border-collapse justify-center overflow-hidden rounded-lg border text-center;
 
-.modal-container-error {
-  @apply relative h-[300px] w-[400px] rounded-lg bg-white p-5 opacity-100 shadow-lg;
-}
-.modal-container-error strong {
-  @apply mx-auto mt-10 flex w-7/8 flex-col justify-center;
-}
+      tbody {
+        @apply h-full w-full;
 
-.layout-custom {
-  @apply mx-auto;
-}
+        tr {
+          @apply flex border-b border-black text-sm last:border-none;
 
-th[scope='row'] {
-  background-color: #f5f5f5;
-  font-weight: 600;
-}
+          th {
+            @apply flex-1/4 bg-blue-950 p-2 font-semibold text-white uppercase;
+          }
+          td {
+            @apply flex-1/4 border-gray-200 p-2 text-gray-700;
+          }
+        }
+      }
+    }
+  }
 
-.modal-table th td {
-  @apply mb-4 flex flex-col;
-}
+  .modal-container-statistics {
+    @apply relative h-[650px] w-[1000px] rounded-lg bg-white p-5 opacity-100 shadow-lg;
 
-.modal-table tr th {
-  @apply mt-1 rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
-}
+    .rounded-element {
+      @apply m-auto mt-2 overflow-hidden rounded-xl border border-black;
 
-.modal-table tr td {
-  @apply mt-1 rounded-md border border-gray-300 px-3 py-2 focus:border-transparent focus:ring-2 focus:ring-blue-500 focus:outline-none;
-}
+      .statistics-table {
+        @apply table-fixed border-collapse text-center;
 
-.button-container {
-  @apply mt-4 space-x-2 text-right;
-}
+        .statistics-table-header {
+          @apply bg-blue-950 font-semibold text-white uppercase;
+        }
 
-.button-container button {
-  @apply cursor-pointer rounded-md px-4 py-2 transition-colors duration-200 first:bg-blue-900 first:text-white last:bg-gray-300 last:text-gray-700 first:hover:bg-blue-950 last:hover:bg-gray-400;
-}
+        .statistics-cell {
+          @apply border-r-1 border-l-1 px-4 py-2 text-sm font-medium text-gray-700 first:border-l-0 last:border-r-0;
+        }
+      }
+    }
 
-/* 차트관련*/
-.scrollable-area {
-  height: 400px;
-  overflow: scroll;
-}
+    .scrollable-area {
+      @apply mt-2 h-70 overflow-auto;
+    }
+  }
 
-/* 모달에 있는 테이블 */
-.notice-table {
-  @apply w-full max-w-6xl overflow-hidden rounded-lg bg-white shadow-lg;
-}
+  .modal-container-error {
+    @apply relative h-[300px] w-[400px] rounded-lg bg-white p-5 opacity-100 shadow-lg;
+  }
+  .modal-container-error strong {
+    @apply mx-auto mt-10 flex w-7/8 flex-col justify-center;
+  }
 
-.notice-table-header {
-  @apply bg-blue-950 text-gray-900;
-}
+  .button-container {
+    @apply mt-4 space-x-2 text-right;
+  }
 
-.notice-table-header th {
-  @apply border-b border-blue-400 px-6 py-4 text-left text-sm font-semibold tracking-wider text-white uppercase;
-}
-
-.notice-table-row {
-  @apply transition duration-300 ease-in-out hover:bg-gray-50;
-}
-
-.notice-table-row td {
-  @apply border-b border-gray-200 px-6 py-4 text-sm text-gray-700;
-}
-
-.notice-cell {
-  @apply border-b border-gray-200 px-6 py-4 text-sm font-medium text-gray-700;
+  .button-container button {
+    @apply cursor-pointer rounded-md px-4 py-2 transition-colors duration-200 first:bg-blue-900 first:text-white last:bg-gray-300 last:text-gray-700 first:hover:bg-blue-950 last:hover:bg-gray-400;
+  }
 }
