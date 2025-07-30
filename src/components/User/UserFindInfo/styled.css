@@ -1,230 +1,108 @@
 /* ListModalStyled.css */
 
-/* 바탕 모양 관련*/
+@import 'tailwindcss';
 .modal-overlay {
-  position: fixed;
-  top: 0;
-  left: 0;
-  width: 100vw;
-  height: 100vh;
-  background-color: rgba(0, 0, 0, 0.4);
-  z-index: 999;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  margin: 0;
-}
+  @apply fixed inset-0 z-[999] m-0 flex h-screen w-screen items-center justify-center bg-black/40;
 
-.modal-container {
-  display: inline;
-  background-color: #fff;
-  border-radius: 8px;
-  max-width: 500px;
-  width: 100%; /* 더 넓게 */
-  padding: 20px; /* 여백 증가 */
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  max-height: 95vh; /* 더 높은 세로 공간 */
-  margin: 0;
-}
+  .modal-container {
+    @apply m-0 inline max-h-[95vh] w-full max-w-[500px] rounded-lg bg-white p-5 shadow-xl;
 
-.modal-form {
-  margin-inline: auto;
-  padding: 0px;
-  width: 87.5%;
-  height: 100%;
-  text-align: center;
-  vertical-align: middle;
-  justify-content: center;
-  border-collapse: collapse;
-}
+    .modal-form {
+      @apply mx-auto h-full w-11/12 border-collapse justify-center p-0 text-center align-middle;
 
-/*modal-form 내에 있음*/
-/* fieldset 적용 */
-.default-fieldset {
-  display: flex;
-  border-radius: 4px;
-  border: 1px solid rgba(0, 0, 0, 0.6);
-  margin-top: 30px;
-  padding: 0;
-  width: 100%;
-  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.2);
-  box-sizing: border-box;
-}
+      .button-container {
+        @apply mt-4 flex justify-center gap-3 rounded border-none p-2 px-4 text-sm text-white;
+      }
 
-.default-fieldset legend {
-  width: 120px;
-  text-align: left;
-  justify-content: left;
-  border-radius: 0.75rem;
-  background-color: #08103c;
-  font-weight: 600;
-  color: #f3f4f6;
-  box-shadow:
-    0 10px 15px -3px rgba(0, 0, 0, 0.1),
-    0 4px 6px -2px rgba(0, 0, 0, 0.05);
-}
+      .button-container.head {
+        @apply justify-center;
 
-.default-fieldset legend:hover {
-  box-shadow:
-    0 20px 25px -5px rgba(0, 0, 0, 0.1),
-    0 8px 10px -6px rgba(0, 0, 0, 0.1); /* hover:shadow-xl */
-}
+        button {
+          @apply bg-blue-700 text-white;
+        }
 
-.default-fieldset legend label {
-  text-align: center;
-  margin-left: auto;
-}
+        button:hover {
+          @apply bg-green-500;
+        }
+      }
 
-.modal-form fieldset ul {
-  display: block;
-  padding: 0;
-  margin: 0;
-  flex-grow: 1;
-  list-style: none;
-  justify-content: flex-start;
-  grid-template-columns: 1fr 1fr;
-  width: fit-content;
-}
+      .default-fieldset {
+        @apply mt-[30px] box-border flex w-full rounded border border-black/60 p-0 shadow-xl;
 
-.modal-form fieldset ul li {
-  display: flex;
-  flex-grow: 1;
-  flex-basis: 0;
-  text-align: center;
-  justify-content: baseline;
-  box-sizing: border-box;
-}
+        legend {
+          @apply w-[120px] justify-start rounded-xl bg-[#08103c] text-left font-semibold text-gray-200 shadow-lg;
+        }
 
-.modal-form fieldset input {
-  width: 70%;
-  margin-top: 4px;
-  border-radius: 0.375rem; /* rounded-md */
-  border-width: 1px; /* border */
-  border-color: #d1d5db; /* border-gray-300 */
-  text-align: center;
-  font-size: 12px;
-}
+        legend:hover {
+          @apply shadow-2xl;
+        }
 
-.modal-form fieldset input:focus {
-  border-color: transparent; /* focus:border-transparent */
-  box-shadow: 0 0 0 2px #3b82f6; /* focus:ring-2 focus:ring-blue-500 (ring-2는 2px 그림자, blue-500은 Tailwind 기본 색상) */
-  outline: none; /* focus:outline-none */
-}
+        legend label {
+          @apply m-0 text-center;
+        }
 
-.modal-form fieldset input:focus::placeholder {
-  color: transparent;
-}
+        ul {
+          @apply m-0 w-full list-none justify-center p-0;
 
-.modal-form fieldset button {
-  width: 30%;
-  margin-top: 4px;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  background-color: #1976d2;
-  color: white;
-  cursor: pointer;
-  font-size: 14px;
-}
+          li {
+            @apply flex w-full basis-0 justify-baseline text-center;
+          }
+        }
 
-.modal-form fieldset button:hover {
-  background-color: #135597;
-}
+        input {
+          @apply mt-1 w-7/10 rounded-md border border-gray-300 text-center text-xs;
+        }
 
-.modal-form table {
-  width: 100%;
-  border-collapse: collapse;
-  margin: 0;
-  /* margin-bottom: 24px; 테이블 간 간격 증가 */
-}
+        input:focus {
+          @apply border-transparent ring-2 ring-blue-500 outline-none;
+        }
 
-.modal-container tr {
-  display: flex;
-  border: 1px solid #ddd;
-  text-align: center;
-  vertical-align: middle;
-  font-size: 14px;
-  padding: 0px;
-  margin: 0px;
-  border-collapse: collapse;
-  min-height: 40px;
-}
+        input:focus::placeholder {
+          @apply text-transparent;
+        }
 
-.modal-form tr th {
-  display: flex;
-  width: 25%;
-  background-color: #f5f5f5;
-  font-weight: 600;
-  text-align: center;
-  justify-content: center;
-  align-items: center;
-  min-height: 40px;
-}
+        button {
+          @apply mt-1 w-3/10 cursor-pointer rounded border-none bg-blue-700 p-2 px-4 text-sm text-white hover:bg-blue-900;
+        }
+      }
 
-.modal-form tr td {
-  display: flex;
-  width: 75%;
-  gap: 10px;
-  align-items: center;
-  min-height: 40px;
-}
+      table {
+        @apply m-auto mt-2 w-full border-collapse;
 
-.modal-form input {
-  width: 100%;
-  height: 100%;
-  margin-top: 4px;
-  border-radius: 0.375rem; /* rounded-md */
-  border-width: 1px; /* border */
-  border-color: #d1d5db; /* border-gray-300 */
-  text-align: center;
-  font-size: 12px;
-}
+        tr {
+          @apply flex w-full;
 
-.modal-form input:focus {
-  border-color: transparent; /* focus:border-transparent */
-  box-shadow: 0 0 0 2px #3b82f6; /* focus:ring-2 focus:ring-blue-500 (ring-2는 2px 그림자, blue-500은 Tailwind 기본 색상) */
-  outline: none; /* focus:outline-none */
-}
+          th {
+            @apply min-h-10 w-1/4 items-center justify-center bg-blue-950 pt-3 pb-3 text-center font-semibold text-white;
+          }
 
-.modal-form input:focus::placeholder {
-  color: transparent;
-}
+          td {
+            @apply flex min-h-10 w-3/4 items-center gap-2.5;
+            input {
+              @apply mt-1 h-full w-full rounded-md border border-gray-300 text-center text-xs;
+            }
 
-/*버튼 공용*/
-.button-container {
-  display: flex;
-  padding: 8px 16px;
-  border: none;
-  border-radius: 4px;
-  justify-content: center;
-  gap: 12px;
-  margin-top: 16px;
-  color: white;
-  font-size: 14px;
-}
+            input:focus {
+              @apply border-transparent ring-2 ring-blue-500 outline-none;
+            }
 
-/* 버튼 세부, 다른 컴포넌트 어디에선가 침범해서 덮어씌움*/
-.button-container.head {
-  justify-content: center;
-}
-.button-container.head button {
-  color: #fff;
-  background-color: #1976d2;
-}
+            input:focus::placeholder {
+              @apply text-transparent;
+            }
+          }
+        }
+      }
 
-.button-container.head button:hover {
-  background-color: #6acf91;
-}
+      .button-container.tail {
+        @apply justify-end;
+        button:last-child {
+          @apply bg-gray-500 text-white;
+        }
 
-.button-container.tail {
-  justify-content: flex-end;
-}
-
-.button-container.tail button:last-child {
-  background-color: #9e9e9e;
-  color: #fff;
-}
-
-.button-container.tail button:last-child:hover {
-  background-color: #757575;
+        button:last-child:hover {
+          @apply bg-gray-600;
+        }
+      }
+    }
+  }
 }

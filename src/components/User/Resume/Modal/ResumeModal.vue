@@ -231,8 +231,7 @@ onMounted(() => {
 
         <div class="modal-form">
           <!-- 기업 선택 -->
-          <br />
-          <strong>이메일 전송할 기업 선택</strong><br />
+          <div><label>이메일 전송할 기업 선택</label></div>
           <select
             v-model="selectedCompany"
             name="company"
@@ -251,8 +250,12 @@ onMounted(() => {
           <!-- 회사 목록 -->
 
           <form ref="formRef">
-            <br /><strong style>선택된 기업 목록</strong><br />
+            <div><label>선택된 기업 목록</label></div>
             <table class="col">
+              <colgroup>
+                <col style="width: 50%" />
+                <col style="width: 50%" />
+              </colgroup>
               <thead>
                 <tr>
                   <th>기업명</th>
@@ -284,7 +287,7 @@ onMounted(() => {
               </tbody>
             </table>
             <!-- s : 여기에 내용입력 -->
-            <strong>학생 목록</strong><br />
+            <div><label>학생 목록</label></div>
             <table class="row"></table>
 
             <table class="col">
